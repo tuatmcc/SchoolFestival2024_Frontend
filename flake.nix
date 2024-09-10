@@ -12,8 +12,8 @@
         devShell = pkgs.mkShell {
           nativeBuildInputs = [ pkgs.bashInteractive ];
           buildInputs = with pkgs; [
-            # nodejs_20
-            bun
+            nodejs_20
+            # bun
           ];
           # shellHook = with pkgs; ''
           # '';
