@@ -1,40 +1,62 @@
-# Welcome to Remix!
+# School Festival 2024 Frontend
 
-- 📖 [Remix docs](https://remix.run/docs)
+## 技術スタック
 
-## Development
+- [Remix](https://remix.run/docs)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [TypeScript](https://www.typescriptlang.org/docs/)
+- [Supabase](https://supabase.com/docs)
 
-Run the dev server:
+## 必要なもの 
 
-```shellscript
+- Node.js
+
+Mac や WSL では [mise](https://mise.jdx.dev/getting-started.html) 等を経由してインストールすることをお勧めします。
+
+## セットアップ
+
+このプロジェクトをクローンしたら、以下のコマンドを実行してください。
+
+```sh
+npm install
+```
+
+## 開発
+
+### 開発サーバーの起動
+
+開発サーバーを起動するには以下のコマンドを実行してください。
+
+```sh
 npm run dev
 ```
 
-## Deployment
+ブラウザから `http://localhost:5173` でアクセスできます。ファイルの変更を検知して自動でリロードされます。
 
-First, build your app for production:
+### リンター
+
+Biome を用いてコードのチェックを行います。VSCode で Biome 拡張をインストールしておくと、エディタ上でエラーを確認できます。
+
+```sh
+npm run lint
+```
+
+### フォーマット
+
+Biome を用いてコードのフォーマットを行います。
+
+```sh
+npm run fmt
+```
+
+### ビルド
+
+以下のコマンドでプロジェクトをビルドできます。基本的にデプロイ時に自動で行われるので、手動でビルドする必要はありません。
 
 ```sh
 npm run build
 ```
 
-Then run the app in production mode:
+## ブランチ
 
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+`main` にマージするとCloudflareへデプロイされるよう設定する予定です。`main` からブランチを切り、プルリクエスト経由で`main`へマージしてください。
