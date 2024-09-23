@@ -16,10 +16,13 @@
 		"@remix-run/react": "^2.12.0",
 		"@remix-run/serve": "^2.12.0",
 		"@supabase/supabase-js": "^2.45.3",
+		"@types/uuid": "^10.0.0",
 		"isbot": "^4.1.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"swr": "^2.2.5"
+		"react-hook-form": "^7.53.0",
+		"swr": "^2.2.5",
+		"uuid": "^10.0.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.8.3",
