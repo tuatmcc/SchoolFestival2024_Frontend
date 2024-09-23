@@ -6,6 +6,8 @@ import {
 	ScrollRestoration,
 } from "@remix-run/react";
 import "./tailwind.css";
+import { Suspense } from "react";
+import { Loading } from "./components/Loading";
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -26,5 +28,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-	return <Outlet />;
+	return (
+		<Suspense fallback={<Loading />}>
+			<Outlet />
+		</Suspense>
+	);
 }
