@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 export const Loading = (): ReactNode => (
-	<div className="w-dvw h-dvh flex justify-center items-center">
-		<div className="animate-spin rounded-full h-32 w-32 border-b-2 border-t-2 border-gray-900" />
+	<div className="flex h-dvh w-dvw items-center justify-center">
+		<div className="h-32 w-32 animate-spin rounded-full border-gray-900 border-t-2 border-b-2" />
 	</div>
 );
