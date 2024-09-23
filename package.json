@@ -9,7 +9,7 @@
 		"start": "remix-serve ./build/server/index.js",
 		"typecheck": "tsc",
 		"lint": "biome check .",
-		"fmt": "biome check . --write"
+		"fmt": "biome check . --write --unsafe"
 	},
 	"dependencies": {
 		"@remix-run/node": "^2.12.0",
