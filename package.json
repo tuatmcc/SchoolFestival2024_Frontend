@@ -9,18 +9,21 @@
 		"start": "remix-serve ./build/server/index.js",
 		"typecheck": "tsc",
 		"lint": "biome check .",
-		"fmt": "biome check . --write"
+		"fmt": "biome check . --write --unsafe"
 	},
 	"dependencies": {
 		"@remix-run/node": "^2.12.0",
 		"@remix-run/react": "^2.12.0",
 		"@remix-run/serve": "^2.12.0",
 		"@supabase/supabase-js": "^2.45.3",
+		"@types/uuid": "^10.0.0",
 		"isbot": "^4.1.0",
 		"qrcode.react": "^4.0.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"swr": "^2.2.5"
+		"react-hook-form": "^7.53.0",
+		"swr": "^2.2.5",
+		"uuid": "^10.0.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.8.3",
