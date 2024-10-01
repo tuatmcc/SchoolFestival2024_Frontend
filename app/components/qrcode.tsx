@@ -4,18 +4,12 @@ import { QRCodeCanvas } from "qrcode.react";
 import type { FC } from "react";
 
 interface QRCodeProps {
-  url: string;
-  size: number;
+	url: string;
+	size: number;
 }
 
 const QRCode: FC<QRCodeProps> = (props) => {
-  return (
-    <QRCodeCanvas
-      value={props.url}
-      size={props.size}
-      level={"M"}
-    />
-  );
+	return <QRCodeCanvas value={props.url} size={props.size} level={"M"} />;
 };
 
 export default QRCode;
