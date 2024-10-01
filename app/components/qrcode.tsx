@@ -1,7 +1,7 @@
 "use client";
 
 import { QRCodeCanvas } from "qrcode.react";
-import { FC } from "react";
+import type { FC } from "react";
 
 interface QRCodeProps {
   url: string;
