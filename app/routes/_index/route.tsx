@@ -10,7 +10,7 @@ export const meta: MetaFunction = () => {
 	];
 };
 
-export default function Index() {
+export default function Page() {
 	const session = useSession();
 
 	const handleLogout = async () => {

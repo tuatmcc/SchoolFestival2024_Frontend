@@ -5,7 +5,7 @@ export const meta: MetaFunction = () => {
 	return [{ title: "QR Code" }, { name: "description", content: "qr code" }];
 };
 
-export default function Index() {
+export default function Page() {
 	return (
 		<div className="p-4 font-sans">
 			<h1 className="text-3xl">QR code</h1>
