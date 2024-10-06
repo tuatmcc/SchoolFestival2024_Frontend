@@ -1,55 +1,39 @@
 import { useNavigate } from "@remix-run/react";
-import type { ReactNode } from "react";
-import { useForm } from "react-hook-form";
+import { v4 } from "uuid";
 import { getAccountCredentials } from "~/libs/getAccountCredentials";
 import { supabase } from "~/libs/supabase";
 
-type FormValues = {
-	id: string;
-};
-
-export default function Signin(): ReactNode {
-	// ID でサインイン、デバッグ用(そもそもログアウトは想定していない)
+export default function Signup() {
 	const navigate = useNavigate();
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<FormValues>({
-		mode: "onBlur",
-	});
 
-	const onSubmit = async ({ id }: FormValues) => {
-		const { error } = await supabase.auth.signInWithPassword(
-			getAccountCredentials(id),
-		);
+	const handleSignIn = async () => {
+		const { error } = await supabase.auth.signInAnonymously({
+			options: {
+				data: {
+					display_name: "名無し",
+				},
+			},
+		});
 
 		if (error) {
-			console.error(error);
+			console.error("Error signing up:", error.message);
 			return;
 		}
 
 		navigate("/");
 	};
-
 	return (
-		<main>
+		<main className="grid h-dvh w-dvw grid-rows-2">
 			<h1 className="p-4 text-center text-4xl">Game</h1>
-			<h2 className="p-4 text-center text-2xl">ID でサインイン</h2>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<input
-					type="text"
-					className="rounded-lg bg-gray-100 px-4 py-2 text-center font-bold outline-pink-500"
-					placeholder="ID"
-					{...register("id")}
-				/>
-			</form>
-			<button
-				type="submit"
-				className="rounded-lg bg-pink-500 px-4 py-2 text-center font-bold text-white"
-			>
-				サインイン
-			</button>
+			<div className="mx-auto flex max-w-96 flex-col gap-2 p-4">
+				<button
+					type="button"
+					className="rounded-lg bg-pink-500 px-4 py-2 text-center font-bold text-white"
+					onClick={handleSignIn}
+				>
+					匿名で登録
+				</button>
+			</div>
 		</main>
 	);
 }
