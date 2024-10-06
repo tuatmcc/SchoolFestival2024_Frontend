@@ -1,6 +1,4 @@
 import { useNavigate } from "@remix-run/react";
-import { v4 } from "uuid";
-import { getAccountCredentials } from "~/libs/getAccountCredentials";
 import { supabase } from "~/libs/supabase";
 
 export default function Signup() {
