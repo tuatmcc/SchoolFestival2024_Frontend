@@ -9,7 +9,7 @@ export default function Layout(): ReactNode {
 
 	useLayoutEffect(() => {
 		if (!session) {
-			navigate("/signup");
+			navigate("/");
 		}
 	}, [session, navigate]);
 
