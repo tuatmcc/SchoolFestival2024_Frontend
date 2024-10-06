@@ -1,0 +1,7 @@
+{
+	"[javascript][javascriptreact][typescript][typescriptreact][css][scss][html][json][jsonc][yaml]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"typescript.tsdk": "node_modules/typescript/lib"
+}
