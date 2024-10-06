@@ -24,6 +24,7 @@ export default function Page() {
 				{session ? (
 					<div className="grid justify-items-center gap-2">
 						<div>ID: {session.user.id}</div>
+						<div>Display Name: {session.user.user_metadata.display_name}</div>
 						<button
 							type="button"
 							onClick={handleLogout}
