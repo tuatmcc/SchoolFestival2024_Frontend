@@ -1,6 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
-import { useSession } from "~/hooks/useSession";
 import QRCode from "~/components/qrcode";
+import { useSession } from "~/hooks/useSession";
 
 export const meta: MetaFunction = () => {
 	return [{ title: "QR Code" }, { name: "description", content: "qr code" }];
@@ -9,7 +9,7 @@ export const meta: MetaFunction = () => {
 export default function Page() {
 	const session = useSession();
 
-	if(!session) return null
+	if (!session) return null;
 	return (
 		<div className="p-4 font-sans">
 			<h1 className="text-3xl">QR code</h1>
