@@ -8,11 +8,11 @@ import {
 import "./tailwind.css";
 import { Partytown } from "@builder.io/partytown/react";
 import { Suspense } from "react";
-import { Loading } from "./components/Loading";
+import backgroundUrl from "~/assets/background.svg";
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en">
+		<html lang="ja">
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -33,10 +33,26 @@ export function Layout({ children }: { children: React.ReactNode }) {
 						/>
 					</>
 				)}
+				<link rel="preconnect" href="https://fonts.googleapis.com" />
+				<link
+					rel="preconnect"
+					href="https://fonts.gstatic.com"
+					crossOrigin="anonymous"
+				/>
 				<Meta />
 				<Links />
+				<link
+					href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap&text=ただいま準備中"
+					rel="stylesheet"
+				/>
 			</head>
-			<body>
+			<body
+				className="animate-bg-slide bg-repeat font-dela text-white"
+				style={{
+					backgroundImage: `url("${backgroundUrl}")`,
+					backgroundSize: "64px",
+				}}
+			>
 				{children}
 				<ScrollRestoration />
 				<Scripts />
@@ -47,7 +63,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
 	return (
-		<Suspense fallback={<Loading />}>
+		<Suspense fallback={null}>
 			<Outlet />
 		</Suspense>
 	);
