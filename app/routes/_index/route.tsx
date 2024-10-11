@@ -17,7 +17,7 @@ export default function Page() {
 		<main className="grid min-h-dvh w-full place-items-center p-4">
 			<div className="w-full max-w-screen-md">
 				<h1 className="w-full">
-					<img src={LogoSrc} alt="RicoShot" />
+					<img src={LogoSrc} alt="RicoShot" style={{ aspectRatio: "6 / 4" }} />
 				</h1>
 				<p className="w-full text-center text-4xl drop-shadow-text sm:text-6xl">
 					ただいま準備中
