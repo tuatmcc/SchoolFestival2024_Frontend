@@ -9,9 +9,11 @@
 		"start": "remix-serve ./build/server/index.js",
 		"typecheck": "tsc",
 		"lint": "biome check .",
-		"fmt": "biome check . --write --unsafe"
+		"fmt": "biome check . --write --unsafe",
+		"prepare": "partytown copylib public/~partytown"
 	},
 	"dependencies": {
+		"@builder.io/partytown": "^0.10.2",
 		"@remix-run/node": "^2.12.0",
 		"@remix-run/react": "^2.12.0",
 		"@remix-run/serve": "^2.12.0",
