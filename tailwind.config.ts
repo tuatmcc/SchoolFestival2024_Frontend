@@ -12,11 +12,16 @@ export default {
 			},
 			animation: {
 				"bg-slide": "bgSlide 4s linear infinite",
+				bound: "bound 2s ease-in-out infinite",
 			},
 			keyframes: {
 				bgSlide: {
 					"0%": { backgroundPosition: "64px 0" },
 					"100%": { backgroundPosition: "0 64px" },
+				},
+				bound: {
+					"0%, 20%, 100%": { transform: "translateY(0)" },
+					"10%": { transform: "translateY(-30%)" },
 				},
 			},
 		},

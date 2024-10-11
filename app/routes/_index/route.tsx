@@ -20,7 +20,16 @@ export default function Page() {
 					<img src={LogoSrc} alt="RicoShot" style={{ aspectRatio: "6 / 4" }} />
 				</h1>
 				<p className="w-full text-center text-4xl drop-shadow-text sm:text-6xl">
-					ただいま準備中
+					{[..."ただいま準備中"].map((char, idx) => (
+						<span
+							// biome-ignore lint/suspicious/noArrayIndexKey: suppress
+							key={idx}
+							className="inline-block animate-bound"
+							style={{ animationDelay: `${idx * 100}ms` }}
+						>
+							{char}
+						</span>
+					))}
 				</p>
 			</div>
 		</main>
