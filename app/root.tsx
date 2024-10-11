@@ -45,6 +45,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 					href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap&text=ただいま準備中"
 					rel="stylesheet"
 				/>
+				<link rel="icon" href="/favicon.ico" sizes="any" />
+				<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+				<link rel="manifest" href="/manifest.webmanifest" />
 			</head>
 			<body
 				className="animate-bg-slide bg-repeat font-dela text-white"
