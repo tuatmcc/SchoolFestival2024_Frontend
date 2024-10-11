@@ -6,9 +6,9 @@ import {
 	ScrollRestoration,
 } from "@remix-run/react";
 import "./tailwind.css";
+import { Partytown } from "@builder.io/partytown/react";
 import { Suspense } from "react";
 import { Loading } from "./components/Loading";
-import { Partytown } from "@builder.io/partytown/react";
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
