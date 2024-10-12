@@ -13,15 +13,15 @@ export function useMyProfile(): SWRResponse<Profile | null> {
 
 			const { data } = await supabase
 				.from("profiles")
-				.select("id, display_name")
-				.eq("id", id)
+				.select("user_id, display_name")
+				.eq("user_id", id)
 				.limit(1);
 
 			const rawProfile = data?.[0];
 			if (!rawProfile) return null;
 
 			return {
-				id: rawProfile.id,
+				id: rawProfile.user_id,
 				displayName: rawProfile.display_name,
 			};
 		},

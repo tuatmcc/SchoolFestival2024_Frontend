@@ -38,19 +38,22 @@ export type Database = {
         Row: {
           display_name: string
           id: string
+          user_id: string
         }
         Insert: {
           display_name: string
-          id: string
+          id?: string
+          user_id: string
         }
         Update: {
           display_name?: string
           id?: string
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["id"]
+            foreignKeyName: "profiles_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
