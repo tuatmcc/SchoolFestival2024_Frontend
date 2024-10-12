@@ -1,8 +1,8 @@
 -- プロフィールテーブル
 CREATE TABLE public.profiles (
-  id UUID REFERENCES auth.users ON DELETE CASCADE NOT NULL,
-  display_name TEXT NOT NULL,
-  PRIMARY KEY (id)
+  id UUID NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL UNIQUE REFERENCES auth.users ON DELETE CASCADE,
+  display_name TEXT NOT NULL
 );
 
 ALTER TABLE public.profiles
@@ -13,13 +13,15 @@ CREATE POLICY
   "Can read everyone's profile"
   ON public.profiles
   FOR SELECT
-  USING (true);
+  TO authenticated, anon
+  USING ( true );
 
 CREATE POLICY
   "Can only update own profile"
   ON public.profiles
   FOR UPDATE
-  USING (auth.uid() = id);
+  TO authenticated
+  USING ( (SELECT auth.uid()) = user_id );
 
 -- ユーザー作成時(サインアップ)に自動的にプロフィールを作成するトリガー
 CREATE OR REPLACE FUNCTION
@@ -27,7 +29,7 @@ CREATE OR REPLACE FUNCTION
   RETURNS TRIGGER AS
   $$
   BEGIN
-    INSERT INTO public.profiles (id, display_name)
+    INSERT INTO public.profiles (user_id, display_name)
     VALUES (
       NEW.id,
       COALESCE(NEW.raw_user_meta_data ->> 'display_name', '名無し')
