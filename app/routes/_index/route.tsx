@@ -1,8 +1,8 @@
 import type { MetaFunction } from "@remix-run/node";
+import { useMyProfile } from "~/hooks/useMyProfile";
 import { useSession } from "~/hooks/useSession";
 import { supabase } from "~/libs/supabase";
 import { SignUp } from "./SignUp";
-import { useMyProfile } from "~/hooks/useMyProfile";
 
 export const meta: MetaFunction = () => {
 	return [

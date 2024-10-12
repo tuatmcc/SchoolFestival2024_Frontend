@@ -1,7 +1,7 @@
-import { supabase } from "~/libs/supabase";
-import { useSession } from "./useSession";
 import useSWR, { type SWRResponse } from "swr";
+import { supabase } from "~/libs/supabase";
 import type { Profile } from "~/models/Profile";
+import { useSession } from "./useSession";
 
 export function useMyProfile(): SWRResponse<Profile | null> {
 	const session = useSession();
