@@ -17,8 +17,8 @@ export function useMyProfile(): SWRResponse<Profile | null> {
 				.eq("id", id)
 				.limit(1);
 
-			if (!data) return null;
-			const rawProfile = data[0];
+			const rawProfile = data?.[0];
+			if (!rawProfile) return null;
 
 			return {
 				id: rawProfile.id,
