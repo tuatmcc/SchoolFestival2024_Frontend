@@ -7,9 +7,10 @@
 - [TypeScript](https://www.typescriptlang.org/docs/)
 - [Supabase](https://supabase.com/docs)
 
-## 必要なもの 
+## 必要なもの
 
 - Node.js
+- Docker (ローカルで Supabase を使う際に必要になります)
 
 Mac や WSL では [mise](https://mise.jdx.dev/getting-started.html) 等を経由してインストールすることをお勧めします。
 
@@ -20,7 +21,16 @@ Mac や WSL では [mise](https://mise.jdx.dev/getting-started.html) 等を経�
 ```sh
 npm install
 ```
-`.env.example` ファイルをコピーして `.env` ファイルを作成し、環境変数を設定してください。(イコールの間に空白を入れないよう注意)
+
+次に、Supabase の設定を行います。ローカルの Supabase を使う場合は、以下のコマンドを実行して Supabase を起動してください。(要 Docker)
+
+```sh
+npx supabase start
+```
+
+しばらくすると、Supabase の各種パラメータが表示されるため、`API URL`と`anon key`を`.env`ファイルに設定してください。また、 http://127.0.0.1:54323 で Supabase のダッシュボードにアクセスできます。
+
+リモートの Supabase を使う場合は、Supabase のダッシュボードから取得した`API URL`と`anon key`を`.env`ファイルに設定してください。
 
 ## 開発
 
@@ -58,6 +68,71 @@ npm run fmt
 npm run build
 ```
 
+### Supabase
+
+Supabase のテーブルを編集する場合はローカルの Supabase が必要となります。セットアップの手順に従ってローカルの Supabase を起動してください。
+
+```sh
+npx supabase start
+```
+
+参考: https://supabase.com/docs/guides/local-development/overview
+
+#### Supabase を止める
+
+```sh
+npx supabase stop
+```
+
+#### データをリセットする
+
+マイグレーションからやり直されるため、認証情報も含めてテーブル内のすべてのデータが消去されます。
+
+```sh
+npx supabase db reset
+```
+
+#### 新しくテーブルを作る・テーブルを編集する
+
+テーブルを編集したい場合はマイグレーションファイルを使用します。以下のコマンドで新しいマイグレーションファイルを作成できます。
+
+```sh
+npx supabase migration new <マイグレーション名>
+```
+
+実行すると、`supabase/migrations` ディレクトリに新しいマイグレーションファイルが作成されます。このファイルを編集して、テーブルの変更を記述してください。
+
+マイグレーションファイルが完成したらデータリセットを行うことでマイグレーションが行えます。
+
+なお、テーブルに変更を加えた場合は TypeScript の型を再生成する必要があります。
+
+```sh
+npx supabase gen types --lang=typescript --local > app/libs/database.ts
+```
+
+忘れずにコミットしてください。
+
+#### リモートの Supabase にマイグレーションを反映する
+
+マイグレーションを反映する場合は以下のコマンドを実行してください。
+
+```sh
+# ログインする
+# 一回だけでOK
+npx supabase login
+
+# プロジェクトをリンクする
+# 一回だけでOK
+# project-id は Supabase のダッシュボードから取得してください
+npx supabase link --project-ref <project-id>
+
+npx supabase db push
+```
+
+> [!CAUTION]
+> マイグレーションを実行した場合、リモートのデータベースに変更が加えられます。場合によってはデータが消失する可能性があるため、十分に注意をしてください。
+> このコマンドは頻繁に実行されることはありません。通常は今からマージされる PR のブランチ上で実行されるはずです。
+
 ## ブランチ
 
-`main` にマージするとCloudflareへデプロイされるよう設定する予定です。`main` からブランチを切り、プルリクエスト経由で`main`へマージしてください。
+`main` にマージすると Cloudflare へデプロイされるよう設定する予定です。`main` からブランチを切り、プルリクエスト経由で`main`へマージしてください。

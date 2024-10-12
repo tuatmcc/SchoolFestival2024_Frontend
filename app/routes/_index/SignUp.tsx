@@ -9,8 +9,11 @@ interface FormData {
 export function SignUp(): ReactNode {
 	const { register, handleSubmit } = useForm<FormData>();
 
-	const onSubmit: SubmitHandler<FormData> = (data) => {
-		supabase.auth.signInAnonymously({
+	const onSubmit: SubmitHandler<FormData> = async (data) => {
+		// 状態に関わらずログアウトする
+		await supabase.auth.signOut();
+
+		await supabase.auth.signInAnonymously({
 			options: {
 				data: {
 					display_name: data.displayName,
