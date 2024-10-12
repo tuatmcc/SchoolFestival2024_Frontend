@@ -117,6 +117,15 @@ npx supabase gen types --lang=typescript --local > app/libs/database.ts
 マイグレーションを反映する場合は以下のコマンドを実行してください。
 
 ```sh
+# ログインする
+# 一回だけでOK
+npx supabase login
+
+# プロジェクトをリンクする
+# 一回だけでOK
+# project-id は Supabase のダッシュボードから取得してください
+npx supabase link --project-ref <project-id>
+
 npx supabase db push
 ```
 
