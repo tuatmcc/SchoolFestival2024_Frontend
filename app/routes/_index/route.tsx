@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { useSession } from "~/hooks/useSession";
 import { supabase } from "~/libs/supabase";
 import { SignUp } from "./SignUp";
+import { useMyProfile } from "~/hooks/useMyProfile";
 
 export const meta: MetaFunction = () => {
 	return [
@@ -11,7 +12,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Page() {
-	const session = useSession();
+	const { data: myProfile } = useMyProfile();
 
 	const handleLogout = async () => {
 		supabase.auth.signOut();
@@ -21,10 +22,10 @@ export default function Page() {
 		<main className="grid h-dvh w-dvw grid-rows-2">
 			<h1 className="p-4 text-center text-4xl">Game</h1>
 			<div className="mx-auto flex max-w-96 flex-col gap-2 p-4">
-				{session ? (
+				{myProfile ? (
 					<div className="grid justify-items-center gap-2">
-						<div>ID: {session.user.id}</div>
-						<div>Display Name: {session.user.user_metadata.display_name}</div>
+						<div>ID: {myProfile.id}</div>
+						<div>Display Name: {myProfile.displayName}</div>
 						<button
 							type="button"
 							onClick={handleLogout}
