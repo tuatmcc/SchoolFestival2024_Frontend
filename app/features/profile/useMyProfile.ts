@@ -1,8 +1,8 @@
-import useSWR from "swr";
-import { supabase } from "~/libs/supabase";
-import type { Profile, UpdateProfileBody } from "~/features/profile/Profile";
-import { useSession } from "../../hooks/useSession";
 import { useCallback } from "react";
+import useSWR from "swr";
+import type { Profile, UpdateProfileBody } from "~/features/profile/Profile";
+import { supabase } from "~/libs/supabase";
+import { useSession } from "../../hooks/useSession";
 
 interface UseMyProfile {
 	myProfile: Profile | null;
