@@ -1,7 +1,7 @@
-import useSWR, { type SWRResponse } from "swr";
+import useSWR from "swr";
 import { supabase } from "~/libs/supabase";
-import type { Profile, UpdateProfileBody } from "~/models/Profile";
-import { useSession } from "./useSession";
+import type { Profile, UpdateProfileBody } from "~/features/profile/Profile";
+import { useSession } from "../../hooks/useSession";
 import { useCallback } from "react";
 
 interface UseMyProfile {

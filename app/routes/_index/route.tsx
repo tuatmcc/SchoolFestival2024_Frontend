@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-import { useMyProfile } from "~/hooks/useMyProfile";
+import { useMyProfile } from "~/features/profile/useMyProfile";
 import { supabase } from "~/libs/supabase";
 import { SignUp } from "./SignUp";
 
