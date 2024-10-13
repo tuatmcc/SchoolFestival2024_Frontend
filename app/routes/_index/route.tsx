@@ -1,6 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useMyProfile } from "~/hooks/useMyProfile";
-import { useSession } from "~/hooks/useSession";
 import { supabase } from "~/libs/supabase";
 import { SignUp } from "./SignUp";
 
@@ -12,7 +11,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Page() {
-	const { data: myProfile } = useMyProfile();
+	const { myProfile } = useMyProfile();
 
 	const handleLogout = async () => {
 		supabase.auth.signOut();
