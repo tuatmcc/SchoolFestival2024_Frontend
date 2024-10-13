@@ -11,13 +11,13 @@ export function useMyProfile(): SWRResponse<Profile | null> {
 		async ([_, id]) => {
 			if (!id) return null;
 
-			const { data } = await supabase
+			const { data: rawProfile } = await supabase
 				.from("profiles")
 				.select("user_id, display_name")
 				.eq("user_id", id)
-				.limit(1);
+				.limit(1)
+				.single();
 
-			const rawProfile = data?.[0];
 			if (!rawProfile) return null;
 
 			return {
