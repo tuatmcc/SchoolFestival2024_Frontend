@@ -23,9 +23,9 @@ const main = async () => {
 		})),
 	);
 
-	const { battle_results } = await seed.battle_results((x) => x(1));
+	const { battle_results } = await seed.battle_results((x) => x(2));
 	const {
-		teams: [winTeam, loseTeam],
+		teams: [winTeam1, loseTeam1, winTeam2, loseTeam2],
 	} = await seed.teams([
 		{
 			is_win: true,
@@ -35,50 +35,103 @@ const main = async () => {
 			is_win: false,
 			battle_result_id: battle_results[0].id,
 		},
+		{
+			is_win: true,
+			battle_result_id: battle_results[1].id,
+		},
+		{
+			is_win: false,
+			battle_result_id: battle_results[1].id,
+		},
 	]);
 
-	const { players: winPlayers } = await seed.players([
+	const { players: winPlayers1 } = await seed.players([
 		{
-			team_id: winTeam.id,
+			team_id: winTeam1.id,
 			user_id: users[0].id,
 			battle_result_id: battle_results[0].id,
 		},
 		{
-			team_id: winTeam.id,
+			team_id: winTeam1.id,
 			user_id: users[1].id,
 			battle_result_id: battle_results[0].id,
 		},
 		{
-			team_id: winTeam.id,
+			team_id: winTeam1.id,
 			user_id: users[2].id,
 			battle_result_id: battle_results[0].id,
 		},
 		{
-			team_id: winTeam.id,
+			team_id: winTeam1.id,
 			user_id: users[3].id,
 			battle_result_id: battle_results[0].id,
 		},
 	]);
-	const { players: losePlayers } = await seed.players([
+	const { players: losePlayers1 } = await seed.players([
 		{
-			team_id: loseTeam.id,
+			team_id: loseTeam1.id,
 			user_id: users[4].id,
 			battle_result_id: battle_results[0].id,
 		},
 		{
-			team_id: loseTeam.id,
+			team_id: loseTeam1.id,
 			user_id: users[5].id,
 			battle_result_id: battle_results[0].id,
 		},
 		{
-			team_id: loseTeam.id,
+			team_id: loseTeam1.id,
 			user_id: users[6].id,
 			battle_result_id: battle_results[0].id,
 		},
 		{
-			team_id: loseTeam.id,
+			team_id: loseTeam1.id,
 			user_id: users[7].id,
 			battle_result_id: battle_results[0].id,
+		},
+	]);
+
+	const { players: winPlayers2 } = await seed.players([
+		{
+			team_id: winTeam2.id,
+			user_id: users[1].id,
+			battle_result_id: battle_results[1].id,
+		},
+		{
+			team_id: winTeam2.id,
+			user_id: users[2].id,
+			battle_result_id: battle_results[1].id,
+		},
+		{
+			team_id: winTeam2.id,
+			user_id: users[3].id,
+			battle_result_id: battle_results[1].id,
+		},
+		{
+			team_id: winTeam2.id,
+			user_id: users[4].id,
+			battle_result_id: battle_results[1].id,
+		},
+	]);
+	const { players: losePlayers2 } = await seed.players([
+		{
+			team_id: loseTeam2.id,
+			user_id: users[5].id,
+			battle_result_id: battle_results[1].id,
+		},
+		{
+			team_id: loseTeam2.id,
+			user_id: users[6].id,
+			battle_result_id: battle_results[1].id,
+		},
+		{
+			team_id: loseTeam2.id,
+			user_id: users[7].id,
+			battle_result_id: battle_results[1].id,
+		},
+		{
+			team_id: loseTeam2.id,
+			user_id: users[8].id,
+			battle_result_id: battle_results[1].id,
 		},
 	]);
 

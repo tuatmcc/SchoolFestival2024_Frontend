@@ -31,7 +31,7 @@ CREATE TABLE public.players (
   -- そのユーザーがアカウントを削除した場合はNULLにする
   -- アカウント削除はできたほうが良いが、対戦成績は残しておきたいため。
   -- 対戦成績は他ユーザーにも表示される可能性がある。
-  user_id UUID UNIQUE REFERENCES auth.users ON DELETE SET NULL,
+  user_id UUID REFERENCES auth.users ON DELETE SET NULL,
   team_id UUID NOT NULL REFERENCES public.teams ON DELETE CASCADE,
   battle_result_id UUID NOT NULL REFERENCES public.battle_results ON DELETE CASCADE,
 
