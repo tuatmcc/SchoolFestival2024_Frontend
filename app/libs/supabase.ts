@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import type { Database as DatabaseGenerated } from "./database";
 import type { MergeDeep } from "type-fest";
+import type { Database as DatabaseGenerated } from "./database";
 
 export type Database = MergeDeep<
 	DatabaseGenerated,
