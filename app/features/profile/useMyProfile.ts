@@ -26,20 +26,28 @@ export function useMyProfile(): UseMyProfile {
 			if (!userId) return null;
 
 			const { data: rawProfile } = await supabase
-				.from("profiles")
-				.select("user_id, display_name")
+				.from("profiles_with_stats")
+				.select("user_id, display_name, high_score, play_count, rank")
 				.eq("user_id", userId)
 				.limit(1)
 				.single();
 
 			if (!rawProfile) return null;
 
-			return {
+			const profile: Profile = {
 				id: rawProfile.user_id,
 				displayName: rawProfile.display_name,
+				playCount: rawProfile.play_count,
+				highScore: rawProfile.high_score,
+				rank: rawProfile.rank,
 			};
+
+			return profile;
 		},
-		{ suspense: true },
+		{
+			suspense: true,
+			refreshInterval: 1000 * 10,
+		},
 	);
 
 	const updateMyProfile = useCallback(
@@ -59,13 +67,16 @@ export function useMyProfile(): UseMyProfile {
 			if (!newProfile) throw new Error("Failed to update profile");
 
 			mutate(
-				{
-					id: newProfile.user_id,
-					displayName: newProfile.display_name,
+				(prev) => {
+					if (!prev) return;
+
+					return {
+						...prev,
+						id: newProfile.user_id,
+						displayName: newProfile.display_name,
+					};
 				},
-				{
-					revalidate: false,
-				},
+				{ revalidate: false },
 			);
 		},
 		[mutate, session],

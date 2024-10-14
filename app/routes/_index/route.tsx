@@ -25,6 +25,9 @@ export default function Page() {
 					<div className="grid justify-items-center gap-2">
 						<div>ID: {myProfile.id}</div>
 						<div>Display Name: {myProfile.displayName}</div>
+						<div>Play Count: {myProfile.playCount}</div>
+						<div>High Score: {myProfile.highScore ?? "-"}</div>
+						<div>Rank: {myProfile.rank ?? "-"}</div>
 						<button
 							type="button"
 							onClick={handleLogout}
