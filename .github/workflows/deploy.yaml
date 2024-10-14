@@ -10,6 +10,7 @@ permissions:
 jobs:
   migration:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v4
