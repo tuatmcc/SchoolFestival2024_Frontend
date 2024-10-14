@@ -56,7 +56,7 @@ jobs:
 
       - name: Setup | Generate Seed
         run: |
-          npx @snaplet/seed sync
+          npx @snaplet/seed init
           npx tsx seed.ts > supabase/seed.sql
 
       - name: Run | Check Diff
