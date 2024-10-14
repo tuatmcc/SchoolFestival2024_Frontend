@@ -13,8 +13,9 @@ permissions:
   contents: read
 
 jobs:
-  check:
+  lint:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v4
@@ -30,3 +31,53 @@ jobs:
 
       - name: Run | Lint
         run: npm run lint
+
+  check-schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup | Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Setup | Install Dependencies
+        run: npm ci
+
+      - name: Setup | Start Supabase
+        run: npx supabase db start
+
+      - name: Setup | Generate Type
+        run: npm run gen:type
+
+      - name: Setup | Generate Seed
+        run: |
+          npx @snaplet/seed init
+          npm run gen:seed
+
+      - name: Run | Check Diff
+        run: |
+          fail=0
+
+          # Check Type
+          if [ "$(git diff --ignore-space-at-eol --text app/libs/database.ts | wc -l)" -gt "0" ]; then
+            echo "Detected uncommitted changes in type definitions. See status below:"
+            git diff --ignore-space-at-eol --text app/libs/database.ts
+            fail=1
+          fi
+
+          # Check Seed
+          if [ "$(git diff --ignore-space-at-eol --text supabase/seed.sql | wc -l)" -gt "0" ]; then
+            echo "Detected uncommitted changes in seed definitions. See status below:"
+            git diff --ignore-space-at-eol --text supabase/seed.sql
+            fail=1
+          fi
+
+          if [ "$fail" -gt "0" ]; then
+            echo "Detected uncommitted changes in schema definitions. Please commit the changes before pushing."
+            exit 1
+          fi

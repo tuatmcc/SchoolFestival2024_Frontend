@@ -34,6 +34,89 @@ export type Database = {
   }
   public: {
     Tables: {
+      matching_results: {
+        Row: {
+          created_at: string
+          end_at: string
+          id: string
+          start_at: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          end_at: string
+          id?: string
+          start_at: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          end_at?: string
+          id?: string
+          start_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      players: {
+        Row: {
+          created_at: string
+          id: string
+          matching_result_id: string
+          score: number
+          team_id: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          matching_result_id: string
+          score: number
+          team_id: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          matching_result_id?: string
+          score?: number
+          team_id?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "players_matching_result_id_fkey"
+            columns: ["matching_result_id"]
+            isOneToOne: false
+            referencedRelation: "matching_results"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "players_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "players_team_id_matching_result_id_fkey"
+            columns: ["team_id", "matching_result_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id", "matching_result_id"]
+          },
+          {
+            foreignKeyName: "players_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -62,6 +145,38 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: true
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      teams: {
+        Row: {
+          created_at: string
+          id: string
+          is_win: boolean
+          matching_result_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_win?: boolean
+          matching_result_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_win?: boolean
+          matching_result_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teams_matching_result_id_fkey"
+            columns: ["matching_result_id"]
+            isOneToOne: false
+            referencedRelation: "matching_results"
             referencedColumns: ["id"]
           },
         ]

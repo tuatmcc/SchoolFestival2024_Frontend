@@ -10,7 +10,9 @@
 		"typecheck": "tsc",
 		"lint": "biome check .",
 		"fmt": "biome check . --write --unsafe",
-		"prepare": "partytown copylib public/~partytown"
+		"prepare": "partytown copylib public/~partytown",
+		"gen:type": "supabase gen types --lang=typescript --local > app/libs/database.ts",
+		"gen:seed": "tsx seed.ts > supabase/seed.sql"
 	},
 	"dependencies": {
 		"@builder.io/partytown": "0.10.2",
