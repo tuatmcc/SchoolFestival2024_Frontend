@@ -183,7 +183,27 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      profiles_with_stats: {
+        Row: {
+          created_at: string | null
+          display_name: string | null
+          high_score: number | null
+          id: string | null
+          play_count: number | null
+          rank: number | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       [_ in never]: never
