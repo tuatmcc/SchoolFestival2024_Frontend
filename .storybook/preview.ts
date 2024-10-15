@@ -1,6 +1,7 @@
 import "~/tailwind.css";
 
-import type { Preview } from "@storybook/react";
+import type { Preview, ReactRenderer } from "@storybook/react";
+import { withThemeByClassName } from "@storybook/addon-themes";
 
 const preview: Preview = {
 	parameters: {
@@ -14,6 +15,14 @@ const preview: Preview = {
 			argTypesRegex: "^on[A-Z].*",
 		},
 	},
+	decorators: [
+		withThemeByClassName<ReactRenderer>({
+			themes: {
+				pink: "font-delagothic text-white",
+			},
+			defaultTheme: "pink",
+		}),
+	],
 };
 
 export default preview;

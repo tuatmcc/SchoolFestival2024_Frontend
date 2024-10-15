@@ -17,6 +17,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<link rel="preconnect" href="https://fonts.googleapis.com" />
+				<link
+					rel="preconnect"
+					href="https://fonts.gstatic.com"
+					crossOrigin="anonymous"
+				/>
 				<Partytown debug forward={["dataLayer.push"]} />
 				{import.meta.env.VITE_GOOGLE_ANALYTICS_ID && (
 					<>
@@ -32,12 +38,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 								__html: `window.dataLayer||=[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}')`,
 							}}
 						/>
+						<link
+							href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap"
+							rel="stylesheet"
+						/>
 					</>
 				)}
 				<Meta />
 				<Links />
 			</head>
-			<body>
+			<body className="font-delagothic">
 				{children}
 				<ScrollRestoration />
 				<Scripts />
