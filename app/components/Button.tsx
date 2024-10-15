@@ -18,8 +18,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 		const Comp = asChild ? Slot : "button";
 		return (
 			<Comp className={cn(buttonVariants({ className }))} ref={ref} {...props}>
-				<span className="-z-10 -rotate-3 absolute inset-0 skew-x-12 border-2 border-white bg-pink-400" />
-				{children}
+				<div className="absolute inset-0 drop-shadow-md">
+					<span className="-skew-x-12 absolute inset-0 rotate-6 bg-zinc-600" />
+					<span className="-rotate-6 absolute inset-0 skew-x-12 border-2 border-white bg-pink-400" />
+				</div>
+				<span className="drop-shadow-base">{children}</span>
 			</Comp>
 		);
 	},
