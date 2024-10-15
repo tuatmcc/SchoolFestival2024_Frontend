@@ -18,13 +18,19 @@
 	},
 	"dependencies": {
 		"@builder.io/partytown": "0.10.2",
+		"@radix-ui/react-slot": "1.1.0",
 		"@remix-run/react": "2.13.1",
 		"@supabase/supabase-js": "2.45.4",
+		"class-variance-authority": "0.7.0",
+		"clsx": "2.1.1",
+		"lucide-react": "0.453.0",
 		"qrcode.react": "4.0.1",
 		"react": "18.3.1",
 		"react-dom": "18.3.1",
 		"react-hook-form": "7.53.0",
 		"swr": "2.2.5",
+		"tailwind-merge": "2.5.4",
+		"tailwindcss-animate": "1.0.7",
 		"type-fest": "4.26.1"
 	},
 	"devDependencies": {
