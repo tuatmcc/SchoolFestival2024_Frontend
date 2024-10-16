@@ -9,3 +9,5 @@ node_modules
 
 /public/~partytown/
 /.snaplet/
+
+*storybook.log
