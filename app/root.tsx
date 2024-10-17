@@ -7,16 +7,17 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
+	useLocation,
 } from "@remix-run/react";
 import { Suspense } from "react";
 import { Loading } from "./components/Loading";
 import { cva } from "class-variance-authority";
 
-const appVariants = cva(
-	"font-dela-gothic bg-size-app w-full min-h-dvh text-white",
+export const appThemes = cva(
+	"font-dela-gothic antialiased bg-size-app w-full min-h-dvh text-white",
 	{
 		variants: {
-			variant: {
+			theme: {
 				pink: "bg-app-pink bg-pink-400",
 				cyan: "bg-app-cyan bg-cyan-400",
 				emerald: "bg-app-emerald bg-emerald-400",
@@ -24,12 +25,22 @@ const appVariants = cva(
 			},
 		},
 		defaultVariants: {
-			variant: "pink",
+			theme: "pink",
 		},
 	},
 );
 
+const PATH_THEME_MAP: Record<string, "pink" | "cyan" | "emerald" | "yellow"> = {
+	"/": "pink",
+	"/edit": "cyan",
+	"/play": "emerald",
+	"/guide": "yellow",
+};
+
 export function Layout({ children }: { children: React.ReactNode }) {
+	const location = useLocation();
+	const theme = PATH_THEME_MAP[location.pathname] ?? "pink";
+
 	return (
 		<html lang="en">
 			<head>
@@ -65,7 +76,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<Meta />
 				<Links />
 			</head>
-			<body className={appVariants()}>
+			<body className={appThemes({ theme })}>
 				{children}
 				<ScrollRestoration />
 				<Scripts />
