@@ -7,6 +7,7 @@ import { DEFAULT_THEME, ThemeProvider, THEMES } from "~/components/Theme";
 import type { Theme } from "~/components/Theme";
 import type { DecoratorFunction } from "storybook/internal/types";
 import { appThemes } from "~/root";
+import { Background } from "~/components/Background";
 
 const { initializeThemeState, pluckThemeFromContext, useThemeParameters } =
 	DecoratorHelpers;
@@ -23,18 +24,17 @@ function withProvider(): DecoratorFunction<ReactRenderer> {
 			const $body = document.querySelector("body");
 			if (!$body) return;
 
-			// biome-ignore lint/complexity/noForEach: This is a simple loop
-			THEMES.filter((theme) => theme !== selected).forEach((theme) => {
-				const classes = appThemes({ theme });
-				if (classes) $body.classList.remove(...classes.split(" "));
-			});
+			const classes = appThemes();
+			if (classes) $body.classList.add(...classes.split(" "));
 
-			const newClasses = appThemes({ theme: selected });
-			if (newClasses) $body.classList.add(...newClasses.split(" "));
-		});
+			return () => {
+				if (classes) $body.classList.remove(...classes.split(" "));
+			};
+		}, []);
 
 		return (
 			<ThemeProvider theme={selected}>
+				<Background />
 				<Story />
 			</ThemeProvider>
 		);

@@ -19,10 +19,6 @@ export default {
 			};
 		},
 		backgroundImage: {
-			"app-cyan": 'url("/assets/app_bg_cyan.svg")',
-			"app-pink": 'url("/assets/app_bg_pink.svg")',
-			"app-emerald": 'url("/assets/app_bg_emerald.svg")',
-			"app-yellow": 'url("/assets/app_bg_yellow.svg")',
 			"button-bg": 'url("/assets/button_bg.svg")',
 			"button-pink": 'url("/assets/button_bg_pink.svg")',
 			"button-cyan": 'url("/assets/button_bg_cyan.svg")',

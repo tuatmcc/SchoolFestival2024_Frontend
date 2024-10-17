@@ -13,22 +13,10 @@ import { Suspense } from "react";
 import { Loading } from "./components/Loading";
 import { cva } from "class-variance-authority";
 import { ThemeProvider } from "./components/Theme";
+import { Background } from "./components/Background";
 
 export const appThemes = cva(
-	"font-dela-gothic antialiased bg-size-app w-full min-h-dvh text-white",
-	{
-		variants: {
-			theme: {
-				pink: "bg-app-pink bg-pink-400",
-				cyan: "bg-app-cyan bg-cyan-400",
-				emerald: "bg-app-emerald bg-emerald-400",
-				yellow: "bg-app-yellow bg-yellow-400",
-			},
-		},
-		defaultVariants: {
-			theme: "pink",
-		},
-	},
+	"font-dela-gothic antialiased bg-size-app w-full min-h-dvh text-white relative",
 );
 
 const PATH_THEME_MAP: Record<string, "pink" | "cyan" | "emerald" | "yellow"> = {
@@ -77,8 +65,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<Meta />
 				<Links />
 			</head>
-			<body className={appThemes({ theme })}>
-				<ThemeProvider theme={theme}>{children}</ThemeProvider>
+			<body className={appThemes()}>
+				<ThemeProvider theme={theme}>
+					<Background />
+					{children}
+				</ThemeProvider>
 				<ScrollRestoration />
 				<Scripts />
 			</body>
