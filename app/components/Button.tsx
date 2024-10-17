@@ -4,16 +4,13 @@ import type { VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 import { cn } from "~/libs/utils";
-
-const buttonVariants = cva("px-5 py-2 relative", {
-	variants: {},
-});
+import { useTheme } from "./Theme";
 
 const buttonThemeVariants = cva(
 	"-rotate-6 absolute inset-0 skew-x-12 border-2 border-white bg-size-button",
 	{
 		variants: {
-			variant: {
+			theme: {
 				pink: "bg-button-pink bg-pink-400",
 				cyan: "bg-button-cyan bg-cyan-400",
 				emerald: "bg-button-emerald bg-emerald-400",
@@ -21,7 +18,7 @@ const buttonThemeVariants = cva(
 			},
 		},
 		defaultVariants: {
-			variant: "pink",
+			theme: "pink",
 		},
 	},
 );
@@ -43,23 +40,20 @@ const buttonBgVariants = cva(
 
 export interface ButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-		VariantProps<typeof buttonVariants>,
-		VariantProps<typeof buttonThemeVariants>,
 		VariantProps<typeof buttonBgVariants> {
 	asChild?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-	(
-		{ className, asChild = false, children, variant, background, ...props },
-		ref,
-	) => {
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+	({ className, asChild = false, children, background, ...props }, ref) => {
+		const theme = useTheme();
+
 		const Comp = asChild ? Slot : "button";
 		return (
-			<Comp className={cn(buttonVariants({ className }))} ref={ref} {...props}>
+			<Comp className={cn("relative px-5 py-2")} ref={ref} {...props}>
 				<div className="absolute inset-0 drop-shadow-md">
 					<span className={buttonBgVariants({ background })} />
-					<span className={buttonThemeVariants({ variant })} />
+					<span className={buttonThemeVariants({ theme })} />
 				</div>
 				<span className="drop-shadow-base">{children}</span>
 			</Comp>
@@ -67,5 +61,3 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 	},
 );
 Button.displayName = "Button";
-
-export { Button, buttonVariants };

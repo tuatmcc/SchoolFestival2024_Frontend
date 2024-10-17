@@ -34,15 +34,7 @@ export function SignUp(): ReactNode {
 				placeholder="名前"
 				{...register("displayName")}
 			/>
-			{/* <button
-				type="submit"
-				className="rounded-lg bg-pink-500 px-4 py-2 text-center font-bold text-white"
-			>
-				登録
-			</button> */}
-			<Button type="submit" variant="pink">
-				登録
-			</Button>
+			<Button type="submit">登録</Button>
 		</form>
 	);
 }
