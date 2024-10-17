@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { Button } from "~/components/Button";
 import { supabase } from "~/libs/supabase";
 
 interface FormData {
@@ -29,16 +30,19 @@ export function SignUp(): ReactNode {
 		>
 			<input
 				type="text"
-				className="rounded-lg border border-gray-300 px-4 py-2"
+				className="w-full rounded-lg border border-gray-300 px-4 py-2"
 				placeholder="名前"
 				{...register("displayName")}
 			/>
-			<button
+			{/* <button
 				type="submit"
 				className="rounded-lg bg-pink-500 px-4 py-2 text-center font-bold text-white"
 			>
 				登録
-			</button>
+			</button> */}
+			<Button type="submit" variant="pink">
+				登録
+			</Button>
 		</form>
 	);
 }

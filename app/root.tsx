@@ -10,6 +10,24 @@ import {
 } from "@remix-run/react";
 import { Suspense } from "react";
 import { Loading } from "./components/Loading";
+import { cva } from "class-variance-authority";
+
+const appVariants = cva(
+	"font-dela-gothic bg-size-app w-full min-h-dvh text-white",
+	{
+		variants: {
+			variant: {
+				pink: "bg-app-pink bg-pink-400",
+				cyan: "bg-app-cyan bg-cyan-400",
+				emerald: "bg-app-emerald bg-emerald-400",
+				yellow: "bg-app-yellow bg-yellow-400",
+			},
+		},
+		defaultVariants: {
+			variant: "pink",
+		},
+	},
+);
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -38,16 +56,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 								__html: `window.dataLayer||=[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}')`,
 							}}
 						/>
-						<link
-							href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap"
-							rel="stylesheet"
-						/>
 					</>
 				)}
+				<link
+					href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap"
+					rel="stylesheet"
+				/>
 				<Meta />
 				<Links />
 			</head>
-			<body className="font-delagothic">
+			<body className={appVariants()}>
 				{children}
 				<ScrollRestoration />
 				<Scripts />
