@@ -40,20 +40,29 @@ export function Background({
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			role="graphics-symbol"
-			className={cn("absolute inset-0 h-full w-full", className)}
+			className={cn("-z-50 absolute inset-0 h-full w-full", className)}
 			{...props}
 		>
 			<defs>
 				<pattern
 					id={id}
-					width="32"
-					height="32"
+					width="64"
+					height="64"
 					patternUnits="userSpaceOnUse"
 					patternTransform="scale(2)"
 				>
+					<animateTransform
+						attributeType="xml"
+						attributeName="patternTransform"
+						type="translate"
+						from="64 0"
+						to="0 64"
+						dur="10s"
+						repeatCount="indefinite"
+					/>
 					<rect
-						width="32"
-						height="32"
+						width="64"
+						height="64"
 						className={bgVariants({
 							theme,
 							className: "transition-color duration-300",
@@ -67,10 +76,10 @@ export function Background({
 						})}
 						fill="currentColor"
 					>
-						<polygon points="0 0 0 16 16 16 12 12 20 4 12 -4 4 4 0 0" />
-						<polygon points="16 16 16 32 32 32 28 28 36 20 28 12 20 20 16 16" />
-						<polygon points="0 16 0 24 4 20 0 16" />
-						<polygon points="8 32 12 28 16 32 8 32" />
+						<polygon points="0 0 0 32 32 32 24 24 40 8 24 -8 8 8 0 0" />
+						<polygon points="32 32 32 64 64 64 56 56 72 40 56 24 40 40 32 32" />
+						<polygon points="0 32 0 48 8 40 0 32" />
+						<polygon points="16 64 24 56 32 64 16 64" />
 					</g>
 				</pattern>
 			</defs>
