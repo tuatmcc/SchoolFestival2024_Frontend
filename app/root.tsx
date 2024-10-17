@@ -7,11 +7,29 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
+	useLocation,
 } from "@remix-run/react";
+import { cva } from "class-variance-authority";
 import { Suspense } from "react";
+import { Background } from "./components/Background";
 import { Loading } from "./components/Loading";
+import { ThemeProvider } from "./components/Theme";
+
+export const appThemes = cva(
+	"font-dela-gothic antialiased bg-size-app w-full min-h-dvh text-white relative",
+);
+
+const PATH_THEME_MAP: Record<string, "pink" | "cyan" | "emerald" | "yellow"> = {
+	"/": "pink",
+	"/edit": "cyan",
+	"/play": "emerald",
+	"/guide": "yellow",
+};
 
 export function Layout({ children }: { children: React.ReactNode }) {
+	const location = useLocation();
+	const theme = PATH_THEME_MAP[location.pathname] ?? "pink";
+
 	return (
 		<html lang="en">
 			<head>
@@ -38,17 +56,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
 								__html: `window.dataLayer||=[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}')`,
 							}}
 						/>
-						<link
-							href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap"
-							rel="stylesheet"
-						/>
 					</>
 				)}
+				<link
+					href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap"
+					rel="stylesheet"
+				/>
 				<Meta />
 				<Links />
 			</head>
-			<body className="font-delagothic">
-				{children}
+			<body className={appThemes()}>
+				<ThemeProvider theme={theme}>
+					<Background />
+					{children}
+				</ThemeProvider>
 				<ScrollRestoration />
 				<Scripts />
 			</body>

@@ -4,7 +4,7 @@ export default {
 	content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
 	theme: {
 		fontFamily: {
-			delagothic: ["Dela Gothic One", "sans-serif"],
+			"dela-gothic": ["Dela Gothic One", "sans-serif"],
 		},
 		boxShadow({ theme }) {
 			return {
@@ -26,6 +26,7 @@ export default {
 			"button-yellow": 'url("/assets/button_bg_yellow.svg")',
 		},
 		backgroundSize: {
+			"size-app": "64px",
 			"size-button": "16px",
 			"size-button-bg": "8px 16px",
 		},

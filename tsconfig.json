@@ -5,7 +5,10 @@
 		"**/.server/**/*.ts",
 		"**/.server/**/*.tsx",
 		"**/.client/**/*.ts",
-		"**/.client/**/*.tsx"
+		"**/.client/**/*.tsx",
+		".storybook/**/*.ts",
+		".storybook/**/*.tsx",
+		"app/components/Background.txs"
 	],
 	"compilerOptions": {
 		"lib": ["DOM", "DOM.Iterable", "ES2022"],
