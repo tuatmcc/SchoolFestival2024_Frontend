@@ -12,6 +12,7 @@ import {
 import { Suspense } from "react";
 import { Loading } from "./components/Loading";
 import { cva } from "class-variance-authority";
+import { ThemeProvider } from "./components/Theme";
 
 export const appThemes = cva(
 	"font-dela-gothic antialiased bg-size-app w-full min-h-dvh text-white",
@@ -77,7 +78,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<Links />
 			</head>
 			<body className={appThemes({ theme })}>
-				{children}
+				<ThemeProvider theme={theme}>{children}</ThemeProvider>
 				<ScrollRestoration />
 				<Scripts />
 			</body>
