@@ -2,8 +2,8 @@ import type { ReactNode } from "react";
 import { useId } from "react";
 
 import { cva } from "class-variance-authority";
-import { useTheme } from "./Theme";
 import { cn } from "~/libs/utils";
+import { useTheme } from "./Theme";
 
 const bgVariants = cva("", {
 	variants: {

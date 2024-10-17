@@ -9,11 +9,11 @@ import {
 	ScrollRestoration,
 	useLocation,
 } from "@remix-run/react";
-import { Suspense } from "react";
-import { Loading } from "./components/Loading";
 import { cva } from "class-variance-authority";
-import { ThemeProvider } from "./components/Theme";
+import { Suspense } from "react";
 import { Background } from "./components/Background";
+import { Loading } from "./components/Loading";
+import { ThemeProvider } from "./components/Theme";
 
 export const appThemes = cva(
 	"font-dela-gothic antialiased bg-size-app w-full min-h-dvh text-white relative",

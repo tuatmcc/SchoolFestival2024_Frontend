@@ -3,11 +3,11 @@ import "~/tailwind.css";
 import { DecoratorHelpers } from "@storybook/addon-themes";
 import type { Preview, ReactRenderer, StoryContext } from "@storybook/react";
 import { useEffect } from "react";
-import { DEFAULT_THEME, ThemeProvider, THEMES } from "~/components/Theme";
-import type { Theme } from "~/components/Theme";
 import type { DecoratorFunction } from "storybook/internal/types";
-import { appThemes } from "~/root";
 import { Background } from "~/components/Background";
+import { DEFAULT_THEME, THEMES, ThemeProvider } from "~/components/Theme";
+import type { Theme } from "~/components/Theme";
+import { appThemes } from "~/root";
 
 const { initializeThemeState, pluckThemeFromContext, useThemeParameters } =
 	DecoratorHelpers;
