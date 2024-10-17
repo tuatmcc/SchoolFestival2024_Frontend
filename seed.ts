@@ -129,6 +129,24 @@ const main = async () => {
 		},
 	]);
 
+	await seed.matching_results((x) =>
+		x(100, () => ({
+			teams: (x) =>
+				x(2, ({ index }) => ({
+					is_win: index === 0,
+					players_players_team_idToteams: (x) =>
+						x(4, () => ({
+							users: ({ seed }) => ({
+								raw_user_meta_data: {
+									display_name: copycat.fullName(seed),
+								},
+								is_anonymous: true,
+							}),
+						})),
+				})),
+		})),
+	);
+
 	process.exit();
 };
 
