@@ -18,6 +18,7 @@
 	},
 	"dependencies": {
 		"@builder.io/partytown": "0.10.2",
+		"@radix-ui/react-navigation-menu": "1.2.1",
 		"@radix-ui/react-slot": "1.1.0",
 		"@remix-run/react": "2.13.1",
 		"@supabase/supabase-js": "2.45.4",
@@ -36,6 +37,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "1.9.3",
 		"@remix-run/dev": "2.13.1",
+		"@remix-run/testing": "2.13.1",
 		"@snaplet/copycat": "5.1.0",
 		"@snaplet/seed": "0.98.0",
 		"@storybook/addon-a11y": "8.3.5",

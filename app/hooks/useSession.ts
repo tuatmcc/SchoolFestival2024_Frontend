@@ -17,6 +17,7 @@ export function useSession(): Session | null {
 		},
 		{
 			suspense: true,
+			fallbackData: null,
 		},
 	);
 

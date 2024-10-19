@@ -7,7 +7,7 @@ import { cn } from "~/libs/utils";
 import { useTheme } from "./Theme";
 
 const buttonThemeVariants = cva(
-	"-rotate-6 absolute inset-0 skew-x-12 border-2 border-white bg-size-button",
+	"absolute inset-0 skew-x-12 -skew-y-3 border-2 border-white bg-size-button",
 	{
 		variants: {
 			theme: {
@@ -24,7 +24,7 @@ const buttonThemeVariants = cva(
 );
 
 const buttonBgVariants = cva(
-	"-skew-x-12 absolute inset-0 rotate-3 bg-button-bg bg-size-button-bg bg-zinc-600",
+	"-skew-x-12 skew-y-6 absolute inset-0 bg-button-bg bg-size-button-bg bg-zinc-600",
 	{
 		variants: {
 			background: {
