@@ -12,9 +12,9 @@ import {
 import { cva } from "class-variance-authority";
 import { Suspense } from "react";
 import { Background } from "./components/Background";
+import { BottomNav } from "./components/BottomNav";
 import { Loading } from "./components/Loading";
 import { ThemeProvider } from "./components/Theme";
-import { BottomNav } from "./components/BottomNav";
 import { useMyProfile } from "./features/profile/useMyProfile";
 import { cn } from "./libs/utils";
 

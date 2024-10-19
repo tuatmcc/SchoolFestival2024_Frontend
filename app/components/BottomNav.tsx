@@ -1,9 +1,9 @@
-import { useId, type ReactNode } from "react";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { cva } from "class-variance-authority";
-import { useTheme } from "./Theme";
-import { cn } from "~/libs/utils";
 import { Link } from "@remix-run/react";
+import { cva } from "class-variance-authority";
+import { type ReactNode, useId } from "react";
+import { cn } from "~/libs/utils";
+import { useTheme } from "./Theme";
 
 const LINKS = [
 	{
