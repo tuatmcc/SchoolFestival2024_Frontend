@@ -39,7 +39,7 @@ export function Background({
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			role="graphics-symbol"
+			role="presentation"
 			className={cn("-z-50 absolute inset-0 h-full w-full", className)}
 			{...props}
 		>
