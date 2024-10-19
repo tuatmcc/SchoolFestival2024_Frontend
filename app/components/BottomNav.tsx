@@ -137,7 +137,7 @@ function Selected({ length, index }: SelectedProps): ReactNode {
 					width="100%"
 					height="100%"
 					role="presentation"
-					className="-skew-y-3 skew-x-12 p-1 drop-shadow-md md:px-4"
+					className="md:-skew-y-3 -skew-y-6 skew-x-12 p-1 drop-shadow-md md:px-4"
 				>
 					<defs>
 						<pattern
