@@ -127,7 +127,7 @@ function Selected({ length, index }: SelectedProps): ReactNode {
 	return (
 		<div className="absolute inset-x-4 inset-y-0">
 			<div
-				className="-top-1 absolute inset-y-0 left-0 transition-transform duration-200 ease-in-backward"
+				className="-top-0.5 md:-top-1 absolute inset-y-1 left-0 transition-transform duration-200 ease-in-backward md:inset-y-0"
 				style={{
 					width: `${100 / length}%`,
 					transform: `translateX(${100 * index}%)`,
