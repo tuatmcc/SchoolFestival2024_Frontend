@@ -37,6 +37,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "1.9.3",
 		"@remix-run/dev": "2.13.1",
+		"@remix-run/testing": "2.13.1",
 		"@snaplet/copycat": "5.1.0",
 		"@snaplet/seed": "0.98.0",
 		"@storybook/addon-a11y": "8.3.5",

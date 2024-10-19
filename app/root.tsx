@@ -14,6 +14,7 @@ import { Suspense } from "react";
 import { Background } from "./components/Background";
 import { Loading } from "./components/Loading";
 import { ThemeProvider } from "./components/Theme";
+import { BottomNav } from "./components/BottomNav";
 
 export const appThemes = cva(
 	"font-dela-gothic antialiased bg-size-app w-full min-h-dvh text-white relative",
@@ -69,6 +70,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<ThemeProvider theme={theme}>
 					<Background />
 					{children}
+					<div className="fixed inset-x-0 bottom-0 px-2 pb-3">
+						<BottomNav path={location.pathname} className="mx-auto" />
+					</div>
 				</ThemeProvider>
 				<ScrollRestoration />
 				<Scripts />

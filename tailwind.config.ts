@@ -30,6 +30,9 @@ export default {
 			"size-button": "16px",
 			"size-button-bg": "8px 16px",
 		},
+		transitionTimingFunction: {
+			"in-backward": "cubic-bezier(.18,.89,.32,1.28)",
+		},
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
