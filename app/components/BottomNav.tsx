@@ -45,7 +45,10 @@ export function BottomNav({ path, className }: BottomNavProps): ReactNode {
 							<NavigationMenu.Link
 								active={link.href === path}
 								asChild
-								className="block w-full py-3 text-center drop-shadow-base"
+								className={cn(
+									"block w-full py-3 text-center drop-shadow-base transition-transform md:text-xl",
+									link.href === path && "-translate-y-1 -rotate-2",
+								)}
 							>
 								<Link to={link.href}>{link.label}</Link>
 							</NavigationMenu.Link>
@@ -123,42 +126,49 @@ function Selected({ length, index }: SelectedProps): ReactNode {
 
 	return (
 		<div className="absolute inset-x-4 inset-y-0">
-			<svg
-				viewBox="0 0 88.19 42.76"
-				preserveAspectRatio="none"
-				role="presentation"
-				className="absolute inset-y-0 left-0 h-full drop-shadow-md transition-transform duration-200 ease-in-backward"
+			<div
+				className="-top-1 absolute inset-y-0 left-0 transition-transform duration-200 ease-in-backward"
 				style={{
 					width: `${100 / length}%`,
 					transform: `translateX(${100 * index}%)`,
 				}}
 			>
-				<defs>
-					<pattern
-						id={id}
-						width="32"
-						height="32"
-						patternTransform="scale(-0.3, 0.3)"
-						patternUnits="userSpaceOnUse"
-					>
-						<rect
+				<svg
+					width="100%"
+					height="100%"
+					role="presentation"
+					className="-skew-y-3 skew-x-12 p-1 drop-shadow-md md:px-4"
+				>
+					<defs>
+						<pattern
+							id={id}
 							width="32"
 							height="32"
-							className={patternBgVariant({ theme })}
-						/>
-						<path
-							d="M20,20c0-2.21,1.79-4,4-4s4,1.79,4,4-1.79,4-4,4c0,2.21-1.79,4-4,4s-4-1.79-4-4,1.79-4,4-4ZM4,4c0-2.21,1.79-4,4-4s4,1.79,4,4-1.79,4-4,4c0,2.21-1.79,4-4,4S0,10.21,0,8s1.79-4,4-4ZM8,7.2c1.77,0,3.2-1.43,3.2-3.2s-1.43-3.2-3.2-3.2-3.2,1.43-3.2,3.2,1.43,3.2,3.2,3.2ZM24,23.2c1.77,0,3.2-1.43,3.2-3.2s-1.43-3.2-3.2-3.2-3.2,1.43-3.2,3.2,1.43,3.2,3.2,3.2Z"
-							className={patternFgVariant({ theme })}
-						/>
-					</pattern>
-				</defs>
-				<path
-					d="M86.92,36.32L77.81,1.06,1.27,6.44l9.11,35.26,76.54-5.38Z"
-					className="stroke-2 stroke-white"
-					vectorEffect="non-scaling-stroke"
-					style={{ fill: `url(#${id})` }}
-				/>
-			</svg>
+							patternTransform="scale(0.3)"
+							patternUnits="userSpaceOnUse"
+						>
+							<rect
+								width="32"
+								height="32"
+								className={patternBgVariant({ theme })}
+							/>
+							<path
+								d="M20 20c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4ZM4 4c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4Zm4 3.2c1.77 0 3.2-1.43 3.2-3.2S9.77.8 8 .8 4.8 2.23 4.8 4 6.23 7.2 8 7.2Zm16 16c1.77 0 3.2-1.43 3.2-3.2s-1.43-3.2-3.2-3.2-3.2 1.43-3.2 3.2 1.43 3.2 3.2 3.2Z"
+								className={patternFgVariant({ theme })}
+							/>
+						</pattern>
+					</defs>
+					<rect
+						x="0"
+						y="0"
+						width="100%"
+						height="100%"
+						fill={`url(#${id})`}
+						className="stroke-white"
+						strokeWidth="5"
+					/>
+				</svg>
+			</div>
 		</div>
 	);
 }
