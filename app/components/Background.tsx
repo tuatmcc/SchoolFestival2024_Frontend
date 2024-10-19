@@ -5,24 +5,24 @@ import { cva } from "class-variance-authority";
 import { cn } from "~/libs/utils";
 import { useTheme } from "./Theme";
 
-const bgVariants = cva("", {
+const bgVariants = cva("transition-color duration-300", {
 	variants: {
 		theme: {
-			pink: "text-pink-400",
-			cyan: "text-cyan-400",
-			emerald: "text-emerald-400",
-			yellow: "text-yellow-400",
+			pink: "fill-pink-400",
+			cyan: "fill-cyan-400",
+			emerald: "fill-emerald-400",
+			yellow: "fill-yellow-400",
 		},
 	},
 });
 
-const fgVariants = cva("", {
+const fgVariants = cva("transition-color duration-300", {
 	variants: {
 		theme: {
-			pink: "text-pink-500/25",
-			cyan: "text-cyan-500/25",
-			emerald: "text-emerald-500/25",
-			yellow: "text-yellow-500/25",
+			pink: "fill-pink-500/25",
+			cyan: "fill-cyan-500/25",
+			emerald: "fill-emerald-500/25",
+			yellow: "fill-yellow-500/25",
 		},
 	},
 });
@@ -60,22 +60,8 @@ export function Background({
 						dur="10s"
 						repeatCount="indefinite"
 					/>
-					<rect
-						width="64"
-						height="64"
-						className={bgVariants({
-							theme,
-							className: "transition-color duration-300",
-						})}
-						fill="currentColor"
-					/>
-					<g
-						className={fgVariants({
-							theme,
-							className: "transition-color duration-300",
-						})}
-						fill="currentColor"
-					>
+					<rect width="64" height="64" className={bgVariants({ theme })} />
+					<g className={fgVariants({ theme })}>
 						<polygon points="0 0 0 32 32 32 24 24 40 8 24 -8 8 8 0 0" />
 						<polygon points="32 32 32 64 64 64 56 56 72 40 56 24 40 40 32 32" />
 						<polygon points="0 32 0 48 8 40 0 32" />
