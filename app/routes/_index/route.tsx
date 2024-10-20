@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
+import { Heading } from "~/components/Heading";
 import { useMyProfile } from "~/features/profile/useMyProfile";
 import { supabase } from "~/libs/supabase";
 import { SignUp } from "./SignUp";
@@ -18,12 +19,12 @@ export default function Page() {
 	};
 
 	return (
-		<main
-			className="grid h-dvh w-dvw grid-rows-2"
+		<div
+			className="min-h-dvh w-full p-4"
 			style={{ viewTransitionName: "main" }}
 		>
-			<h1 className="p-4 text-center text-4xl">Game</h1>
-			<div className="mx-auto flex max-w-96 flex-col gap-2 p-4">
+			<main className="mx-auto grid w-full max-w-screen-sm gap-y-4">
+				<Heading>ホーム</Heading>
 				{myProfile ? (
 					<div className="grid justify-items-center gap-2">
 						<div>ID: {myProfile.id}</div>
@@ -42,7 +43,7 @@ export default function Page() {
 				) : (
 					<SignUp />
 				)}
-			</div>
-		</main>
+			</main>
+		</div>
 	);
 }
