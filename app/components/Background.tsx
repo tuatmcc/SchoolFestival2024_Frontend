@@ -2,9 +2,9 @@ import type { ReactNode } from "react";
 import { useEffect, useId, useRef } from "react";
 
 import { cva } from "class-variance-authority";
+import { useReducedMotion } from "~/hooks/useMedia";
 import { cn } from "~/libs/utils";
 import { useTheme } from "./Theme";
-import { useReducedMotion } from "~/hooks/useMedia";
 
 const bgVariants = cva("transition-color duration-300", {
 	variants: {
