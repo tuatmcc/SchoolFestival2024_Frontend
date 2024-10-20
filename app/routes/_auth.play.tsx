@@ -1,6 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Heading } from "~/components/Heading";
-import QRCode from "~/components/qrcode";
+import { QRCode } from "~/components/QRCode";
 import { useSession } from "~/hooks/useSession";
 
 export const meta: MetaFunction = () => {
@@ -19,8 +19,13 @@ export default function Page() {
 			<main className="mx-auto grid w-full max-w-screen-sm gap-y-4">
 				<Heading>遊ぶ</Heading>
 				<div className="grid justify-items-center gap-y-1">
-					<QRCode url={session.user.id} size={512} />
-					<span className="drop-shadow-base">ID: {session.user.id}</span>
+					<QRCode
+						value={session.user.id}
+						className="aspect-square h-auto w-full max-w-96"
+					/>
+					<span className="text-center text-lg drop-shadow-base">
+						{session.user.id}
+					</span>
 				</div>
 			</main>
 		</div>

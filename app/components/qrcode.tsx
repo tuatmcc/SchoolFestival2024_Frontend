@@ -1,15 +1,13 @@
-"use client";
+import { QRCodeSVG } from "qrcode.react";
+import type { ReactNode } from "react";
 
-import { QRCodeCanvas } from "qrcode.react";
-import type { FC } from "react";
-
-interface QRCodeProps {
-	url: string;
-	size: number;
+export interface QRCodeProps {
+	value: string;
+	className?: string;
 }
 
-const QRCode: FC<QRCodeProps> = (props) => {
-	return <QRCodeCanvas value={props.url} size={props.size} level={"M"} />;
-};
-
-export default QRCode;
+export function QRCode({ value, className }: QRCodeProps): ReactNode {
+	return (
+		<QRCodeSVG value={value} marginSize={4} level="M" className={className} />
+	);
+}
