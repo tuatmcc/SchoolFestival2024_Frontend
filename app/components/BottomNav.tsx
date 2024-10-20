@@ -50,7 +50,9 @@ export function BottomNav({ path, className }: BottomNavProps): ReactNode {
 									link.href === path && "-translate-y-1 -rotate-2",
 								)}
 							>
-								<Link to={link.href}>{link.label}</Link>
+								<Link to={link.href} viewTransition>
+									{link.label}
+								</Link>
 							</NavigationMenu.Link>
 						</NavigationMenu.Item>
 					))}
