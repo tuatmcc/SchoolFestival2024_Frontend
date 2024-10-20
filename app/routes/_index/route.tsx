@@ -18,7 +18,10 @@ export default function Page() {
 	};
 
 	return (
-		<main className="grid h-dvh w-dvw grid-rows-2">
+		<main
+			className="grid h-dvh w-dvw grid-rows-2"
+			style={{ viewTransitionName: "main" }}
+		>
 			<h1 className="p-4 text-center text-4xl">Game</h1>
 			<div className="mx-auto flex max-w-96 flex-col gap-2 p-4">
 				{myProfile ? (

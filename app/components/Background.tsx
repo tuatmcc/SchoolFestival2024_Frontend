@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
-import { useId } from "react";
+import { useEffect, useId, useRef } from "react";
 
 import { cva } from "class-variance-authority";
+import { useReducedMotion } from "~/hooks/useMedia";
 import { cn } from "~/libs/utils";
 import { useTheme } from "./Theme";
 
@@ -35,12 +36,26 @@ export function Background({
 }: BackgroundProps): ReactNode {
 	const id = useId();
 	const theme = useTheme();
+	const isReducedMotion = useReducedMotion();
+
+	const svgRef = useRef<SVGSVGElement>(null);
+	useEffect(() => {
+		const $svg = svgRef.current;
+		if (!$svg) return;
+
+		if (isReducedMotion) {
+			$svg.pauseAnimations();
+		} else {
+			$svg.unpauseAnimations();
+		}
+	}, [isReducedMotion]);
 
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			role="presentation"
 			className={cn("-z-50 absolute inset-0 h-full w-full", className)}
+			ref={svgRef}
 			{...props}
 		>
 			<defs>
