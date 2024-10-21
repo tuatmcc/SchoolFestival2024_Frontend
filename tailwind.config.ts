@@ -19,18 +19,6 @@ export default {
 					...theme("boxShadow"),
 				};
 			},
-			backgroundImage: {
-				"button-bg": 'url("/assets/button_bg.svg")',
-				"button-pink": 'url("/assets/button_bg_pink.svg")',
-				"button-cyan": 'url("/assets/button_bg_cyan.svg")',
-				"button-emerald": 'url("/assets/button_bg_emerald.svg")',
-				"button-yellow": 'url("/assets/button_bg_yellow.svg")',
-			},
-			backgroundSize: {
-				"size-app": "64px",
-				"size-button": "16px",
-				"size-button-bg": "8px 16px",
-			},
 			transitionTimingFunction: {
 				"in-backward": "cubic-bezier(.18,.89,.32,1.28)",
 			},
