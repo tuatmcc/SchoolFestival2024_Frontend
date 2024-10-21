@@ -22,7 +22,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 					{background && (
 						<svg
 							className={cn(
-								"-skew-x-12 absolute inset-0 h-full w-full rotate-6 transition-transform duration-300 group-hover:rotate-1",
+								"-skew-x-12 absolute inset-0 h-full w-full rotate-6 transition-transform duration-300 will-change-transform group-hover:rotate-1",
 							)}
 							role="presentation"
 						>
@@ -37,7 +37,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 					)}
 					<svg
 						className={cn(
-							"-rotate-3 group-hover:-rotate-1 absolute inset-0 h-full w-full skew-x-12 border-2 border-white transition-transform duration-300",
+							"-rotate-3 group-hover:-rotate-1 absolute inset-0 h-full w-full skew-x-12 border-2 border-white transition-transform duration-300 will-change-transform",
 						)}
 						role="presentation"
 					>

@@ -6,7 +6,7 @@ export const BACKGROUND_PATTERN_ID = "pattern-background";
 export const BUTTON_FG_PATTERN_ID = "pattern-button-fg";
 export const BUTTON_BG_PATTERN_ID = "pattern-button-bg";
 
-const themeBgVariants = cva("transition-color duration-300", {
+const themeBgVariants = cva("", {
 	variants: {
 		theme: {
 			pink: "fill-pink-400",
@@ -17,7 +17,7 @@ const themeBgVariants = cva("transition-color duration-300", {
 	},
 });
 
-const backgroundFgVariants = cva("transition-color duration-300", {
+const backgroundFgVariants = cva("", {
 	variants: {
 		theme: {
 			pink: "fill-pink-500/25",
@@ -28,7 +28,7 @@ const backgroundFgVariants = cva("transition-color duration-300", {
 	},
 });
 
-const buttonFgVariant = cva("transition-color duration-300", {
+const buttonFgVariant = cva("", {
 	variants: {
 		theme: {
 			pink: "fill-pink-500/50",
@@ -50,7 +50,6 @@ export function Patterns(): ReactNode {
 					width="64"
 					height="64"
 					patternUnits="userSpaceOnUse"
-					patternTransform="scale(2)"
 				>
 					<animateTransform
 						attributeType="xml"

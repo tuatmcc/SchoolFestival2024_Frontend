@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
+import { Button } from "~/components/Button";
 import { Heading } from "~/components/Heading";
 import { useMyProfile } from "~/features/profile/useMyProfile";
 import { supabase } from "~/libs/supabase";
@@ -32,13 +33,7 @@ export default function Page() {
 						<div>Play Count: {myProfile.playCount}</div>
 						<div>High Score: {myProfile.highScore ?? "-"}</div>
 						<div>Rank: {myProfile.rank ?? "-"}</div>
-						<button
-							type="button"
-							onClick={handleLogout}
-							className="rounded-lg bg-pink-500 px-4 py-2 text-center font-bold text-white"
-						>
-							Logout
-						</button>
+						<Button onClick={handleLogout}>Logout</Button>
 					</div>
 				) : (
 					<SignUp />
