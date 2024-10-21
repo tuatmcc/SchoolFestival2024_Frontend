@@ -9,7 +9,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 		return (
 			<input
 				className={cn(
-					"w-full rounded-lg border-2 border-gray-300 bg-zinc-600 px-4 py-2 shadow-lg [text-shadow:theme(boxShadow.base)] placeholder:text-zinc-300",
+					"w-full rounded-lg border-2 border-white bg-zinc-600 px-4 py-2 shadow-lg [text-shadow:theme(boxShadow.base)] placeholder:text-zinc-300",
 					className,
 				)}
 				type={type}
