@@ -86,7 +86,7 @@ function Selected({ length, index }: SelectedProps): ReactNode {
 	return (
 		<div className="absolute inset-x-4 inset-y-0">
 			<div
-				className="-top-0.5 md:-top-1 absolute inset-y-1 left-0 transition-transform duration-200 ease-in-backward md:inset-y-0"
+				className="-top-0.5 md:-top-1 absolute inset-y-1 left-0 p-1 transition-transform duration-200 ease-in-backward md:inset-y-0 md:px-4"
 				style={{
 					width: `${100 / length}%`,
 					transform: `translateX(${100 * index}%)`,
@@ -96,7 +96,7 @@ function Selected({ length, index }: SelectedProps): ReactNode {
 					width="100%"
 					height="100%"
 					role="presentation"
-					className="md:-skew-y-3 -skew-y-6 skew-x-12 p-1 drop-shadow-md md:px-4"
+					className="md:-skew-y-3 -skew-y-6 skew-x-12 border-2 border-white drop-shadow-md"
 				>
 					<rect
 						x="0"
@@ -104,8 +104,6 @@ function Selected({ length, index }: SelectedProps): ReactNode {
 						width="100%"
 						height="100%"
 						fill={`url(#${BUTTON_FG_PATTERN_ID})`}
-						className="stroke-white"
-						strokeWidth="5"
 					/>
 				</svg>
 			</div>
