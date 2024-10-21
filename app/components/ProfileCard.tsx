@@ -6,16 +6,16 @@ import { Card } from "./Card";
 export interface ProfileCardProps {
 	profile: Profile;
 	onClickEdit?: () => void;
-	classNames?: string;
+	className?: string;
 }
 
 export function ProfileCard({
 	profile,
 	onClickEdit,
-	classNames,
+	className,
 }: ProfileCardProps) {
 	return (
-		<Card className={cn("grid w-full max-w-screen-sm gap-4 p-4", classNames)}>
+		<Card className={cn("grid w-full max-w-screen-sm gap-4 p-4", className)}>
 			<div className="flex min-w-0 items-center justify-between gap-4 px-2">
 				<span className="truncate text-2xl drop-shadow-base">
 					{profile.displayName}
@@ -41,7 +41,7 @@ export function ProfileCard({
 				<hr className="h-2/3 w-0 rounded-full border-2 border-white" />
 				<div className="grid justify-items-center gap-1 text-center">
 					<span>プレイ回数</span>
-					<span className="text-2xl">{profile.playCount}</span>
+					<span className="text-2xl">{profile.playCount}回</span>
 				</div>
 			</div>
 		</Card>
