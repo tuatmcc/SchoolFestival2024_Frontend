@@ -65,9 +65,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 					{children}
 					<div
 						className={cn(
-							"fixed inset-x-0 bottom-0 translate-y-full px-2 pt-2 pb-3 transition-transform duration-300 ease-out",
+							"fixed inset-x-0 bottom-0 translate-y-full px-2 pt-2 pb-3 transition-transform delay-300 duration-300 ease-out",
 							myProfile && "translate-y-0",
 						)}
+						style={{ viewTransitionName: "bottom-nav" }}
 					>
 						<BottomNav path={location.pathname} className="mx-auto" />
 					</div>
