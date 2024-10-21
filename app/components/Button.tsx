@@ -17,12 +17,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 	) => {
 		const Comp = asChild ? Slot : "button";
 		return (
-			<Comp className={cn("relative px-5 py-2")} ref={ref} {...props}>
+			<Comp className={cn("group relative px-5 py-2")} ref={ref} {...props}>
 				<div className="absolute inset-0 drop-shadow-md">
 					{background && (
 						<svg
 							className={cn(
-								"-skew-x-12 absolute inset-0 h-full w-full skew-y-6",
+								"-skew-x-12 absolute inset-0 h-full w-full rotate-6 transition-transform duration-300 group-hover:rotate-1",
 							)}
 							role="presentation"
 						>
@@ -37,7 +37,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 					)}
 					<svg
 						className={cn(
-							"-skew-y-3 absolute inset-0 h-full w-full skew-x-12 border-2 border-white",
+							"-rotate-3 group-hover:-rotate-1 absolute inset-0 h-full w-full skew-x-12 border-2 border-white transition-transform duration-300",
 						)}
 						role="presentation"
 					>
