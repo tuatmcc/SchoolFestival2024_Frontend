@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "~/components/Button";
+import { Input } from "~/components/Input";
 import { supabase } from "~/libs/supabase";
 
 interface FormData {
@@ -26,14 +27,9 @@ export function SignUp(): ReactNode {
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="grid justify-items-center gap-2"
+			className="grid justify-items-center gap-4"
 		>
-			<input
-				type="text"
-				className="w-full rounded-lg border border-gray-300 px-4 py-2"
-				placeholder="名前"
-				{...register("displayName")}
-			/>
+			<Input placeholder="名前" {...register("displayName")} />
 			<Button type="submit">登録</Button>
 		</form>
 	);
