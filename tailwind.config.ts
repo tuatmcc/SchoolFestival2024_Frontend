@@ -19,6 +19,9 @@ export default {
 					...theme("boxShadow"),
 				};
 			},
+			backgroundImage: {
+				"image-card": 'url("/assets/card-bg.svg")',
+			},
 			transitionTimingFunction: {
 				"in-backward": "cubic-bezier(.18,.89,.32,1.28)",
 			},
