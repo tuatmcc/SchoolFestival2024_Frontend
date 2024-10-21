@@ -14,6 +14,7 @@ import { Analytics } from "./components/Analytics";
 import { Background } from "./components/Background";
 import { BottomNav } from "./components/BottomNav";
 import { Loading } from "./components/Loading";
+import { Patterns } from "./components/Patterns";
 import { ThemeProvider } from "./components/Theme";
 import { useMyProfile } from "./features/profile/useMyProfile";
 import { cn } from "./libs/utils";
@@ -59,6 +60,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			</head>
 			<body className={appThemes()}>
 				<ThemeProvider theme={theme}>
+					<Patterns />
 					<Background />
 					{children}
 					<div
