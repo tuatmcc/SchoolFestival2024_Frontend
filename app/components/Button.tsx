@@ -1,59 +1,58 @@
 import { Slot } from "@radix-ui/react-slot";
-import { cva } from "class-variance-authority";
-import type { VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 import { cn } from "~/libs/utils";
-import { useTheme } from "./Theme";
-
-const buttonThemeVariants = cva(
-	"absolute inset-0 skew-x-12 -skew-y-3 border-2 border-white bg-size-button",
-	{
-		variants: {
-			theme: {
-				pink: "bg-button-pink bg-pink-400",
-				cyan: "bg-button-cyan bg-cyan-400",
-				emerald: "bg-button-emerald bg-emerald-400",
-				yellow: "bg-button-yellow bg-yellow-400",
-			},
-		},
-		defaultVariants: {
-			theme: "pink",
-		},
-	},
-);
-
-const buttonBgVariants = cva(
-	"-skew-x-12 skew-y-6 absolute inset-0 bg-button-bg bg-size-button-bg bg-zinc-600",
-	{
-		variants: {
-			background: {
-				true: "",
-				false: "hidden",
-			},
-		},
-		defaultVariants: {
-			background: true,
-		},
-	},
-);
+import { BUTTON_BG_PATTERN_ID, BUTTON_FG_PATTERN_ID } from "./Patterns";
 
 export interface ButtonProps
-	extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-		VariantProps<typeof buttonBgVariants> {
+	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+	background?: boolean;
 	asChild?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-	({ className, asChild = false, children, background, ...props }, ref) => {
-		const theme = useTheme();
-
+	(
+		{ className, background = true, asChild = false, children, ...props },
+		ref,
+	) => {
 		const Comp = asChild ? Slot : "button";
 		return (
-			<Comp className={cn("relative px-5 py-2")} ref={ref} {...props}>
-				<div className="absolute inset-0 drop-shadow-md">
-					<span className={buttonBgVariants({ background })} />
-					<span className={buttonThemeVariants({ theme })} />
+			<Comp
+				className={cn("group relative px-5 py-2", className)}
+				ref={ref}
+				{...props}
+			>
+				<div className="group-hover:-rotate-6 absolute inset-0 drop-shadow-md transition-transform duration-300">
+					{background && (
+						<svg
+							className={cn(
+								"-skew-x-12 absolute inset-0 h-full w-full rotate-6",
+							)}
+							role="presentation"
+						>
+							<rect
+								x="0"
+								y="0"
+								width="100%"
+								height="100%"
+								fill={`url(#${BUTTON_BG_PATTERN_ID})`}
+							/>
+						</svg>
+					)}
+					<svg
+						className={cn(
+							"-rotate-3 absolute inset-0 h-full w-full skew-x-12 border-2 border-white",
+						)}
+						role="presentation"
+					>
+						<rect
+							x="0"
+							y="0"
+							width="100%"
+							height="100%"
+							fill={`url(#${BUTTON_FG_PATTERN_ID})`}
+						/>
+					</svg>
 				</div>
 				<span className="drop-shadow-base">{children}</span>
 			</Comp>

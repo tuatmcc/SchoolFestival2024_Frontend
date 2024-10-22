@@ -1,6 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
+import { Heading } from "~/components/Heading";
+import { ProfileCard } from "~/components/ProfileCard";
 import { useMyProfile } from "~/features/profile/useMyProfile";
-import { supabase } from "~/libs/supabase";
 import { SignUp } from "./SignUp";
 
 export const meta: MetaFunction = () => {
@@ -13,36 +14,19 @@ export const meta: MetaFunction = () => {
 export default function Page() {
 	const { myProfile } = useMyProfile();
 
-	const handleLogout = async () => {
-		supabase.auth.signOut();
-	};
-
 	return (
-		<main
-			className="grid h-dvh w-dvw grid-rows-2"
+		<div
+			className="min-h-dvh w-full p-4"
 			style={{ viewTransitionName: "main" }}
 		>
-			<h1 className="p-4 text-center text-4xl">Game</h1>
-			<div className="mx-auto flex max-w-96 flex-col gap-2 p-4">
+			<main className="mx-auto grid w-full max-w-screen-sm gap-y-4">
+				<Heading>ホーム</Heading>
 				{myProfile ? (
-					<div className="grid justify-items-center gap-2">
-						<div>ID: {myProfile.id}</div>
-						<div>Display Name: {myProfile.displayName}</div>
-						<div>Play Count: {myProfile.playCount}</div>
-						<div>High Score: {myProfile.highScore ?? "-"}</div>
-						<div>Rank: {myProfile.rank ?? "-"}</div>
-						<button
-							type="button"
-							onClick={handleLogout}
-							className="rounded-lg bg-pink-500 px-4 py-2 text-center font-bold text-white"
-						>
-							Logout
-						</button>
-					</div>
+					<ProfileCard className="rotate-2 sm:rotate-1" profile={myProfile} />
 				) : (
 					<SignUp />
 				)}
-			</div>
-		</main>
+			</main>
+		</div>
 	);
 }

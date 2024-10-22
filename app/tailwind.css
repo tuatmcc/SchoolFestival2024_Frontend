@@ -23,9 +23,15 @@
 	}
 }
 
-::view-transition-old(root) {
+::view-transition-group(root) {
 	animation: none;
 }
-::view-transition-new(root) {
+::view-transition-old(root) {
+	display: none;
+}
+::view-transition-group(bottom-nav) {
 	animation: none;
+}
+::view-transition-old(bottom-nav) {
+	display: none;
 }

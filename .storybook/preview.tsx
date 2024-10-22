@@ -5,6 +5,7 @@ import type { Preview, ReactRenderer, StoryContext } from "@storybook/react";
 import { useEffect } from "react";
 import type { DecoratorFunction } from "storybook/internal/types";
 import { Background } from "~/components/Background";
+import { Patterns } from "~/components/Patterns";
 import { DEFAULT_THEME, THEMES, ThemeProvider } from "~/components/Theme";
 import type { Theme } from "~/components/Theme";
 import { appThemes } from "~/root";
@@ -34,6 +35,7 @@ function withProvider(): DecoratorFunction<ReactRenderer> {
 
 		return (
 			<ThemeProvider theme={selected}>
+				<Patterns />
 				<Background />
 				<Story />
 			</ThemeProvider>

@@ -1,6 +1,5 @@
 import "./tailwind.css";
 
-import { Partytown } from "@builder.io/partytown/react";
 import {
 	Links,
 	Meta,
@@ -11,9 +10,11 @@ import {
 } from "@remix-run/react";
 import { cva } from "class-variance-authority";
 import { Suspense } from "react";
+import { Analytics } from "./components/Analytics";
 import { Background } from "./components/Background";
 import { BottomNav } from "./components/BottomNav";
 import { Loading } from "./components/Loading";
+import { Patterns } from "./components/Patterns";
 import { ThemeProvider } from "./components/Theme";
 import { useMyProfile } from "./features/profile/useMyProfile";
 import { cn } from "./libs/utils";
@@ -45,22 +46,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 					href="https://fonts.gstatic.com"
 					crossOrigin="anonymous"
 				/>
-				<Partytown debug forward={["dataLayer.push"]} />
 				{import.meta.env.VITE_GOOGLE_ANALYTICS_ID && (
-					<>
-						<script
-							async
-							type="text/partytown"
-							src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}`}
-						/>
-						<script
-							type="text/partytown"
-							// biome-ignore lint/security/noDangerouslySetInnerHtml: This is safe because the Google Analytics ID is a build-time constant
-							dangerouslySetInnerHTML={{
-								__html: `window.dataLayer||=[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}')`,
-							}}
-						/>
-					</>
+					<Analytics
+						googleAnalyticsId={import.meta.env.VITE_GOOGLE_ANALYTICS_ID}
+					/>
 				)}
 				<link
 					href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap"
@@ -71,13 +60,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			</head>
 			<body className={appThemes()}>
 				<ThemeProvider theme={theme}>
+					<Patterns />
 					<Background />
 					{children}
 					<div
 						className={cn(
-							"fixed inset-x-0 bottom-0 translate-y-full px-2 pt-2 pb-3 transition-transform duration-300 ease-out",
+							"fixed inset-x-0 bottom-0 translate-y-full px-2 pt-2 pb-3 transition-transform delay-300 duration-300 ease-out",
 							myProfile && "translate-y-0",
 						)}
+						style={{ viewTransitionName: "bottom-nav" }}
 					>
 						<BottomNav path={location.pathname} className="mx-auto" />
 					</div>
