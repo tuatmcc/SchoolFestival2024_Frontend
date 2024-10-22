@@ -36,10 +36,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	const { myProfile } = useMyProfile();
 
 	return (
-		<html lang="en">
+		<html lang="ja">
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<meta
+					name="description"
+					content="RicoShotはマルチプレイ対応の対戦シューティングゲームです。好きなキャラを選択、カスタマイズしてハイスコアを目指しましょう!"
+				/>
 				<link rel="preconnect" href="https://fonts.googleapis.com" />
 				<link
 					rel="preconnect"
