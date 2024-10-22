@@ -1,16 +1,11 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { Heading } from "~/components/Heading";
 import { useMyProfile } from "~/features/profile/useMyProfile";
 import { supabase } from "~/libs/supabase";
 import { SignUp } from "./SignUp";
 
-export const meta: MetaFunction = () => {
-	return [
-		{ title: "New Remix App" },
-		{ name: "description", content: "Welcome to Remix!" },
-	];
-};
+export const meta: MetaFunction = () => [{ title: "ホーム | RicoShot" }];
 
 export default function Page() {
 	const { myProfile } = useMyProfile();

@@ -1,5 +1,8 @@
+import type { MetaFunction } from "@remix-run/react";
 import type { ReactNode } from "react";
 import { Heading } from "~/components/Heading";
+
+export const meta: MetaFunction = () => [{ title: "キャラ編集 | RicoShot" }];
 
 export default function Page(): ReactNode {
 	return (

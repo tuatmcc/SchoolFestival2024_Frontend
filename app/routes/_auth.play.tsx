@@ -1,11 +1,9 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/react";
 import { Heading } from "~/components/Heading";
 import { QRCode } from "~/components/QRCode";
 import { useSession } from "~/hooks/useSession";
 
-export const meta: MetaFunction = () => {
-	return [{ title: "QR Code" }, { name: "description", content: "qr code" }];
-};
+export const meta: MetaFunction = () => [{ title: "遊ぶ | RicoShot" }];
 
 export default function Page() {
 	const session = useSession();
