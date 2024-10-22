@@ -4,7 +4,7 @@ import { type ReactNode, useRef, useState } from "react";
 import type { Group } from "three";
 
 // 3Dモデルを表示するためのコンポーネント
-// パスを受け取って、そのGLTF形式の3Dモデルを読み込む
+// パスを受け取って、そのGLB形式の3Dモデルを読み込む
 function Model({ path }: { path: string }): ReactNode {
 	// useGLTFはGLB/GLTFファイルを読み込むためのフック
 	// sceneにはモデルのシーン情報が格納されます
@@ -31,12 +31,11 @@ type ModelViewerProps = {
 export function ModelViewer({
 	modelPath,
 	height = "80vh",
-	width = "50vw",
 }: ModelViewerProps): ReactNode {
 	return (
 		<div>
 			{/* 3Dモデルを表示するためのCanvasエリア */}
-			<div style={{ height: height, width: width, margin: "auto" }}>
+			<div style={{ height: height }}>
 				<Canvas
 					camera={{ position: [0, 0, 5], fov: 50 }} // カメラの初期位置と視野角を設定
 				>
