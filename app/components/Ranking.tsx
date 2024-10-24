@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useRef } from 'react';
 import { useFetchRanking } from '~/hooks/useFetchRanking';
 import '../Ranking.css'
 
@@ -27,8 +27,29 @@ function RankingItem({ rank, name, score }: RankingData){
 
 export function RankingList(){
     const { ranking, loading, error, loadMore } = useFetchRanking();
+    const observer = useRef<IntersectionObserver | null>(null);
+    const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-    if(loading) return <div>Loading...</div>;
+    useEffect(() => {
+        if(loading || !loadMoreRef.current) return;
+
+        const observerCallback = (entries: IntersectionObserverEntry[]) => {
+            if(entries[0].isIntersecting){
+                loadMore();
+            }
+        };
+
+        observer.current = new IntersectionObserver(observerCallback);
+        observer.current.observe(loadMoreRef.current);
+
+        return () => {
+            if(observer.current && loadMoreRef.current){
+                observer.current.unobserve(loadMoreRef.current);
+            }
+        };
+    }, [loading, loadMore]);
+
+    // if(loading) return <div>Loading...</div>;
     if(error) return <div>Error!!</div>;
 
     if(!ranking || ranking.length === 0){
@@ -46,11 +67,14 @@ export function RankingList(){
                     score={item.high_score}
                 />
             ))}
-            {loading ? (
-                <p>Loading...</p>
+            {/* {loading ? (
+                <p className='ranking-loading-text'>Loading...</p>
             ) : (
                 <button className='ranking-load-button' onClick={loadMore}>Show More</button>
-            )}
+            )} */}
+            <div ref={loadMoreRef}>
+                {loading && <p className='ranking-loading-text'>Loading...</p>}
+            </div>
         </div>
     );
 }

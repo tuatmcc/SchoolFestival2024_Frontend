@@ -35,9 +35,9 @@
     color: #cd7f32;
 }
 
-.rank-default{
+/* .rank-default{
 
-}
+} */
 
 .name{
     position: absolute;
@@ -45,9 +45,9 @@
     transform: translateX(-50%);
 }
 
-.score{
+/* .score{
 
-}
+} */
 
 .ranking-load-button{
     display: flex;
@@ -61,5 +61,15 @@
     font-size: 18px;
     border: 2px solid #333;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.ranking-loading-text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px auto;
+    width: 800px;
+    font-size: 18px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
 }
