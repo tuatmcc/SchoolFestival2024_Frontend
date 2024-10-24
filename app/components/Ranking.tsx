@@ -8,7 +8,7 @@ interface RankingData{
     score: number | null;
 }
 
-export function RankingItem({ rank, name, score }: RankingData){
+function RankingItem({ rank, name, score }: RankingData){
     const getRankClass = () => {
         if (rank === 1) return 'rank-first';
         if (rank === 2) return 'rank-second';
