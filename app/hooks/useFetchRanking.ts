@@ -43,7 +43,9 @@ export function useFetchRanking( limit = 20 ){
 
         setLoading(false);
 
-        window.scrollTo(0, scrollPosition.current);
+        requestAnimationFrame(() => {
+            window.scrollTo(0, scrollPosition.current);
+        });
     }, [page, limit]);
 
     useEffect(() => {
