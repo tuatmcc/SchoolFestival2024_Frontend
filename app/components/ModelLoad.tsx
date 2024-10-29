@@ -14,7 +14,7 @@ function Model({ path }: { path: string }): ReactNode {
 
 	return (
 		// グループとしてシーンをレンダリング
-		<group ref={groupRef}>
+		<group ref={groupRef} position={[0, -0.5, 0]}>
 			{/* モデルのプリミティブ（生のオブジェクト）を表示 */}
 			<primitive object={scene} />
 		</group>
