@@ -67,11 +67,6 @@ export function RankingList(){
                     score={item.high_score}
                 />
             ))}
-            {/* {loading ? (
-                <p className='ranking-loading-text'>Loading...</p>
-            ) : (
-                <button className='ranking-load-button' onClick={loadMore}>Show More</button>
-            )} */}
             <div ref={loadMoreRef}>
                 {loading && <p className='ranking-loading-text'>Loading...</p>}
             </div>

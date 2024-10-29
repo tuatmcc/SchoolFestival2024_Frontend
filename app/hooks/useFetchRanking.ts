@@ -18,7 +18,6 @@ export function useFetchRanking( limit = 20 ){
     const [error, setError] = useState(false);
     const [page, setPage] = useState(0);
     const hasFetchedInitial = useRef(false);
-    const scrollPosition = useRef(0);
 
     const fetchRankings = useCallback(async (fetchPage = page) => {
         setLoading(true);
@@ -42,10 +41,6 @@ export function useFetchRanking( limit = 20 ){
         }
 
         setLoading(false);
-
-        requestAnimationFrame(() => {
-            window.scrollTo(0, scrollPosition.current);
-        });
     }, [page, limit]);
 
     useEffect(() => {
@@ -62,7 +57,6 @@ export function useFetchRanking( limit = 20 ){
     }, [fetchRankings]);
 
     const loadMore = () => {
-        scrollPosition.current = window.scrollY;
         setPage((prev) => prev + 1);
     };
 
