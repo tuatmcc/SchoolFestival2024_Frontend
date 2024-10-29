@@ -23,12 +23,8 @@
 		"@react-three/drei": "9.114.6",
 		"@react-three/fiber": "8.17.10",
 		"@remix-run/react": "2.13.1",
-<<<<<<< HEAD
-		"@supabase/supabase-js": "2.45.4",
 		"@types/three": "0.169.0",
-=======
 		"@supabase/supabase-js": "2.45.6",
->>>>>>> main
 		"class-variance-authority": "0.7.0",
 		"clsx": "2.1.1",
 		"lucide-react": "0.454.0",
