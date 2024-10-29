@@ -59,14 +59,14 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Setup | Start Supabase
-        run: pnpm supabase db start
+        run: pnpm exec supabase db start
 
       - name: Setup | Generate Type
         run: pnpm run gen:type
 
       - name: Setup | Generate Seed
         run: |
-          pnpm @snaplet/seed init
+          pnpm exec @snaplet/seed init
           pnpm run gen:seed
 
       - name: Run | Check Diff

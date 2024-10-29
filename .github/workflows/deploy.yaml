@@ -31,8 +31,8 @@ jobs:
 
       - name: Run | Migrate
         run: |
-          pnpm supabase link --project-ref ${SUPABASE_PROJECT_ID}
-          pnpm supabase db push
+          pnpm exec supabase link --project-ref ${SUPABASE_PROJECT_ID}
+          pnpm exec supabase db push
         env:
           SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
