@@ -38,7 +38,7 @@ export default function Page(): ReactNode {
 				<ModelViewer
 					modelPath={modelPath}
 					colorMap={{
-						"hairfront": "#ff0000", // 頭の色を赤
+						hairfront: "#ff0000", // 頭の色を赤
 					}}
 				/>
 

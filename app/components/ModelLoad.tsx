@@ -1,8 +1,8 @@
 import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { type ReactNode, useRef, useEffect } from "react";
+import { type ReactNode, useEffect, useRef } from "react";
 import type { Group, MeshStandardMaterial } from "three";
-import * as THREE from 'three';
+import type * as THREE from "three";
 
 /*
 Mesh name: accessoryeyepatch
@@ -24,7 +24,10 @@ Mesh name: head_1
 Mesh name: head_2
 */
 
-function Model({ path, colorMap }: { path: string; colorMap: { [key: string]: string } }): ReactNode {
+function Model({
+	path,
+	colorMap,
+}: { path: string; colorMap: { [key: string]: string } }): ReactNode {
 	const { scene } = useGLTF(path);
 	// モデルのグループ（オブジェクト全体）にアクセスするための参照を作成
 	const groupRef = useRef<Group>(null);
@@ -59,10 +62,13 @@ function Model({ path, colorMap }: { path: string; colorMap: { [key: string]: st
 // 3Dモデルビューアーコンポーネント
 // モデルのパスを受け取って、それを表示する
 type ModelViewerProps = {
-	modelPath: string;            // モデルのパス
+	modelPath: string; // モデルのパス
 	colorMap: { [key: string]: string }; // 部位ごとの色マップ
 };
-export function ModelViewer({ modelPath, colorMap }: ModelViewerProps): ReactNode {
+export function ModelViewer({
+	modelPath,
+	colorMap,
+}: ModelViewerProps): ReactNode {
 	return (
 		<div>
 			{/* 3Dモデルを表示するためのCanvasエリア */}
