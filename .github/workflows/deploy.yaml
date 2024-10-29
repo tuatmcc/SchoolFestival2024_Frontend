@@ -15,19 +15,25 @@ jobs:
       - name: Setup | Checkout
         uses: actions/checkout@v4
 
+      - name: Setup | Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
       - name: Setup | Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: npm
+          cache: pnpm
 
       - name: Setup | Install Dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Run | Migrate
         run: |
-          npx supabase link --project-ref ${SUPABASE_PROJECT_ID}
-          npx supabase db push
+          pnpm supabase link --project-ref ${SUPABASE_PROJECT_ID}
+          pnpm supabase db push
         env:
           SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
