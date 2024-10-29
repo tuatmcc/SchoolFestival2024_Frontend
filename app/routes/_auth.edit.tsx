@@ -1,7 +1,10 @@
+import type { MetaFunction } from "@remix-run/react";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { Heading } from "~/components/Heading";
 import { ModelViewer } from "~/components/ModelLoad";
+
+export const meta: MetaFunction = () => [{ title: "キャラ編集 | RicoShot" }];
 
 export default function Page(): ReactNode {
 	const [modelPath, setModelPath] = useState("/models/web_asuka.glb");
