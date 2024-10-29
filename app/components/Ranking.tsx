@@ -2,13 +2,13 @@ import { useEffect, useRef } from 'react';
 import { useFetchRanking } from '~/hooks/useFetchRanking';
 import '../Ranking.css'
 
-interface RankingData{
+interface RankingItemProps{
     rank: number | null;
     name: string;
     score: number | null;
 }
 
-function RankingItem({ rank, name, score }: RankingData){
+function RankingItem({ rank, name, score }: RankingItemProps){
     const getRankClass = () => {
         if (rank === 1) return 'rank-first';
         if (rank === 2) return 'rank-second';
@@ -26,40 +26,40 @@ function RankingItem({ rank, name, score }: RankingData){
 };
 
 export function RankingList(){
-    const { data, error, isLoading } = useFetchRanking();
+    const { ranking, error, isLoading, isValidating, loadMore, hasMore } = useFetchRanking();
     const observer = useRef<IntersectionObserver | null>(null);
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-    // useEffect(() => {
-    //     if(loading || !loadMoreRef.current) return;
+    useEffect(() => {
+        if(isValidating || !loadMoreRef.current) return;
 
-    //     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-    //         if(entries[0].isIntersecting){
-    //             loadMore();
-    //         }
-    //     };
+        const observerCallback = (entries: IntersectionObserverEntry[]) => {
+            if(entries[0].isIntersecting && hasMore && !isValidating){
+                loadMore();
+            }
+        };
 
-    //     observer.current = new IntersectionObserver(observerCallback);
-    //     observer.current.observe(loadMoreRef.current);
+        observer.current = new IntersectionObserver(observerCallback);
+        observer.current.observe(loadMoreRef.current);
 
-    //     return () => {
-    //         if(observer.current && loadMoreRef.current){
-    //             observer.current.unobserve(loadMoreRef.current);
-    //         }
-    //     };
-    // }, [loading, loadMore]);
+        return () => {
+            if(observer.current && loadMoreRef.current){
+                observer.current.unobserve(loadMoreRef.current);
+            }
+        };
+    }, [isValidating, loadMore, hasMore]);
 
     if(isLoading) return <div>Loading...</div>;
     if(error) return <div>Error!!</div>;
 
-    if(!data || data.length === 0){
-        return <div>No Ranking Data.</div>;
+    if(!ranking || ranking.length === 0){
+        return <div>No Ranking ranking.</div>;
     }
 
     return (
         <div className='ranking-list'>
             <div className='ranking-title'>ランキング</div>
-            {data.map((item, index) => (
+            {ranking.map((item, index) => (
                 <RankingItem
                     key={item.user_id}
                     rank={item.rank}
@@ -67,9 +67,9 @@ export function RankingList(){
                     score={item.high_score}
                 />
             ))}
-            {/* <div ref={loadMoreRef}>
-                {loading && <p className='ranking-loading-text'>Loading...</p>}
-            </div> */}
+            <div ref={loadMoreRef}>
+                {isValidating && <p className='ranking-loading-text'>Loading...</p>}
+            </div>
         </div>
     );
 }

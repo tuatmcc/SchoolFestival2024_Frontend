@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "~/libs/supabase";
 import useSWR from "swr";
+import useSWRInfinite from "swr/infinite";
 
 interface Stats{
     id: string;
@@ -25,11 +26,23 @@ const fetchRankingData = async(page: number, limit: number) => {
 };
 
 export function useFetchRanking( page = 0, limit = 20 ){
-    const { data, error, isLoading } = useSWR([page, limit], ([page, limit]) => fetchRankingData(page, limit));
+    const getKey = (page: number, previousPageData: Stats[] | null) => {
+        if(previousPageData && previousPageData.length === 0) return null;
+        return [page, limit];
+    };
+
+    const { data, error, isLoading, isValidating, size, setSize } = useSWRInfinite(getKey, ([page, limit]) => fetchRankingData(page, limit));
+
+    const ranking = data ? data.flat() : [];
+
+    const loadMore = () => setSize(size + 1);
 
     return {
-        data,
+        ranking,
         error,
-        isLoading
+        isLoading,
+        isValidating,
+        loadMore,
+        hasMore: data?.[data.length - 1]?.length === limit
     };
 }
