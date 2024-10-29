@@ -66,7 +66,7 @@ jobs:
 
       - name: Setup | Generate Seed
         run: |
-          pnpm exec @snaplet/seed init
+          pnpm exec snaplet-seed init
           pnpm run gen:seed
 
       - name: Run | Check Diff
