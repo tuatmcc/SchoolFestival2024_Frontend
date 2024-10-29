@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "~/libs/supabase";
+import useSWR from "swr";
 
 interface Stats{
     id: string;
@@ -12,53 +13,23 @@ interface Stats{
     rank: number | null;
 };
 
-export function useFetchRanking( limit = 20 ){
-    const [ranking, setRanking] = useState<Stats[] | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-    const [page, setPage] = useState(0);
-    const hasFetchedInitial = useRef(false);
+const fetchRankingData = async(page: number, limit: number) => {
+    const start = limit * page;
+    const end = start + limit - 1;
+    const { data } = await supabase
+        .from('profiles_with_stats')
+        .select('*')
+        .order('rank', { ascending: true })
+        .range(start, end);
+    return data;
+};
 
-    const fetchRankings = useCallback(async (fetchPage = page) => {
-        setLoading(true);
-        setError(false);
+export function useFetchRanking( page = 0, limit = 20 ){
+    const { data, error, isLoading } = useSWR([page, limit], ([page, limit]) => fetchRankingData(page, limit));
 
-        const start = fetchPage * limit;
-        const end = start + limit - 1;
-
-        const { data, error } = await supabase
-            .from('profiles_with_stats')
-            .select('*')
-            .order('rank', { ascending: true })
-            .range(start, end);
-        
-        if(error){
-            console.error('Error Fetching Rankings');
-            setError(true);
-        }
-        else{
-            setRanking((prev) => [...(prev ?? []), ...(data ?? [])])
-        }
-
-        setLoading(false);
-    }, [page, limit]);
-
-    useEffect(() => {
-        if(!hasFetchedInitial.current){
-            fetchRankings(0);
-            hasFetchedInitial.current = true;
-        }
-    })
-
-    useEffect(() => {
-        if(page > 0){
-            fetchRankings(page);
-        }
-    }, [fetchRankings]);
-
-    const loadMore = () => {
-        setPage((prev) => prev + 1);
+    return {
+        data,
+        error,
+        isLoading
     };
-
-    return { ranking, loading, error, loadMore };
 }

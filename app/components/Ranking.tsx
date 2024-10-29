@@ -26,40 +26,40 @@ function RankingItem({ rank, name, score }: RankingData){
 };
 
 export function RankingList(){
-    const { ranking, loading, error, loadMore } = useFetchRanking();
+    const { data, error, isLoading } = useFetchRanking();
     const observer = useRef<IntersectionObserver | null>(null);
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        if(loading || !loadMoreRef.current) return;
+    // useEffect(() => {
+    //     if(loading || !loadMoreRef.current) return;
 
-        const observerCallback = (entries: IntersectionObserverEntry[]) => {
-            if(entries[0].isIntersecting){
-                loadMore();
-            }
-        };
+    //     const observerCallback = (entries: IntersectionObserverEntry[]) => {
+    //         if(entries[0].isIntersecting){
+    //             loadMore();
+    //         }
+    //     };
 
-        observer.current = new IntersectionObserver(observerCallback);
-        observer.current.observe(loadMoreRef.current);
+    //     observer.current = new IntersectionObserver(observerCallback);
+    //     observer.current.observe(loadMoreRef.current);
 
-        return () => {
-            if(observer.current && loadMoreRef.current){
-                observer.current.unobserve(loadMoreRef.current);
-            }
-        };
-    }, [loading, loadMore]);
+    //     return () => {
+    //         if(observer.current && loadMoreRef.current){
+    //             observer.current.unobserve(loadMoreRef.current);
+    //         }
+    //     };
+    // }, [loading, loadMore]);
 
-    // if(loading) return <div>Loading...</div>;
+    if(isLoading) return <div>Loading...</div>;
     if(error) return <div>Error!!</div>;
 
-    if(!ranking || ranking.length === 0){
+    if(!data || data.length === 0){
         return <div>No Ranking Data.</div>;
     }
 
     return (
         <div className='ranking-list'>
             <div className='ranking-title'>ランキング</div>
-            {ranking.map((item, index) => (
+            {data.map((item, index) => (
                 <RankingItem
                     key={item.user_id}
                     rank={item.rank}
@@ -67,9 +67,9 @@ export function RankingList(){
                     score={item.high_score}
                 />
             ))}
-            <div ref={loadMoreRef}>
+            {/* <div ref={loadMoreRef}>
                 {loading && <p className='ranking-loading-text'>Loading...</p>}
-            </div>
+            </div> */}
         </div>
     );
 }
