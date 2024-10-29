@@ -2,7 +2,7 @@ import type { MetaFunction } from "@remix-run/react";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { Heading } from "~/components/Heading";
-import { ModelList } from "~/components/ModelList";
+import { ModelConfig } from "~/components/ModelConfig";
 import { ModelViewer } from "~/components/ModelLoad";
 import { getMeshVisibility } from "~/components/ModelVisibility";
 
@@ -26,7 +26,7 @@ export default function Page(): ReactNode {
 					}}
 					meshVisibility={meshVisibility}
 				/>
-				<ModelList
+				<ModelConfig
 					onModelSelect={setModelPath}
 					updateVisibility={updateVisibility}
 				/>

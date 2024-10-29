@@ -5,7 +5,10 @@ interface ModelListProps {
 	updateVisibility: (key: string, value: boolean) => void;
 }
 
-export function ModelList({ onModelSelect, updateVisibility }: ModelListProps) {
+export function ModelConfig({
+	onModelSelect,
+	updateVisibility,
+}: ModelListProps) {
 	const [models, setModels] = useState<string[]>([]);
 	const [containerWidth, setContainerWidth] = useState(0);
 
