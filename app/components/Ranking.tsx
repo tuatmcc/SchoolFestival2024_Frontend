@@ -60,12 +60,12 @@ export function RankingList(){
         <div className='ranking-list'>
             <div className='ranking-title'>ランキング</div>
             {ranking.map((item, index) => (
-                <RankingItem
+                item && (<RankingItem
                     key={item.user_id}
                     rank={item.rank}
                     name={item.display_name}
                     score={item.high_score}
-                />
+                />)
             ))}
             <div ref={loadMoreRef}>
                 {isValidating && <p className='ranking-loading-text'>Loading...</p>}
