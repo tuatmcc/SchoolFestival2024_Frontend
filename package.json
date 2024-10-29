@@ -7,7 +7,7 @@
 		"build": "remix vite:build",
 		"dev": "remix vite:dev",
 		"start": "vite preview",
-		"typecheck": "tsc",
+		"typecheck": "tsc -p tsconfig.check.json --noEmit",
 		"lint": "biome check .",
 		"fmt": "biome check . --write --unsafe",
 		"prepare": "partytown copylib public/~partytown",
