@@ -9,6 +9,7 @@ export function getMeshVisibility() {
 	const generateMeshVisibility = useCallback((): { [key: string]: boolean } => {
 		if (instanceRef.current) return instanceRef.current; // 既存のインスタンスを返す
 
+		// 初期値は非表示
 		instanceRef.current = {
 			accessoryeyepatch: false,
 			accessoryglasses: false,
