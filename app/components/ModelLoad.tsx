@@ -4,51 +4,46 @@ import { type ReactNode, useEffect, useRef } from "react";
 import type { Group, MeshStandardMaterial } from "three";
 import type * as THREE from "three";
 
-/*
-Mesh name: accessoryeyepatch
-Mesh name: accessoryglassess
-Mesh name: goggle
-Mesh name: goggle_1
-Mesh name: accessorymask
-Mesh name: body_1
-Mesh name: body_2
-Mesh name: clothesribbon
-Mesh name: clothesskirt
-Mesh name: clothestops
-Mesh name: clothestops001
-Mesh name: hairback
-Mesh name: hairear
-Mesh name: hairfront
-Mesh name: hairtail
-Mesh name: head_1
-Mesh name: head_2
-*/
-
 function Model({
 	path,
 	colorMap,
-}: { path: string; colorMap: { [key: string]: string } }): ReactNode {
+	meshVisibility,
+}: {
+	path: string;
+	colorMap: { [key: string]: string };
+	meshVisibility: { [key: string]: boolean };
+}): ReactNode {
 	const { scene } = useGLTF(path);
 	// モデルのグループ（オブジェクト全体）にアクセスするための参照を作成
 	const groupRef = useRef<Group>(null);
 
 	useEffect(() => {
-		scene.traverse((child) => {
+		scene.traverse((child: THREE.Object3D) => {
 			if ((child as THREE.Mesh).isMesh) {
 				const mesh = child as THREE.Mesh;
 
 				// 部位名をコンソールに出力
 				console.log("Mesh name:", mesh.name);
 
+				// 部位名がmeshVisibilityのキーに一致する場合に表示非表示を設定
+				if (Object.hasOwn(meshVisibility, mesh.name)) {
+					if (meshVisibility[mesh.name]) {
+						mesh.visible = true;
+					} else {
+						mesh.visible = false;
+						return;
+					}
+				}
+
 				const material = mesh.material as MeshStandardMaterial;
 
 				// 部位名がcolorMapのキーに一致する場合に色を設定
-				if (colorMap[mesh.name]) {
+				if (Object.hasOwn(colorMap, mesh.name)) {
 					material.color.set(colorMap[mesh.name]);
 				}
 			}
 		});
-	}, [scene, colorMap]);
+	}, [scene, colorMap, meshVisibility]);
 
 	return (
 		// グループとしてシーンをレンダリング
@@ -64,10 +59,12 @@ function Model({
 type ModelViewerProps = {
 	modelPath: string; // モデルのパス
 	colorMap: { [key: string]: string }; // 部位ごとの色マップ
+	meshVisibility: { [key: string]: boolean }; // 部位ごとの表示非表示
 };
 export function ModelViewer({
 	modelPath,
 	colorMap,
+	meshVisibility,
 }: ModelViewerProps): ReactNode {
 	return (
 		<div>
@@ -84,7 +81,11 @@ export function ModelViewer({
 					{/* 環境光を追加（全体的に均一な光を当てる） */}
 					<ambientLight intensity={0.5} />
 					{/* GLBモデルの読み込みと表示 */}
-					<Model path={modelPath} colorMap={colorMap} />
+					<Model
+						path={modelPath}
+						colorMap={colorMap}
+						meshVisibility={meshVisibility}
+					/>
 					{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
 					<OrbitControls makeDefault />
 				</Canvas>
