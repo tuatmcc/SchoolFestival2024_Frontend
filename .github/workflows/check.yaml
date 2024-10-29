@@ -20,17 +20,46 @@ jobs:
       - name: Setup | Checkout
         uses: actions/checkout@v4
 
+      - name: Setup | Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
       - name: Setup | Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: npm
+          cache: pnpm
 
       - name: Setup | Install Dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Run | Lint
-        run: npm run lint
+        run: pnpm run lint
+
+  typecheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup | Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Setup | Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Setup | Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run | Type Check
+        run: pnpm run typecheck
 
   check-schema:
     runs-on: ubuntu-latest
@@ -39,25 +68,30 @@ jobs:
       - name: Setup | Checkout
         uses: actions/checkout@v4
 
+      - name: Setup | Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
       - name: Setup | Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: npm
+          cache: pnpm
 
       - name: Setup | Install Dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Setup | Start Supabase
-        run: npx supabase db start
+        run: pnpm exec supabase db start
 
       - name: Setup | Generate Type
-        run: npm run gen:type
+        run: pnpm run gen:type
 
       - name: Setup | Generate Seed
         run: |
-          npx @snaplet/seed init
-          npm run gen:seed
+          pnpm exec snaplet-seed init
+          pnpm run gen:seed
 
       - name: Run | Check Diff
         run: |
