@@ -35,7 +35,13 @@ export default function Page(): ReactNode {
 			<main className="mx-auto grid w-full max-w-screen-sm gap-y-4">
 				<Heading>キャラ編集</Heading>
 				{/* ModelViewerを中央に配置するためのスタイルを追加 */}
-				<ModelViewer modelPath={modelPath} />
+				<ModelViewer
+					modelPath={modelPath}
+					colorMap={{
+						"hairfront": "#ff0000", // 頭の色を赤
+					}}
+				/>
+
 				{/* モデルごとのボタンを生成 */}
 				{models.map((model) => (
 					<button key={model} type="button" onClick={() => setModelPath(model)}>
