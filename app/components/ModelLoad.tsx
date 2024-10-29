@@ -26,14 +26,15 @@ function Model({
 				console.log("Mesh name:", mesh.name);
 
 				// 部位名がmeshVisibilityのキーに一致する場合に表示非表示を設定
-				if (Object.hasOwn(meshVisibility, mesh.name)) {
-					if (meshVisibility[mesh.name]) {
-						mesh.visible = true;
-					} else {
-						mesh.visible = false;
-						return;
-					}
+				if (
+					Object.hasOwn(meshVisibility, mesh.name) &&
+					!meshVisibility[mesh.name]
+				) {
+					mesh.visible = false;
+					return;
 				}
+
+				mesh.visible = true;
 
 				const material = mesh.material as MeshStandardMaterial;
 

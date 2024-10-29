@@ -4,13 +4,13 @@ import { useState } from "react";
 import { Heading } from "~/components/Heading";
 import { ModelList } from "~/components/ModelList";
 import { ModelViewer } from "~/components/ModelLoad";
-import { useMeshVisibility } from "~/components/ModelVisibility";
+import { getMeshVisibility } from "~/components/ModelVisibility";
 
 export const meta: MetaFunction = () => [{ title: "キャラ編集 | RicoShot" }];
 
 export default function Page(): ReactNode {
 	const [modelPath, setModelPath] = useState("/models/web_asuka.glb");
-	const meshVisibility = useMeshVisibility(modelPath);
+	const { meshVisibility, updateVisibility } = getMeshVisibility();
 
 	return (
 		<div
@@ -26,7 +26,10 @@ export default function Page(): ReactNode {
 					}}
 					meshVisibility={meshVisibility}
 				/>
-				<ModelList onModelSelect={setModelPath} />
+				<ModelList
+					onModelSelect={setModelPath}
+					updateVisibility={updateVisibility}
+				/>
 			</main>
 		</div>
 	);
