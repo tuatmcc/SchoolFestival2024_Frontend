@@ -3,14 +3,19 @@ import { useEffect, useState } from "react";
 interface ModelListProps {
 	onModelSelect: (modelPath: string) => void;
 	updateVisibility: (key: string, value: boolean) => void;
+	updateColor: (key: string, value: string) => void;
 }
 
 export function ModelConfig({
 	onModelSelect,
 	updateVisibility,
+	updateColor,
 }: ModelListProps) {
 	const [models, setModels] = useState<string[]>([]);
 	const [containerWidth, setContainerWidth] = useState(0);
+	const [selectedColors, setSelectedColors] = useState<Record<string, string>>(
+		{},
+	);
 
 	useEffect(() => {
 		const fetchModels = async () => {
@@ -90,6 +95,20 @@ export function ModelConfig({
 						</button>
 					</div>
 				))}
+			</div>
+			{/* 色変更ボタン */}
+			<div className="flex items-center justify-center space-x-2">
+				<span className="font-medium">Hair Color:</span>
+				<input
+					type="color"
+					value={selectedColors.hair}
+					onChange={(e) => {
+						setSelectedColors({ ...selectedColors, hair: e.target.value });
+						updateColor("hair", e.target.value);
+					}}
+					className="h-8 w-8 cursor-pointer rounded border border-gray-300"
+					title="髪の色を変更"
+				/>
 			</div>
 		</div>
 	);
