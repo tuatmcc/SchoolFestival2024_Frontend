@@ -59,7 +59,7 @@ export function RankingList(){
     return (
         <div className='ranking-list'>
             <div className='ranking-title'>ランキング</div>
-            {ranking.map((item, index) => (
+            {ranking.map((item) => (
                 item && (<RankingItem
                     key={item.user_id}
                     rank={item.rank}

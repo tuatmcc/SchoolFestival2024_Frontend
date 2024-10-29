@@ -1,6 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "~/libs/supabase";
-import useSWR from "swr";
 import useSWRInfinite from "swr/infinite";
 
 interface Stats{
