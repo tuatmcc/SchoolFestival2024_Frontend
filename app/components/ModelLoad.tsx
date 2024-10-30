@@ -22,8 +22,8 @@ function Model({
 			if ((child as THREE.Mesh).isMesh) {
 				const mesh = child as THREE.Mesh;
 
-				// 部位名をコンソールに出力
-				console.log("Mesh name:", mesh.name);
+				// メッシュ名をコンソールに出力
+				// console.log("Mesh name:", mesh.name);
 
 				// 部位名がmeshVisibilityのキーに一致する場合に表示非表示を設定
 				if (
