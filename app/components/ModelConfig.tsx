@@ -1,14 +1,20 @@
-import { MODEL_LIST } from "~/features/profile/Profile";
-import type { CharacterSetting, Model } from "~/features/profile/Profile";
+import { ACCESSORY_LIST, MODEL_LIST } from "~/features/profile/Profile";
+import type {
+	Accessory,
+	CharacterSetting,
+	Model,
+} from "~/features/profile/Profile";
 
 interface ModelConfigProps {
 	characterSetting: CharacterSetting;
 	onModelSelect?: (model: Model) => void;
+	onAccessorySelect?: (accessory: Accessory) => void;
 }
 
 export function ModelConfig({
 	characterSetting,
 	onModelSelect,
+	onAccessorySelect,
 }: ModelConfigProps) {
 	return (
 		<div className="mx-auto w-full max-w-screen-sm sm:px-4">
@@ -23,6 +29,21 @@ export function ModelConfig({
 							onChange={() => onModelSelect?.(model)}
 						/>
 						<span>{model}</span>
+					</label>
+				))}
+			</div>
+
+			<div className="flex justify-between">
+				{ACCESSORY_LIST.map((accessory) => (
+					<label key={accessory}>
+						<input
+							type="radio"
+							name="accessory"
+							value={accessory}
+							checked={accessory === characterSetting.accessory}
+							onChange={() => onAccessorySelect?.(accessory)}
+						/>
+						<span>{accessory}</span>
 					</label>
 				))}
 			</div>
