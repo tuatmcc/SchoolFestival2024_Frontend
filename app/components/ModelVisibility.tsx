@@ -24,6 +24,10 @@ export function getMeshVisibility() {
 	const updateVisibility = useCallback((key: string, value: boolean) => {
 		if (instanceRef.current) {
 			instanceRef.current[key] = value; // 値を更新
+			if (key === "goggle") {
+				// googleとgoggle_1の同時操作
+				instanceRef.current.goggle_1 = value;
+			}
 			setVisibility({ ...instanceRef.current }); // 状態を更新
 		}
 	}, []);
