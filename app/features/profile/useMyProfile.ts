@@ -44,7 +44,7 @@ export function useMyProfile(): UseMyProfile {
 
 			if (!rawProfile) return null;
 
-			const characterSetting = convertCharacterSetting(
+			const characterSetting = deserializeCharacterSetting(
 				rawProfile.character_setting,
 			);
 
@@ -75,6 +75,9 @@ export function useMyProfile(): UseMyProfile {
 				.from("profiles")
 				.update({
 					display_name: profile.displayName,
+					character_setting: serializeCharacterSetting(
+						profile.characterSetting,
+					),
 				})
 				.eq("user_id", userId)
 				.select("user_id, display_name")
@@ -107,7 +110,7 @@ export function useMyProfile(): UseMyProfile {
 	};
 }
 
-const CharacterSettingSchema = v.object({
+const DeserializeCharacterSettingSchema = v.object({
 	character: v.pipe(
 		v.number(),
 		v.minValue(0),
@@ -124,8 +127,33 @@ const CharacterSettingSchema = v.object({
 	hair: v.pipe(v.string(), v.hexColor()),
 });
 
-function convertCharacterSetting(raw: Json): CharacterSetting {
-	const result = v.parse(CharacterSettingSchema, raw);
+const SerializeCharacterSettingSchema = v.object({
+	character: v.pipe(
+		v.string(),
+		v.transform((x) => (MODEL_LIST as unknown as string[]).indexOf(x)),
+		v.minValue(0),
+	),
+	costume: v.pipe(v.number(), v.minValue(0), v.maxValue(2)),
+	accessory: v.pipe(
+		v.string(),
+		v.transform((x) => (ACCESSORY_LIST as unknown as string[]).indexOf(x)),
+		v.minValue(0),
+	),
+	hair: v.pipe(v.string(), v.hexColor()),
+});
+
+function deserializeCharacterSetting(raw: Json): CharacterSetting {
+	const result = v.parse(DeserializeCharacterSettingSchema, raw);
+
+	return result;
+}
+
+function serializeCharacterSetting(
+	setting?: CharacterSetting,
+): Json | undefined {
+	if (!setting) return undefined;
+
+	const result = v.parse(SerializeCharacterSettingSchema, setting);
 
 	return result;
 }

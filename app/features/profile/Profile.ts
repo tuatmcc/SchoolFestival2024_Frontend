@@ -35,5 +35,5 @@ export interface Profile {
 }
 
 export type UpdateProfileBody = {
-	profile: Partial<Pick<Profile, "displayName">>;
+	profile: Partial<Pick<Profile, "displayName" | "characterSetting">>;
 };
