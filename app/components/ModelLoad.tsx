@@ -62,21 +62,12 @@ function useCharacterSetting(setting: CharacterSetting) {
 	return scene;
 }
 
-function Model({
-	path,
-	colorMap,
-	meshVisibility,
-}: {
-	path: string;
-	colorMap: { [key: string]: string };
-	meshVisibility: { [key: string]: boolean };
-}): ReactNode {
-	const scene = useCharacterSetting({
-		character: "jiraichan",
-		costume: 0,
-		accessory: "glasses",
-		hair: "#333333",
-	});
+interface ModelProps {
+	characterSetting: CharacterSetting;
+}
+
+function Model({ characterSetting }: ModelProps): ReactNode {
+	const scene = useCharacterSetting(characterSetting);
 
 	return (
 		// グループとしてシーンをレンダリング
@@ -87,18 +78,7 @@ function Model({
 	);
 }
 
-// 3Dモデルビューアーコンポーネント
-// モデルのパスを受け取って、それを表示する
-type ModelViewerProps = {
-	modelPath: string; // モデルのパス
-	colorMap: { [key: string]: string }; // 部位ごとの色マップ
-	meshVisibility: { [key: string]: boolean }; // 部位ごとの表示非表示
-};
-export function ModelViewer({
-	modelPath,
-	colorMap,
-	meshVisibility,
-}: ModelViewerProps): ReactNode {
+export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 	return (
 		<Canvas
 			className="aspect-square h-auto w-full sm:max-h-[50dvh]"
@@ -113,11 +93,7 @@ export function ModelViewer({
 			{/* 環境を設定*/}
 			<Environment preset="lobby" />
 			{/* GLBモデルの読み込みと表示 */}
-			<Model
-				path={modelPath}
-				colorMap={colorMap}
-				meshVisibility={meshVisibility}
-			/>
+			<Model characterSetting={characterSetting} />
 			{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
 			<OrbitControls
 				enableZoom={false}
