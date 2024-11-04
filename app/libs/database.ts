@@ -173,6 +173,7 @@ export type Database = {
     Views: {
       profiles_with_stats: {
         Row: {
+          character_setting: Json | null
           created_at: string | null
           display_name: string | null
           high_score: number | null

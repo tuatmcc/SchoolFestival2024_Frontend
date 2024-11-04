@@ -1,6 +1,14 @@
 import { useCallback } from "react";
 import useSWR from "swr";
-import type { Profile, UpdateProfileBody } from "~/features/profile/Profile";
+import * as v from "valibot";
+import {
+	ACCESSORY_LIST,
+	type CharacterSetting,
+	MODEL_LIST,
+	type Profile,
+	type UpdateProfileBody,
+} from "~/features/profile/Profile";
+import type { Json } from "~/libs/database";
 import { supabase } from "~/libs/supabase";
 import { useSession } from "../../hooks/useSession";
 
@@ -27,12 +35,18 @@ export function useMyProfile(): UseMyProfile {
 
 			const { data: rawProfile } = await supabase
 				.from("profiles_with_stats")
-				.select("user_id, display_name, high_score, play_count, rank")
+				.select(
+					"user_id, display_name, high_score, play_count, rank, character_setting",
+				)
 				.eq("user_id", userId)
 				.limit(1)
 				.single();
 
 			if (!rawProfile) return null;
+
+			const characterSetting = deserializeCharacterSetting(
+				rawProfile.character_setting,
+			);
 
 			const profile: Profile = {
 				id: rawProfile.user_id,
@@ -40,6 +54,7 @@ export function useMyProfile(): UseMyProfile {
 				playCount: rawProfile.play_count,
 				highScore: rawProfile.high_score,
 				rank: rawProfile.rank,
+				characterSetting,
 			};
 
 			return profile;
@@ -60,6 +75,9 @@ export function useMyProfile(): UseMyProfile {
 				.from("profiles")
 				.update({
 					display_name: profile.displayName,
+					character_setting: serializeCharacterSetting(
+						profile.characterSetting,
+					),
 				})
 				.eq("user_id", userId)
 				.select("user_id, display_name")
@@ -90,4 +108,52 @@ export function useMyProfile(): UseMyProfile {
 
 		updateMyProfile,
 	};
+}
+
+const DeserializeCharacterSettingSchema = v.object({
+	character: v.pipe(
+		v.number(),
+		v.minValue(0),
+		v.maxValue(MODEL_LIST.length - 1),
+		v.transform((x) => MODEL_LIST[x]),
+	),
+	costume: v.pipe(v.number(), v.minValue(0), v.maxValue(2)),
+	accessory: v.pipe(
+		v.number(),
+		v.minValue(0),
+		v.maxValue(ACCESSORY_LIST.length - 1),
+		v.transform((x) => ACCESSORY_LIST[x]),
+	),
+	hair: v.pipe(v.string(), v.hexColor()),
+});
+
+const SerializeCharacterSettingSchema = v.object({
+	character: v.pipe(
+		v.string(),
+		v.transform((x) => (MODEL_LIST as unknown as string[]).indexOf(x)),
+		v.minValue(0),
+	),
+	costume: v.pipe(v.number(), v.minValue(0), v.maxValue(2)),
+	accessory: v.pipe(
+		v.string(),
+		v.transform((x) => (ACCESSORY_LIST as unknown as string[]).indexOf(x)),
+		v.minValue(0),
+	),
+	hair: v.pipe(v.string(), v.hexColor()),
+});
+
+function deserializeCharacterSetting(raw: Json): CharacterSetting {
+	const result = v.parse(DeserializeCharacterSettingSchema, raw);
+
+	return result;
+}
+
+function serializeCharacterSetting(
+	setting?: CharacterSetting,
+): Json | undefined {
+	if (!setting) return undefined;
+
+	const result = v.parse(SerializeCharacterSettingSchema, setting);
+
+	return result;
 }

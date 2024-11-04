@@ -17,6 +17,12 @@ export const Default: StoryObj<typeof ProfileCard> = {
 			playCount: 10,
 			highScore: 1234,
 			rank: 3,
+			characterSetting: {
+				character: "jiraichan",
+				accessory: "none",
+				costume: 0,
+				hair: "#333333",
+			},
 		},
 	},
 };
@@ -29,6 +35,12 @@ export const NoPlay: StoryObj<typeof ProfileCard> = {
 			playCount: 0,
 			highScore: null,
 			rank: null,
+			characterSetting: {
+				character: "jiraichan",
+				accessory: "none",
+				costume: 0,
+				hair: "#333333",
+			},
 		},
 	},
 };
@@ -42,6 +54,12 @@ export const LongName: StoryObj<typeof ProfileCard> = {
 			playCount: 10,
 			highScore: 1234,
 			rank: 3,
+			characterSetting: {
+				character: "jiraichan",
+				accessory: "none",
+				costume: 0,
+				hair: "#333333",
+			},
 		},
 	},
 };
