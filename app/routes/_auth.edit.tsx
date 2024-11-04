@@ -15,12 +15,8 @@ export default function Page(): ReactNode {
 	const { meshColor, updateVisibility: updateColor } = getMeshColor();
 
 	return (
-		<div
-			className="min-h-dvh w-full p-4"
-			style={{ viewTransitionName: "main" }}
-		>
-			<main className="mx-auto grid w-full max-w-screen-sm gap-y-4">
-				<Heading>キャラ編集</Heading>
+		<div className="min-h-dvh w-full" style={{ viewTransitionName: "main" }}>
+			<main className="grid w-full gap-y-4">
 				<ModelViewer
 					modelPath={modelPath}
 					colorMap={meshColor}

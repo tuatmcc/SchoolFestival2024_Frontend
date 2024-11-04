@@ -55,7 +55,7 @@ export function ModelConfig({
 	];
 
 	return (
-		<div>
+		<div className="mx-auto w-full max-w-screen-sm sm:px-4">
 			{/* モデル選択ボタン */}
 			<div
 				id="model-list-container"

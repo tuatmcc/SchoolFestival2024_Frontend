@@ -2,7 +2,7 @@ import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { type ReactNode, useEffect, useRef } from "react";
 import type { Group, MeshStandardMaterial } from "three";
-import type * as THREE from "three";
+import * as THREE from "three";
 
 function Model({
 	path,
@@ -68,29 +68,31 @@ export function ModelViewer({
 	meshVisibility,
 }: ModelViewerProps): ReactNode {
 	return (
-		<div>
-			{/* 3Dモデルを表示するためのCanvasエリア */}
-			<div style={{ height: "60vh" }}>
-				<Canvas
-					camera={{
-						position: [0, 0, 4],
-						fov: 30,
-					}} // カメラの初期位置と視野角を設定
-				>
-					{/* 環境を設定*/}
-					<Environment preset="lobby" />
-					{/* 環境光を追加（全体的に均一な光を当てる） */}
-					{/* <ambientLight intensity={0.5} /> */}
-					{/* GLBモデルの読み込みと表示 */}
-					<Model
-						path={modelPath}
-						colorMap={colorMap}
-						meshVisibility={meshVisibility}
-					/>
-					{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
-					<OrbitControls makeDefault />
-				</Canvas>
-			</div>
-		</div>
+		<Canvas
+			className="aspect-square h-auto w-full sm:max-h-[50dvh]"
+			scene={{
+				background: new THREE.Color(0xffffff),
+			}}
+			camera={{
+				position: [0, 0, 2],
+				fov: 30,
+			}} // カメラの初期位置と視野角を設定
+		>
+			{/* 環境を設定*/}
+			<Environment preset="lobby" />
+			{/* GLBモデルの読み込みと表示 */}
+			<Model
+				path={modelPath}
+				colorMap={colorMap}
+				meshVisibility={meshVisibility}
+			/>
+			{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
+			<OrbitControls
+				enableZoom={false}
+				enablePan={false}
+				minPolarAngle={(Math.PI / 5) * 2}
+				maxPolarAngle={(Math.PI / 5) * 2}
+			/>
+		</Canvas>
 	);
 }
