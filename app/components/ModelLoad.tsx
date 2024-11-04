@@ -3,6 +3,64 @@ import { Canvas } from "@react-three/fiber";
 import { type ReactNode, useEffect, useRef } from "react";
 import type { Group, MeshStandardMaterial } from "three";
 import * as THREE from "three";
+import type { Accessory, CharacterSetting } from "~/features/profile/Profile";
+
+const HAIR_MESH_NAMES = [
+	"hairear",
+	"hairback",
+	"hairfront",
+	"hairtail",
+	"hairsid",
+	"hair",
+] as const;
+type HairMeshName = (typeof HAIR_MESH_NAMES)[number];
+
+const ACCESSORY_METH_NAMES = [
+	"accessoryeyepatch",
+	"accessoryglasses",
+	"goggle",
+	"goggle_1",
+	"accessoryhalo",
+] as const;
+type AccessoryMeshName = (typeof ACCESSORY_METH_NAMES)[number];
+
+const ACCESSORY_MAP: Record<Accessory, AccessoryMeshName[]> = {
+	none: [],
+	eyepatch: ["accessoryeyepatch"],
+	glasses: ["accessoryglasses"],
+	goggle: ["goggle", "goggle_1"],
+	halo: ["accessoryhalo"],
+};
+
+function useCharacterSetting(setting: CharacterSetting) {
+	const modelPath = `/models/web_${setting.character}.glb`;
+
+	const { scene } = useGLTF(modelPath);
+	useEffect(() => {
+		scene.traverse((child) => {
+			if (!(child as THREE.Mesh).isMesh) return;
+			const mesh = child as THREE.Mesh;
+
+			// アクセサリーのmeshは基本非表示
+			if (ACCESSORY_METH_NAMES.includes(mesh.name as AccessoryMeshName)) {
+				mesh.visible = false;
+			}
+			// アクセサリーのmeshのうち、設定されたアクセサリーに対応するものだけ表示
+			const visibleAccessoryMeshNames = ACCESSORY_MAP[setting.accessory];
+			if (visibleAccessoryMeshNames.includes(mesh.name as AccessoryMeshName)) {
+				mesh.visible = true;
+			}
+
+			// 髪のmeshの場合は色を設定
+			if (HAIR_MESH_NAMES.includes(mesh.name as HairMeshName)) {
+				const material = mesh.material as MeshStandardMaterial;
+				material.color.set(setting.hair);
+			}
+		});
+	}, [scene, setting]);
+
+	return scene;
+}
 
 function Model({
 	path,
@@ -13,42 +71,16 @@ function Model({
 	colorMap: { [key: string]: string };
 	meshVisibility: { [key: string]: boolean };
 }): ReactNode {
-	const { scene } = useGLTF(path);
-	// モデルのグループ（オブジェクト全体）にアクセスするための参照を作成
-	const groupRef = useRef<Group>(null);
-
-	useEffect(() => {
-		scene.traverse((child: THREE.Object3D) => {
-			if ((child as THREE.Mesh).isMesh) {
-				const mesh = child as THREE.Mesh;
-
-				// メッシュ名をコンソールに出力
-				// console.log("Mesh name:", mesh.name);
-
-				// 部位名がmeshVisibilityのキーに一致する場合に表示非表示を設定
-				if (
-					Object.hasOwn(meshVisibility, mesh.name) &&
-					!meshVisibility[mesh.name]
-				) {
-					mesh.visible = false;
-					return;
-				}
-
-				mesh.visible = true;
-
-				const material = mesh.material as MeshStandardMaterial;
-
-				// 部位名がcolorMapのキーに一致する場合に色を設定
-				if (Object.hasOwn(colorMap, mesh.name)) {
-					material.color.set(colorMap[mesh.name]);
-				}
-			}
-		});
-	}, [scene, colorMap, meshVisibility]);
+	const scene = useCharacterSetting({
+		character: "jiraichan",
+		costume: 0,
+		accessory: "glasses",
+		hair: "#333333",
+	});
 
 	return (
 		// グループとしてシーンをレンダリング
-		<group ref={groupRef} position={[0, -0.5, 0]}>
+		<group position={[0, -0.5, 0]}>
 			{/* モデルのプリミティブ（生のオブジェクト）を表示 */}
 			<primitive object={scene} />
 		</group>
