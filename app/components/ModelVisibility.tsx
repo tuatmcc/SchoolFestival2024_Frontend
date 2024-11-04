@@ -15,7 +15,7 @@ export function getMeshVisibility() {
 			accessoryglasses: false,
 			goggle: false,
 			goggle_1: false,
-			accessorymask: false,
+			accessoryhalo: false,
 		};
 		setVisibility(instanceRef.current); // 状態を更新
 		return instanceRef.current;
