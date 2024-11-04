@@ -83,7 +83,6 @@ interface SelectedProps {
 	index: number;
 }
 
-// セレクトボタン
 function Selected({ length, index }: SelectedProps): ReactNode {
 	return (
 		<div>
