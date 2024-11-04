@@ -52,7 +52,7 @@ export function ModelConfig({
 		"accessoryglasses",
 		"goggle",
 		"goggle_1",
-		"accessorymask",
+		"accessoryhalo",
 	];
 
 	return (
