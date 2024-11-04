@@ -51,7 +51,6 @@ export function ModelConfig({
 		"accessoryeyepatch",
 		"accessoryglasses",
 		"goggle",
-		"goggle_1",
 		"accessoryhalo",
 	];
 
