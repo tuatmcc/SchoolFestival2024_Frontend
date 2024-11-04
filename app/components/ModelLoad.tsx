@@ -78,9 +78,9 @@ export function ModelViewer({
 					}} // カメラの初期位置と視野角を設定
 				>
 					{/* 環境を設定*/}
-					<Environment preset="studio" />
+					<Environment preset="lobby" />
 					{/* 環境光を追加（全体的に均一な光を当てる） */}
-					<ambientLight intensity={0.5} />
+					{/* <ambientLight intensity={0.5} /> */}
 					{/* GLBモデルの読み込みと表示 */}
 					<Model
 						path={modelPath}
