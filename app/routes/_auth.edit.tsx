@@ -25,6 +25,13 @@ export default function Page(): ReactNode {
 		});
 	};
 
+	const handleHairColorChange = (color: string) => {
+		updateCharacterSetting({
+			...myProfile.characterSetting,
+			hair: color,
+		});
+	};
+
 	return (
 		<div className="min-h-dvh w-full" style={{ viewTransitionName: "main" }}>
 			<main className="grid w-full gap-y-4">
@@ -33,6 +40,7 @@ export default function Page(): ReactNode {
 					characterSetting={myProfile.characterSetting}
 					onModelSelect={handleModelSelect}
 					onAccessorySelect={handleAccessorySelect}
+					onHairColorChange={handleHairColorChange}
 				/>
 			</main>
 		</div>

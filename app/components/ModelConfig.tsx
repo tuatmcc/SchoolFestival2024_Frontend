@@ -9,43 +9,65 @@ interface ModelConfigProps {
 	characterSetting: CharacterSetting;
 	onModelSelect?: (model: Model) => void;
 	onAccessorySelect?: (accessory: Accessory) => void;
+	onHairColorChange?: (color: string) => void;
 }
 
 export function ModelConfig({
 	characterSetting,
 	onModelSelect,
 	onAccessorySelect,
+	onHairColorChange,
 }: ModelConfigProps) {
 	return (
-		<div className="mx-auto w-full max-w-screen-sm sm:px-4">
-			<div className="flex justify-between">
-				{MODEL_LIST.map((model) => (
-					<label key={model}>
-						<input
-							type="radio"
-							name="model"
-							value={model}
-							checked={model === characterSetting.character}
-							onChange={() => onModelSelect?.(model)}
-						/>
-						<span>{model}</span>
-					</label>
-				))}
+		<div className="mx-auto grid w-full max-w-screen-sm gap-y-4 px-4">
+			<div className="flex gap-4">
+				<span className="flex-shrink-0">モデル:</span>
+				<div className="flex flex-grow flex-wrap justify-between gap-2">
+					{MODEL_LIST.map((model) => (
+						<label key={model}>
+							<input
+								type="radio"
+								name="model"
+								value={model}
+								checked={model === characterSetting.character}
+								onChange={() => onModelSelect?.(model)}
+							/>
+							<span>{model}</span>
+						</label>
+					))}
+				</div>
 			</div>
 
-			<div className="flex justify-between">
-				{ACCESSORY_LIST.map((accessory) => (
-					<label key={accessory}>
-						<input
-							type="radio"
-							name="accessory"
-							value={accessory}
-							checked={accessory === characterSetting.accessory}
-							onChange={() => onAccessorySelect?.(accessory)}
-						/>
-						<span>{accessory}</span>
-					</label>
-				))}
+			<div className="flex gap-4">
+				<span className="flex-shrink-0">アクセサリー:</span>
+				<div className="flex flex-grow flex-wrap justify-between gap-2">
+					{ACCESSORY_LIST.map((accessory) => (
+						<label key={accessory}>
+							<input
+								type="radio"
+								name="accessory"
+								value={accessory}
+								checked={accessory === characterSetting.accessory}
+								onChange={() => onAccessorySelect?.(accessory)}
+							/>
+							<span>{accessory}</span>
+						</label>
+					))}
+				</div>
+			</div>
+
+			<div>
+				<label className="flex gap-4">
+					<span className="flex-shrink-0">髪の色:</span>
+					<input
+						type="color"
+						value={characterSetting.hair}
+						onChange={(e) => {
+							// TODO: 色の更新処理が頻繁に呼び出されてしまうため、debounceする
+							onHairColorChange?.(e.target.value);
+						}}
+					/>
+				</label>
 			</div>
 
 			{/* モデル選択ボタン */}
