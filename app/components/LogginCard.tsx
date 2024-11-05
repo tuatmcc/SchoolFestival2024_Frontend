@@ -12,17 +12,10 @@ export interface LogginCardProps extends ComponentPropsWithRef<"div"> {
 export const LogginCard = forwardRef<HTMLDivElement, LogginCardProps>(
 	({ className }) => {
 		return (
-			<Card
-				className={cn(
-					"flex flex-col items-center gap-y-4 p-4 text-[24px]",
-					className,
-				)}
-			>
-				<h1 className={cn(className)}>名前を入力して登録！</h1>
-				<Input placeholder="名前" className={cn("text-[16px]", className)} />
-				<Button type="submit" className={cn("text-[16px]", className)}>
-					登録
-				</Button>
+			<Card className={cn("flex flex-col items-center gap-y-4 p-4", className)}>
+				<h1 className={"text-2xl drop-shadow-base"}>名前を入力して登録！</h1>
+				<Input placeholder="名前" />
+				<Button type="submit">登録</Button>
 			</Card>
 		);
 	},
