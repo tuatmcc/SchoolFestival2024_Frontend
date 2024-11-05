@@ -33,7 +33,3 @@ export interface Profile {
 	rank: number | null;
 	characterSetting: CharacterSetting;
 }
-
-export type UpdateProfileBody = {
-	profile: Partial<Pick<Profile, "displayName" | "characterSetting">>;
-};

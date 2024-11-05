@@ -1,96 +1,136 @@
-import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
+import { OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { type ReactNode, useEffect, useRef } from "react";
 import type { Group, MeshStandardMaterial } from "three";
-import type * as THREE from "three";
+import * as THREE from "three";
+import type { Accessory, CharacterSetting } from "~/features/profile/Profile";
 
-function Model({
-	path,
-	colorMap,
-	meshVisibility,
-}: {
-	path: string;
-	colorMap: { [key: string]: string };
-	meshVisibility: { [key: string]: boolean };
-}): ReactNode {
-	const { scene } = useGLTF(path);
-	// モデルのグループ（オブジェクト全体）にアクセスするための参照を作成
-	const groupRef = useRef<Group>(null);
+const HAIR_MESH_NAMES = [
+	"hairear",
+	"hairback",
+	"hairfront",
+	"hairtail",
+	"hairside",
+	"hairsid",
+	"hair",
+] as const;
+type HairMeshName = (typeof HAIR_MESH_NAMES)[number];
+
+const ACCESSORY_METH_NAMES = [
+	"accessoryeyepatch",
+	"accessoryglasses",
+	"goggle",
+	"goggle_1",
+	"accessoryhalo",
+] as const;
+type AccessoryMeshName = (typeof ACCESSORY_METH_NAMES)[number];
+
+const ACCESSORY_MAP: Record<Accessory, AccessoryMeshName[]> = {
+	none: [],
+	eyepatch: ["accessoryeyepatch"],
+	glasses: ["accessoryglasses"],
+	goggle: ["goggle", "goggle_1"],
+	halo: ["accessoryhalo"],
+};
+
+function useCharacterSetting(setting: CharacterSetting) {
+	const modelPath = `/models/web_${setting.character}.glb`;
+
+	const { scene } = useGLTF(modelPath);
 
 	useEffect(() => {
-		scene.traverse((child: THREE.Object3D) => {
-			if ((child as THREE.Mesh).isMesh) {
-				const mesh = child as THREE.Mesh;
+		const threeTone = new THREE.TextureLoader().load("/assets/threeTone.jpg");
+		threeTone.minFilter = THREE.NearestFilter;
+		threeTone.magFilter = THREE.NearestFilter;
 
-				// メッシュ名をコンソールに出力
-				// console.log("Mesh name:", mesh.name);
+		scene.traverse((child) => {
+			if (!(child as THREE.Mesh).isMesh) return;
+			const mesh = child as THREE.Mesh;
+			const oldMaterial = mesh.material as MeshStandardMaterial;
+			const newMaterial = new THREE.MeshToonMaterial({
+				name: oldMaterial.name,
+				color: oldMaterial.color,
+				gradientMap: threeTone,
+				map: oldMaterial.map,
+				emissive: oldMaterial.emissive,
+				emissiveIntensity: oldMaterial.emissiveIntensity,
+				emissiveMap: oldMaterial.emissiveMap,
+			});
+			mesh.material = newMaterial;
+		});
+	}, [scene]);
 
-				// 部位名がmeshVisibilityのキーに一致する場合に表示非表示を設定
-				if (
-					Object.hasOwn(meshVisibility, mesh.name) &&
-					!meshVisibility[mesh.name]
-				) {
-					mesh.visible = false;
-					return;
-				}
+	useEffect(() => {
+		scene.traverse((child) => {
+			if (!(child as THREE.Mesh).isMesh) return;
+			const mesh = child as THREE.Mesh;
 
+			// アクセサリーのmeshは基本非表示
+			if (ACCESSORY_METH_NAMES.includes(mesh.name as AccessoryMeshName)) {
+				mesh.visible = false;
+			}
+			// アクセサリーのmeshのうち、設定されたアクセサリーに対応するものだけ表示
+			const visibleAccessoryMeshNames = ACCESSORY_MAP[setting.accessory];
+			if (visibleAccessoryMeshNames.includes(mesh.name as AccessoryMeshName)) {
 				mesh.visible = true;
+			}
 
+			// 髪のmeshの場合は色を設定
+			if (HAIR_MESH_NAMES.includes(mesh.name as HairMeshName)) {
 				const material = mesh.material as MeshStandardMaterial;
-
-				// 部位名がcolorMapのキーに一致する場合に色を設定
-				if (Object.hasOwn(colorMap, mesh.name)) {
-					material.color.set(colorMap[mesh.name]);
-				}
+				material.color.set(setting.hair);
 			}
 		});
-	}, [scene, colorMap, meshVisibility]);
+	}, [scene, setting]);
+
+	return scene;
+}
+
+interface ModelProps {
+	characterSetting: CharacterSetting;
+}
+
+function Model({ characterSetting }: ModelProps): ReactNode {
+	const scene = useCharacterSetting(characterSetting);
 
 	return (
 		// グループとしてシーンをレンダリング
-		<group ref={groupRef} position={[0, -0.5, 0]}>
+		<group position={[0, -0.5, 0]}>
 			{/* モデルのプリミティブ（生のオブジェクト）を表示 */}
 			<primitive object={scene} />
 		</group>
 	);
 }
 
-// 3Dモデルビューアーコンポーネント
-// モデルのパスを受け取って、それを表示する
-type ModelViewerProps = {
-	modelPath: string; // モデルのパス
-	colorMap: { [key: string]: string }; // 部位ごとの色マップ
-	meshVisibility: { [key: string]: boolean }; // 部位ごとの表示非表示
-};
-export function ModelViewer({
-	modelPath,
-	colorMap,
-	meshVisibility,
-}: ModelViewerProps): ReactNode {
+export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 	return (
-		<div>
-			{/* 3Dモデルを表示するためのCanvasエリア */}
-			<div style={{ height: "60vh" }}>
-				<Canvas
-					camera={{
-						position: [0, 0, 4],
-						fov: 30,
-					}} // カメラの初期位置と視野角を設定
-				>
-					{/* 環境を設定*/}
-					<Environment preset="lobby" />
-					{/* 環境光を追加（全体的に均一な光を当てる） */}
-					{/* <ambientLight intensity={0.5} /> */}
-					{/* GLBモデルの読み込みと表示 */}
-					<Model
-						path={modelPath}
-						colorMap={colorMap}
-						meshVisibility={meshVisibility}
-					/>
-					{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
-					<OrbitControls makeDefault />
-				</Canvas>
-			</div>
-		</div>
+		<Canvas
+			className="aspect-square h-auto w-full sm:max-h-[50dvh]"
+			scene={{
+				background: new THREE.Color("#000000"),
+			}}
+			camera={{
+				position: [0, 0, 2],
+				fov: 30,
+			}} // カメラの初期位置と視野角を設定
+		>
+			{/* ライトを設定 */}
+			<ambientLight />
+			<directionalLight position={[6, 5, 5]} intensity={1} />
+			{/* ポストプロセッシング */}
+			<EffectComposer>
+				<Bloom intensity={1} luminanceThreshold={1} radius={0.8} mipmapBlur />
+			</EffectComposer>
+			{/* GLBモデルの読み込みと表示 */}
+			<Model characterSetting={characterSetting} />
+			{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
+			<OrbitControls
+				enableZoom={false}
+				enablePan={false}
+				minPolarAngle={(Math.PI / 5) * 2}
+				maxPolarAngle={(Math.PI / 5) * 2}
+			/>
+		</Canvas>
 	);
 }

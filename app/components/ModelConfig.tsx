@@ -1,63 +1,77 @@
-import { useEffect, useState } from "react";
+import { ACCESSORY_LIST, MODEL_LIST } from "~/features/profile/Profile";
+import type {
+	Accessory,
+	CharacterSetting,
+	Model,
+} from "~/features/profile/Profile";
 
-interface ModelListProps {
-	onModelSelect: (modelPath: string) => void;
-	updateVisibility: (key: string, value: boolean) => void;
-	updateColor: (key: string, value: string) => void;
+interface ModelConfigProps {
+	characterSetting: CharacterSetting;
+	onModelSelect?: (model: Model) => void;
+	onAccessorySelect?: (accessory: Accessory) => void;
+	onHairColorChange?: (color: string) => void;
 }
 
 export function ModelConfig({
+	characterSetting,
 	onModelSelect,
-	updateVisibility,
-	updateColor,
-}: ModelListProps) {
-	const [models, setModels] = useState<string[]>([]);
-	const [containerWidth, setContainerWidth] = useState(0);
-	const [selectedColors, setSelectedColors] = useState<Record<string, string>>(
-		{},
-	);
-
-	useEffect(() => {
-		const fetchModels = async () => {
-			const modelFiles = [
-				"/models/web_asuka.glb",
-				"/models/web_jiraichan.glb",
-				"/models/web_kaiju.glb",
-				"/models/web_necochan.glb",
-				"/models/web_sushong.glb",
-			];
-			setModels(modelFiles);
-		};
-
-		fetchModels();
-
-		const updateContainerWidth = () => {
-			const containerRef = document.getElementById("model-list-container");
-			if (containerRef) {
-				setContainerWidth(containerRef.offsetWidth);
-			}
-		};
-
-		updateContainerWidth();
-		window.addEventListener("resize", updateContainerWidth);
-
-		return () => window.removeEventListener("resize", updateContainerWidth);
-	}, []);
-
-	// ボタンの幅を計算
-	const buttonWidth = `${Math.floor(containerWidth / models.length) - 16}px`;
-	// 表示非表示のキー
-	const visibilityKeys = [
-		"accessoryeyepatch",
-		"accessoryglasses",
-		"goggle",
-		"accessoryhalo",
-	];
-
+	onAccessorySelect,
+	onHairColorChange,
+}: ModelConfigProps) {
 	return (
-		<div>
+		<div className="mx-auto grid w-full max-w-screen-sm gap-y-4 px-4">
+			<div className="flex gap-4">
+				<span className="flex-shrink-0">モデル:</span>
+				<div className="flex flex-grow flex-wrap justify-between gap-2">
+					{MODEL_LIST.map((model) => (
+						<label key={model}>
+							<input
+								type="radio"
+								name="model"
+								value={model}
+								checked={model === characterSetting.character}
+								onChange={() => onModelSelect?.(model)}
+							/>
+							<span>{model}</span>
+						</label>
+					))}
+				</div>
+			</div>
+
+			<div className="flex gap-4">
+				<span className="flex-shrink-0">アクセサリー:</span>
+				<div className="flex flex-grow flex-wrap justify-between gap-2">
+					{ACCESSORY_LIST.map((accessory) => (
+						<label key={accessory}>
+							<input
+								type="radio"
+								name="accessory"
+								value={accessory}
+								checked={accessory === characterSetting.accessory}
+								onChange={() => onAccessorySelect?.(accessory)}
+							/>
+							<span>{accessory}</span>
+						</label>
+					))}
+				</div>
+			</div>
+
+			<div>
+				<label className="flex gap-4">
+					<span className="flex-shrink-0">髪の色:</span>
+					<input
+						type="color"
+						value={characterSetting.hair}
+						onChange={(e) => {
+							// TODO: 色の更新処理が頻繁に呼び出されてしまうため、debounceする
+							onHairColorChange?.(e.target.value);
+						}}
+					/>
+				</label>
+			</div>
+
 			{/* モデル選択ボタン */}
-			<div
+			{/* <div
 				id="model-list-container"
 				className="mb-4 flex flex-wrap justify-center space-x-2"
 			>
@@ -72,9 +86,9 @@ export function ModelConfig({
 						{model.split("/").pop()?.split("_")[1].split(".")[0]}
 					</button>
 				))}
-			</div>
+			</div> */}
 			{/* 表示非表示ボタン */}
-			<div className="flex flex-col items-center">
+			{/* <div className="flex flex-col items-center">
 				{visibilityKeys.map((key) => (
 					<div key={key} className="flex items-center space-x-2">
 						<span>{key}</span>
@@ -94,9 +108,9 @@ export function ModelConfig({
 						</button>
 					</div>
 				))}
-			</div>
+			</div> */}
 			{/* 色変更ボタン */}
-			<div className="flex items-center justify-center space-x-2">
+			{/* <div className="flex items-center justify-center space-x-2">
 				<span className="font-medium">Hair Color:</span>
 				<input
 					type="color"
@@ -108,7 +122,7 @@ export function ModelConfig({
 					className="h-8 w-8 cursor-pointer rounded border border-gray-300"
 					title="髪の色を変更"
 				/>
-			</div>
+			</div> */}
 		</div>
 	);
 }

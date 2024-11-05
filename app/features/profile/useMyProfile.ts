@@ -1,13 +1,8 @@
 import { useCallback } from "react";
 import useSWR from "swr";
 import * as v from "valibot";
-import {
-	ACCESSORY_LIST,
-	type CharacterSetting,
-	MODEL_LIST,
-	type Profile,
-	type UpdateProfileBody,
-} from "~/features/profile/Profile";
+import { ACCESSORY_LIST, MODEL_LIST } from "~/features/profile/Profile";
+import type { CharacterSetting, Profile } from "~/features/profile/Profile";
 import type { Json } from "~/libs/database";
 import { supabase } from "~/libs/supabase";
 import { useSession } from "../../hooks/useSession";
@@ -17,7 +12,8 @@ interface UseMyProfile {
 	error: unknown;
 	isValidating: boolean;
 
-	updateMyProfile: (params: UpdateProfileBody) => Promise<void>;
+	updateDisplayName: (displayName: string) => Promise<void>;
+	updateCharacterSetting: (setting: CharacterSetting) => Promise<void>;
 }
 
 export function useMyProfile(): UseMyProfile {
@@ -66,37 +62,78 @@ export function useMyProfile(): UseMyProfile {
 		},
 	);
 
-	const updateMyProfile = useCallback(
-		async ({ profile }: UpdateProfileBody) => {
+	const updateDisplayName = useCallback(
+		async (displayName: string) => {
 			if (!session) throw new Error("Can't update profile without session");
 			const userId = session.user.id;
 
-			const { data: newProfile } = await supabase
-				.from("profiles")
-				.update({
-					display_name: profile.displayName,
-					character_setting: serializeCharacterSetting(
-						profile.characterSetting,
+			const mutation = async (
+				prev: Profile | null | undefined,
+			): Promise<Profile | undefined> => {
+				const { data: newProfile } = await supabase
+					.from("profiles")
+					.update({
+						display_name: displayName,
+					})
+					.eq("user_id", userId)
+					.select("user_id, display_name")
+					.single();
+
+				if (!newProfile) throw new Error("Failed to update profile");
+
+				if (!prev) return;
+				return {
+					...prev,
+					id: newProfile.user_id,
+					displayName: newProfile.display_name,
+				};
+			};
+
+			mutate(mutation, { revalidate: false });
+		},
+		[mutate, session],
+	);
+
+	const updateCharacterSetting = useCallback(
+		async (setting: CharacterSetting) => {
+			if (!session) throw new Error("Can't update profile without session");
+			const userId = session.user.id;
+
+			const mutation = async (
+				prev: Profile | null | undefined,
+			): Promise<Profile | undefined> => {
+				const { data: newProfile } = await supabase
+					.from("profiles")
+					.update({
+						character_setting: serializeCharacterSetting(setting),
+					})
+					.eq("user_id", userId)
+					.select("user_id, character_setting")
+					.single();
+
+				if (!newProfile) throw new Error("Failed to update profile");
+
+				if (!prev) return;
+				return {
+					...prev,
+					id: newProfile.user_id,
+					characterSetting: deserializeCharacterSetting(
+						newProfile.character_setting,
 					),
-				})
-				.eq("user_id", userId)
-				.select("user_id, display_name")
-				.single();
+				};
+			};
 
-			if (!newProfile) throw new Error("Failed to update profile");
-
-			mutate(
-				(prev) => {
-					if (!prev) return;
+			mutate(mutation, {
+				optimisticData: (prev) => {
+					if (!prev) return null;
 
 					return {
 						...prev,
-						id: newProfile.user_id,
-						displayName: newProfile.display_name,
+						characterSetting: setting,
 					};
 				},
-				{ revalidate: false },
-			);
+				revalidate: false,
+			});
 		},
 		[mutate, session],
 	);
@@ -106,7 +143,8 @@ export function useMyProfile(): UseMyProfile {
 		error,
 		isValidating,
 
-		updateMyProfile,
+		updateDisplayName,
+		updateCharacterSetting,
 	};
 }
 
