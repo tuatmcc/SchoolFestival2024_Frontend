@@ -16,7 +16,6 @@ export default function Page() {
 			style={{ viewTransitionName: "main" }}
 		>
 			<main className="mx-auto grid w-full max-w-screen-sm gap-y-4">
-				<Heading>ホーム</Heading>
 				{myProfile ? (
 					<ProfileCard className="rotate-2 sm:rotate-1" profile={myProfile} />
 				) : (

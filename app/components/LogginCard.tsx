@@ -1,5 +1,4 @@
-import { Slot } from "@radix-ui/react-slot";
-import React, { type ComponentPropsWithRef, forwardRef } from "react";
+import { type ComponentPropsWithRef, forwardRef } from "react";
 import { cn } from "~/libs/utils";
 import { Button } from "./Button";
 import { Card } from "./Card";

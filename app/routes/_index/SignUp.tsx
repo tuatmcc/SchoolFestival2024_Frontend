@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { Button } from "~/components/Button";
-import { Input } from "~/components/Input";
+import { LogginCard } from "~/components/LogginCard";
 import { supabase } from "~/libs/supabase";
 
 interface FormData {
@@ -27,10 +26,10 @@ export function SignUp(): ReactNode {
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="grid justify-items-center gap-4"
+			className="grid justify-items-center gap-8"
 		>
-			<Input placeholder="名前" {...register("displayName")} />
-			<Button type="submit">登録</Button>
+			<img src="../../public/logo.svg" alt="RicoShot" className="w-full" />
+			<LogginCard className="w-full rotate-2" />
 		</form>
 	);
 }
