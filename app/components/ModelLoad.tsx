@@ -1,5 +1,6 @@
-import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
+import { OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { type ReactNode, useEffect, useRef } from "react";
 import type { Group, MeshStandardMaterial } from "three";
 import * as THREE from "three";
@@ -10,6 +11,7 @@ const HAIR_MESH_NAMES = [
 	"hairback",
 	"hairfront",
 	"hairtail",
+	"hairside",
 	"hairsid",
 	"hair",
 ] as const;
@@ -36,6 +38,29 @@ function useCharacterSetting(setting: CharacterSetting) {
 	const modelPath = `/models/web_${setting.character}.glb`;
 
 	const { scene } = useGLTF(modelPath);
+
+	useEffect(() => {
+		const threeTone = new THREE.TextureLoader().load("/assets/threeTone.jpg");
+		threeTone.minFilter = THREE.NearestFilter;
+		threeTone.magFilter = THREE.NearestFilter;
+
+		scene.traverse((child) => {
+			if (!(child as THREE.Mesh).isMesh) return;
+			const mesh = child as THREE.Mesh;
+			const oldMaterial = mesh.material as MeshStandardMaterial;
+			const newMaterial = new THREE.MeshToonMaterial({
+				name: oldMaterial.name,
+				color: oldMaterial.color,
+				gradientMap: threeTone,
+				map: oldMaterial.map,
+				emissive: oldMaterial.emissive,
+				emissiveIntensity: oldMaterial.emissiveIntensity,
+				emissiveMap: oldMaterial.emissiveMap,
+			});
+			mesh.material = newMaterial;
+		});
+	}, [scene]);
+
 	useEffect(() => {
 		scene.traverse((child) => {
 			if (!(child as THREE.Mesh).isMesh) return;
@@ -83,15 +108,20 @@ export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 		<Canvas
 			className="aspect-square h-auto w-full sm:max-h-[50dvh]"
 			scene={{
-				background: new THREE.Color(0xffffff),
+				background: new THREE.Color("#000000"),
 			}}
 			camera={{
 				position: [0, 0, 2],
 				fov: 30,
 			}} // カメラの初期位置と視野角を設定
 		>
-			{/* 環境を設定*/}
-			<Environment preset="lobby" />
+			{/* ライトを設定 */}
+			<ambientLight />
+			<directionalLight position={[6, 5, 5]} intensity={1} />
+			{/* ポストプロセッシング */}
+			<EffectComposer>
+				<Bloom intensity={1} luminanceThreshold={1} radius={0.8} mipmapBlur />
+			</EffectComposer>
 			{/* GLBモデルの読み込みと表示 */}
 			<Model characterSetting={characterSetting} />
 			{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
