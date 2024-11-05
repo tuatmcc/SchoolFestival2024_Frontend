@@ -1,7 +1,7 @@
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
-import { type ReactNode, useEffect, useMemo, useRef } from "react";
+import { type ReactNode, Suspense, useEffect, useMemo, useRef } from "react";
 import type { MeshStandardMaterial } from "three";
 import * as THREE from "three";
 import { OutlineEffect } from "three/addons/effects/OutlineEffect.js";
@@ -124,11 +124,13 @@ export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 			<ambientLight />
 			<directionalLight position={[6, 5, 5]} intensity={1} />
 			{/* ポストプロセッシング */}
-			<EffectComposer>
+			<EffectComposer autoClear={false}>
 				<Bloom intensity={1} luminanceThreshold={1} radius={0.8} mipmapBlur />
 			</EffectComposer>
-			{/* GLBモデルの読み込みと表示 */}
-			<Model characterSetting={characterSetting} />
+			<Suspense fallback={null}>
+				{/* GLBモデルの読み込みと表示 */}
+				<Model characterSetting={characterSetting} />
+			</Suspense>
 			{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
 			<OrbitControls
 				enableZoom={false}
@@ -136,7 +138,8 @@ export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 				minPolarAngle={(Math.PI / 5) * 2}
 				maxPolarAngle={(Math.PI / 5) * 2}
 			/>
-			<OutlineRenderer />
+			{/* アウトラインエフェクト */}
+			{/* <OutlineRenderer /> */}
 		</Canvas>
 	);
 }
