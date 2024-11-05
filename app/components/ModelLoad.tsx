@@ -108,7 +108,7 @@ export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 		<Canvas
 			className="aspect-square h-auto w-full sm:max-h-[50dvh]"
 			scene={{
-				background: new THREE.Color("#000000"),
+				background: new THREE.Color("#0ea5e9"),
 			}}
 			camera={{
 				position: [0, 0, 2],
