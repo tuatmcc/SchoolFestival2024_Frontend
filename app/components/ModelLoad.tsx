@@ -61,6 +61,7 @@ function useCharacterSetting(setting: CharacterSetting) {
 				emissive: oldMaterial.emissive,
 				emissiveIntensity: oldMaterial.emissiveIntensity,
 				emissiveMap: oldMaterial.emissiveMap,
+				side: oldMaterial.side,
 			});
 			mesh.material = newMaterial;
 		});
