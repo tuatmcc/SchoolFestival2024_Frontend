@@ -116,7 +116,7 @@ export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 				background: new THREE.Color("#0ea5e9"),
 			}}
 			camera={{
-				position: [0, 0, 2],
+				position: [1, 0, 2],
 				fov: 30,
 			}} // カメラの初期位置と視野角を設定
 		>
@@ -145,10 +145,13 @@ export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 			</Suspense>
 			{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
 			<OrbitControls
-				enableZoom={false}
 				enablePan={false}
 				minPolarAngle={(Math.PI / 5) * 2}
 				maxPolarAngle={(Math.PI / 5) * 2}
+				maxDistance={3}
+				minDistance={1}
+				autoRotate
+				autoRotateSpeed={2}
 			/>
 			{/* アウトラインエフェクト */}
 			{/* <OutlineRenderer /> */}
