@@ -28,7 +28,7 @@ export function SignUp(): ReactNode {
 			onSubmit={handleSubmit(onSubmit)}
 			className="grid justify-items-center gap-8"
 		>
-			<img src="../../public/logo.svg" alt="logo Icon" className="w-full" />
+			<img src="../../public/logo.svg" alt="RicoShot" className="w-full" />
 			<LogginCard className="w-full rotate-2" />
 		</form>
 	);
