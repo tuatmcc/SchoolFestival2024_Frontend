@@ -28,7 +28,7 @@ export function TabBar({ path, className }: TabBarProps) {
 		<Tabs.Root
 			value={LINKS[index].href}
 			className={cn(
-				"relative w-full max-w-screen-sm rounded-t-lg overflow-hidden bg-gray-600",
+				"relative w-full max-w-screen-sm overflow-hidden rounded-t-lg bg-gray-600",
 				className,
 			)}
 		>
@@ -38,7 +38,7 @@ export function TabBar({ path, className }: TabBarProps) {
 						key={link.href}
 						value={link.href}
 						className={cn(
-							"flex-1 py-3 text-center text-white md:text-xl rounded-t-lg",
+							"flex-1 rounded-t-lg py-3 text-center text-white md:text-xl",
 							{ "bg-cyan-400": link.href === path },
 						)}
 					>
