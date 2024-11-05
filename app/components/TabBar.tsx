@@ -1,4 +1,5 @@
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
+import * as Tabs from '@radix-ui/react-tabs';
 import { Link } from "@remix-run/react";
 import type { ReactNode } from "react";
 import { cn } from "~/libs/utils";
@@ -24,89 +25,32 @@ export interface TabBarProps {
 	className?: string;
 }
 
-export function TabBar({ path, className }: TabBarProps): ReactNode {
+export function TabBar({ path, className }: TabBarProps) {
 	const index = LINKS.findIndex((link) => link.href === path);
 
 	return (
-		<NavigationMenu.Root
-			className={cn("relative w-full max-w-screen-sm", className)}
+		<Tabs.Root
+			value={LINKS[index].href}
+			className={cn("relative w-full max-w-screen-sm bg-gray-600 overflow-hidden", className)}
+			style={{ borderRadius: '10px 10px 0 0' }}
 		>
-			<Background />
-			<div>
-				<Selected length={LINKS.length} index={index} />
-				<NavigationMenu.List className="grid auto-cols-fr grid-flow-col">
-					{LINKS.map((link) => (
-						<NavigationMenu.Item key={link.href}>
-							<NavigationMenu.Link
-								active={link.href === path}
-								asChild
-								className={cn(
-									"block w-full py-3 text-center drop-shadow-base transition-transform md:text-xl",
-									link.href === path,
-								)}
-							>
-								<Link to={link.href} viewTransition>
-									{link.label}
-								</Link>
-							</NavigationMenu.Link>
-						</NavigationMenu.Item>
-					))}
-				</NavigationMenu.List>
-			</div>
-		</NavigationMenu.Root>
-	);
-}
-
-function Background(): ReactNode {
-	return (
-		<svg
-			viewBox="0 0 497 197"
-			preserveAspectRatio="none"
-			role="presentation"
-			className="absolute inset-0 h-full w-full drop-shadow-lg"
-		>
-			<rect
-				x="0"
-				y="20"
-				width="100%"
-				height="100%"
-				rx="2%"
-				ry="20%"
-				fill={`url(#${BUTTON_BG_PATTERN_ID})`}
-			/>
-		</svg>
-	);
-}
-
-interface SelectedProps {
-	length: number;
-	index: number;
-}
-
-function Selected({ length, index }: SelectedProps): ReactNode {
-	return (
-		<div>
-			<div
-				className={cn(
-					"absolute left-0 transition-transform duration-200 ease-in-backward md:inset-y-0",
-					index === -1 && "hidden",
-				)}
-				style={{
-					width: `${100 / length}%`,
-					transform: `translateX(${100 * index}%)`,
-				}}
-			>
-				<svg width="100%" height="100%" role="presentation" className="">
-					<rect
-						x="0"
-						y="5"
-						width="100%"
-						height="100%"
-						rx="5%"
-						fill={`url(#${BACKGROUND_PATTERN_ID})`}
-					/>
-				</svg>
-			</div>
-		</div>
+			<Tabs.List className="flex">
+				{LINKS.map((link) => (
+					<Tabs.Trigger
+						key={link.href}
+						value={link.href}
+						className={cn(
+							"flex-1 py-3 text-center transition-transform md:text-xl text-white bg-gray-600",
+							{ "bg-cyan-400": link.href === path }
+						)}
+						style={{borderRadius: path === link.href ? '10px 10px 0 0' : '0'}}
+					>
+						<Link to={link.href} viewTransition>
+							{link.label}
+						</Link>
+					</Tabs.Trigger>
+				))}
+			</Tabs.List>
+		</Tabs.Root>
 	);
 }
