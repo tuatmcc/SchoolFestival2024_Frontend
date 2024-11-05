@@ -29,7 +29,7 @@ export function SignUp(): ReactNode {
 			className="grid justify-items-center gap-8"
 		>
 			<img src="../../public/logo.svg" alt="logo Icon" className="w-full" />
-			<LogginCard className="w-full rotate-2"></LogginCard>
+			<LogginCard className="w-full rotate-2" />
 		</form>
 	);
 }
