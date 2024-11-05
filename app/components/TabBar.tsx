@@ -1,5 +1,4 @@
 import * as Tabs from "@radix-ui/react-tabs";
-import { Link } from "@remix-run/react";
 import { cn } from "~/libs/utils";
 
 const LINKS = [
@@ -29,10 +28,9 @@ export function TabBar({ path, className }: TabBarProps) {
 		<Tabs.Root
 			value={LINKS[index].href}
 			className={cn(
-				"relative w-full max-w-screen-sm overflow-hidden bg-gray-600",
+				"relative w-full max-w-screen-sm rounded-t-lg overflow-hidden bg-gray-600",
 				className,
 			)}
-			style={{ borderRadius: "10px 10px 0 0" }}
 		>
 			<Tabs.List className="flex">
 				{LINKS.map((link) => (
@@ -40,14 +38,11 @@ export function TabBar({ path, className }: TabBarProps) {
 						key={link.href}
 						value={link.href}
 						className={cn(
-							"flex-1 bg-gray-600 py-3 text-center text-white transition-transform md:text-xl",
+							"flex-1 py-3 text-center text-white md:text-xl rounded-t-lg",
 							{ "bg-cyan-400": link.href === path },
 						)}
-						style={{ borderRadius: path === link.href ? "10px 10px 0 0" : "0" }}
 					>
-						<Link to={link.href} viewTransition>
-							{link.label}
-						</Link>
+						{link.label}
 					</Tabs.Trigger>
 				))}
 			</Tabs.List>
