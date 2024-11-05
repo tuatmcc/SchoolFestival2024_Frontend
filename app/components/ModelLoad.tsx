@@ -1,4 +1,4 @@
-import { OrbitControls, useGLTF } from "@react-three/drei";
+import { Billboard, OrbitControls, Text, useGLTF } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { type ReactNode, Suspense, useEffect, useMemo, useRef } from "react";
@@ -127,7 +127,19 @@ export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 			<EffectComposer autoClear={false}>
 				<Bloom intensity={1} luminanceThreshold={1} radius={0.8} mipmapBlur />
 			</EffectComposer>
-			<Suspense fallback={null}>
+			<Suspense
+				fallback={
+					<Billboard>
+						<Text
+							fontSize={0.1}
+							font="/assets/font.ttf"
+							characters="読み込み中…"
+						>
+							読み込み中…
+						</Text>
+					</Billboard>
+				}
+			>
 				{/* GLBモデルの読み込みと表示 */}
 				<Model characterSetting={characterSetting} />
 			</Suspense>
