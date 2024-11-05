@@ -1,9 +1,10 @@
 import { OrbitControls, useGLTF } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
-import { type ReactNode, useEffect, useRef } from "react";
-import type { Group, MeshStandardMaterial } from "three";
+import { type ReactNode, useEffect, useMemo, useRef } from "react";
+import type { MeshStandardMaterial } from "three";
 import * as THREE from "three";
+import { OutlineEffect } from "three/addons/effects/OutlineEffect.js";
 import type { Accessory, CharacterSetting } from "~/features/profile/Profile";
 
 const HAIR_MESH_NAMES = [
@@ -131,6 +132,31 @@ export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 				minPolarAngle={(Math.PI / 5) * 2}
 				maxPolarAngle={(Math.PI / 5) * 2}
 			/>
+			<OutlineRenderer />
 		</Canvas>
 	);
+}
+
+// 参考: https://github.com/pmndrs/react-three-fiber/discussions/1045
+function OutlineRenderer(): ReactNode {
+	const { size, gl, scene, camera } = useThree();
+
+	const effect = useMemo(() => {
+		const effect = new OutlineEffect(gl, {
+			defaultThickness: 0.003,
+			defaultColor: new THREE.Color("#333333").toArray(),
+		});
+
+		return effect;
+	}, [gl]);
+
+	useEffect(() => {
+		effect.setSize(size.width, size.height);
+	}, [effect, size]);
+
+	useFrame(() => {
+		effect.render(scene, camera);
+	}, 1);
+
+	return null;
 }
