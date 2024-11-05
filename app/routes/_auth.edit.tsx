@@ -18,6 +18,13 @@ export default function Page(): ReactNode {
 		});
 	};
 
+	const handleCostumeSelect = (costume: number) => {
+		updateCharacterSetting({
+			...myProfile.characterSetting,
+			costume,
+		});
+	};
+
 	const handleAccessorySelect = (accessory: Accessory) => {
 		updateCharacterSetting({
 			...myProfile.characterSetting,
@@ -39,6 +46,7 @@ export default function Page(): ReactNode {
 				<ModelConfig
 					characterSetting={myProfile.characterSetting}
 					onModelSelect={handleModelSelect}
+					onCostumeSelect={handleCostumeSelect}
 					onAccessorySelect={handleAccessorySelect}
 					onHairColorChange={handleHairColorChange}
 				/>

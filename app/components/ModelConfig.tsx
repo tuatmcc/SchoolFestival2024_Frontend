@@ -22,6 +22,7 @@ const COLORS = [
 interface ModelConfigProps {
 	characterSetting: CharacterSetting;
 	onModelSelect?: (model: Model) => void;
+	onCostumeSelect?: (costume: number) => void;
 	onAccessorySelect?: (accessory: Accessory) => void;
 	onHairColorChange?: (color: string) => void;
 }
@@ -29,6 +30,7 @@ interface ModelConfigProps {
 export function ModelConfig({
 	characterSetting,
 	onModelSelect,
+	onCostumeSelect,
 	onAccessorySelect,
 	onHairColorChange,
 }: ModelConfigProps) {
@@ -47,6 +49,24 @@ export function ModelConfig({
 								onChange={() => onModelSelect?.(model)}
 							/>
 							<span>{model}</span>
+						</label>
+					))}
+				</div>
+			</div>
+
+			<div className="flex gap-4">
+				<span className="flex-shrink-0">モデル:</span>
+				<div className="flex flex-grow flex-wrap justify-between gap-2">
+					{[0, 1, 2].map((idx) => (
+						<label key={idx}>
+							<input
+								type="radio"
+								name="costume"
+								value={idx}
+								checked={idx === characterSetting.costume}
+								onChange={() => onCostumeSelect?.(idx)}
+							/>
+							<span>{idx + 1}番</span>
 						</label>
 					))}
 				</div>

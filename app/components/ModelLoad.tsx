@@ -5,18 +5,11 @@ import { type ReactNode, Suspense, useEffect, useMemo, useRef } from "react";
 import type { MeshStandardMaterial } from "three";
 import * as THREE from "three";
 import { OutlineEffect } from "three/addons/effects/OutlineEffect.js";
-import type { Accessory, CharacterSetting } from "~/features/profile/Profile";
-
-const HAIR_MESH_NAMES = [
-	"hairear",
-	"hairback",
-	"hairfront",
-	"hairtail",
-	"hairside",
-	"hairsid",
-	"hair",
-] as const;
-type HairMeshName = (typeof HAIR_MESH_NAMES)[number];
+import type {
+	Accessory,
+	CharacterSetting,
+	Model,
+} from "~/features/profile/Profile";
 
 const ACCESSORY_METH_NAMES = [
 	"accessoryeyepatch",
@@ -35,11 +28,26 @@ const ACCESSORY_MAP: Record<Accessory, AccessoryMeshName[]> = {
 	halo: ["accessoryhalo"],
 };
 
+const COSTUME_MAP: Record<Model, string[]> = {
+	jiraichan: ["#FFA0C0", "#FFD700", "#FFA07A"],
+	necochan: ["#00DCFF", "#FF66CC", "#99FF00"],
+	asuka: ["#0D5793", "#F2C800", "#F57D9D"],
+	kaiju: ["#00FF33", "#009966", "#FF6600"],
+	sushong: ["#ff0000", "#ffcc00", "#0099ff"],
+};
+
+const COSTUME_MATERIAL_NAMES = [
+	"clothes_primary",
+	"parker_primary",
+	"gothloli_primary",
+];
+
 function useCharacterSetting(setting: CharacterSetting) {
 	const modelPath = `/models/web_${setting.character}.glb`;
 
-	const { scene } = useGLTF(modelPath);
+	const { scene, materials } = useGLTF(modelPath);
 
+	// トゥーンシェーディング用のテクスチャを読み込み
 	const threeTone = useMemo(() => {
 		const threeTone = new THREE.TextureLoader().load("/assets/threeTone.jpg");
 		threeTone.minFilter = THREE.NearestFilter;
@@ -48,11 +56,12 @@ function useCharacterSetting(setting: CharacterSetting) {
 		return threeTone;
 	}, []);
 
-	useEffect(() => {
-		scene.traverse((child) => {
-			if (!(child as THREE.Mesh).isMesh) return;
-			const mesh = child as THREE.Mesh;
-			const oldMaterial = mesh.material as MeshStandardMaterial;
+	// トゥーンシェーディング用のマテリアルを作成
+	const toonMaterials = useMemo(() => {
+		const toonMaterials: Record<string, THREE.MeshToonMaterial> = {};
+
+		for (const key of Object.keys(materials)) {
+			const oldMaterial = materials[key] as MeshStandardMaterial;
 			const newMaterial = new THREE.MeshToonMaterial({
 				name: oldMaterial.name,
 				color: oldMaterial.color,
@@ -65,10 +74,41 @@ function useCharacterSetting(setting: CharacterSetting) {
 				opacity: oldMaterial.opacity,
 				transparent: oldMaterial.transparent,
 			});
-			mesh.material = newMaterial;
-		});
-	}, [scene, threeTone]);
 
+			toonMaterials[key] = newMaterial;
+		}
+
+		return toonMaterials;
+	}, [threeTone, materials]);
+
+	// マテリアルをトゥーンシェーディング用に差し替え
+	useEffect(() => {
+		scene.traverse((child) => {
+			if (!(child as THREE.Mesh).isMesh) return;
+			const mesh = child as THREE.Mesh;
+			mesh.material =
+				toonMaterials[(mesh.material as MeshStandardMaterial).name];
+		});
+	}, [scene, toonMaterials]);
+
+	// 髪のマテリアルの色を反映
+	useEffect(() => {
+		toonMaterials.hair.color.set(setting.hair);
+	}, [toonMaterials, setting.hair]);
+
+	// 衣装のマテリアルの色を反映
+	useEffect(() => {
+		for (const name of COSTUME_MATERIAL_NAMES) {
+			const costumeMaterial = toonMaterials[name];
+			if (costumeMaterial) {
+				costumeMaterial.color.set(
+					COSTUME_MAP[setting.character][setting.costume],
+				);
+			}
+		}
+	}, [toonMaterials, setting.character, setting.costume]);
+
+	// アクセサリーの表示を切り替え
 	useEffect(() => {
 		scene.traverse((child) => {
 			if (!(child as THREE.Mesh).isMesh) return;
@@ -83,12 +123,6 @@ function useCharacterSetting(setting: CharacterSetting) {
 			if (visibleAccessoryMeshNames.includes(mesh.name as AccessoryMeshName)) {
 				mesh.visible = true;
 			}
-
-			// 髪のmeshの場合は色を設定
-			if (HAIR_MESH_NAMES.includes(mesh.name as HairMeshName)) {
-				const material = mesh.material as MeshStandardMaterial;
-				material.color.set(setting.hair);
-			}
 		});
 	}, [scene, setting]);
 
@@ -99,7 +133,7 @@ interface ModelProps {
 	characterSetting: CharacterSetting;
 }
 
-function Model({ characterSetting }: ModelProps): ReactNode {
+function Character({ characterSetting }: ModelProps): ReactNode {
 	const scene = useCharacterSetting(characterSetting);
 
 	return (
@@ -144,7 +178,7 @@ export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 				}
 			>
 				{/* GLBモデルの読み込みと表示 */}
-				<Model characterSetting={characterSetting} />
+				<Character characterSetting={characterSetting} />
 			</Suspense>
 			{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
 			<OrbitControls
