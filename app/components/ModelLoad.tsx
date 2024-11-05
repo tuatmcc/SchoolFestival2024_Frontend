@@ -40,11 +40,15 @@ function useCharacterSetting(setting: CharacterSetting) {
 
 	const { scene } = useGLTF(modelPath);
 
-	useEffect(() => {
+	const threeTone = useMemo(() => {
 		const threeTone = new THREE.TextureLoader().load("/assets/threeTone.jpg");
 		threeTone.minFilter = THREE.NearestFilter;
 		threeTone.magFilter = THREE.NearestFilter;
 
+		return threeTone;
+	}, []);
+
+	useEffect(() => {
 		scene.traverse((child) => {
 			if (!(child as THREE.Mesh).isMesh) return;
 			const mesh = child as THREE.Mesh;
@@ -60,7 +64,7 @@ function useCharacterSetting(setting: CharacterSetting) {
 			});
 			mesh.material = newMaterial;
 		});
-	}, [scene]);
+	}, [scene, threeTone]);
 
 	useEffect(() => {
 		scene.traverse((child) => {
