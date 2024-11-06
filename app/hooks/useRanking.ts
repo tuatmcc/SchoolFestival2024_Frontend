@@ -27,18 +27,20 @@ const fetchRankingData = async (
 	}));
 };
 
-export function useFetchRanking(page = 0, limit = 20) {
+export function useFetchRanking(limit = 20) {
 	const getKey = (page: number, previousPageData: Ranking[] | null) => {
 		if (previousPageData && previousPageData.length === 0) return null;
 		return [page, limit];
 	};
 
-	const { data, error, isLoading, isValidating, size, setSize } =
-		useSWRInfinite(getKey, ([page, limit]) => fetchRankingData(page, limit));
+	const { data, error, isLoading, isValidating, setSize } = useSWRInfinite(
+		getKey,
+		([page, limit]) => fetchRankingData(page, limit),
+	);
 
 	const ranking = data ? data.flat() : [];
 
-	const loadMore = () => setSize(size + 1);
+	const loadMore = () => setSize((prev) => prev + 1);
 
 	return {
 		ranking,

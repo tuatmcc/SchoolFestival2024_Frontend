@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useFetchRanking } from "~/hooks/useRanking";
-import "../Ranking.css";
+import { cn } from "~/libs/utils";
 
 interface RankingItemProps {
 	rank: number | null;
@@ -9,25 +9,34 @@ interface RankingItemProps {
 }
 
 function RankingItem({ rank, name, score }: RankingItemProps) {
-	const getRankClass = () => {
-		if (rank === 1) return "rank-first";
-		if (rank === 2) return "rank-second";
-		if (rank === 3) return "rank-third";
-		return "rank-default";
-	};
+	let rankColorClass: string;
+	switch (rank) {
+		case 1:
+			rankColorClass = "text-yellow-400";
+			break;
+		case 2:
+			rankColorClass = "text-gray-300";
+			break;
+		case 3:
+			rankColorClass = "text-orange-500";
+			break;
+		default:
+			rankColorClass = "";
+	}
 
 	return (
-		<div className="ranking-item">
-			<span className={`${getRankClass()}`}>{rank}位</span>
-			<span className="name">{name}</span>
-			<span className="score">{score}</span>
-		</div>
+		<li className="-rotate-2 flex justify-between rounded-br-xl border-4 border-white bg-image-card bg-zinc-500 px-4 py-2 drop-shadow-md">
+			<span className={cn("flex-shrink-0 drop-shadow-base", rankColorClass)}>
+				{rank}位
+			</span>
+			<span className="text-center drop-shadow-base">{name}</span>
+			<span className="drop-shadow-base">{score}</span>
+		</li>
 	);
 }
 
 export function RankingList() {
-	const { ranking, error, isLoading, isValidating, loadMore, hasMore } =
-		useFetchRanking();
+	const { ranking, isValidating, loadMore, hasMore } = useFetchRanking();
 	const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
@@ -47,29 +56,26 @@ export function RankingList() {
 		};
 	}, [isValidating, loadMore, hasMore]);
 
-	if (isLoading) return <div>Loading...</div>;
-	if (error) return <div>Error!!</div>;
-
-	if (!ranking || ranking.length === 0) {
-		return <div>No Ranking ranking.</div>;
-	}
-
 	return (
-		<div className="ranking-list">
-			<div className="ranking-title">ランキング</div>
-			{ranking.map(
-				(item) =>
-					item && (
-						<RankingItem
-							key={item.id}
-							rank={item.rank}
-							name={item.displayName}
-							score={item.highScore}
-						/>
-					),
-			)}
-			<div ref={loadMoreRef}>
-				{isValidating && <p className="ranking-loading-text">Loading...</p>}
+		<div className="grid gap-y-2">
+			<div className="text-center text-2xl drop-shadow-md">ランキング</div>
+			<ul className="grid gap-y-4">
+				{ranking.map(
+					(item) =>
+						item && (
+							<RankingItem
+								key={item.id}
+								rank={item.rank}
+								name={item.displayName}
+								score={item.highScore}
+							/>
+						),
+				)}
+			</ul>
+			<div className="mx-auto mt-2 drop-shadow-md" ref={loadMoreRef}>
+				{isValidating && (
+					<div className="h-6 w-6 animate-spin rounded-full border-4 border-white border-t-transparent" />
+				)}
 			</div>
 		</div>
 	);
