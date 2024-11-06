@@ -13,7 +13,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 		return (
 			<Comp
 				className={cn(
-					"rounded-lg border-4 border-white bg-image-card shadow-lg",
+					"rounded-lg border-4 border-white bg-image-card bg-zinc-500 shadow-lg",
 					className,
 				)}
 				ref={ref}
