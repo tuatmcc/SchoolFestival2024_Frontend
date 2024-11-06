@@ -1,51 +1,46 @@
 import * as Tabs from "@radix-ui/react-tabs";
 import { cn } from "~/libs/utils";
 
-const LINKS = [
+const TAB_LIST = [
 	{
-		href: "/clothes",
+		value: "costume",
 		label: "服装",
 	},
 	{
-		href: "/hair",
-		label: "髪型",
+		value: "accessory",
+		label: "装飾",
 	},
 	{
-		href: "/hairColor",
+		value: "hair",
 		label: "髪色",
 	},
 ];
 
 export interface TabBarProps {
-	path: string;
 	className?: string;
 }
 
-export function TabBar({ path, className }: TabBarProps) {
-	const index = LINKS.findIndex((link) => link.href === path);
-
+export function TabBar({ className }: TabBarProps) {
 	return (
-		<Tabs.Root
-			value={LINKS[index].href}
+		<div
 			className={cn(
 				"relative w-full max-w-screen-sm overflow-hidden rounded-t-lg bg-gray-600",
 				className,
 			)}
 		>
 			<Tabs.List className="flex">
-				{LINKS.map((link) => (
+				{TAB_LIST.map(({ value, label }) => (
 					<Tabs.Trigger
-						key={link.href}
-						value={link.href}
+						key={value}
+						value={value}
 						className={cn(
-							"flex-1 rounded-t-lg py-3 text-center text-white md:text-xl",
-							{ "bg-cyan-400": link.href === path },
+							'flex-grow rounded-t-lg py-2 text-center data-[state="active"]:bg-cyan-400 data-[state="active"]:drop-shadow-tab md:text-xl',
 						)}
 					>
-						{link.label}
+						<span className="drop-shadow-base">{label}</span>
 					</Tabs.Trigger>
 				))}
 			</Tabs.List>
-		</Tabs.Root>
+		</div>
 	);
 }

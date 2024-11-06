@@ -41,7 +41,7 @@ export default function Page(): ReactNode {
 
 	return (
 		<div className="min-h-dvh w-full" style={{ viewTransitionName: "main" }}>
-			<main className="grid w-full gap-y-4">
+			<main className="grid w-full">
 				<ModelViewer characterSetting={myProfile.characterSetting} />
 				<ModelConfig
 					characterSetting={myProfile.characterSetting}

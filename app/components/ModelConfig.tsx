@@ -1,9 +1,11 @@
+import * as Tabs from "@radix-ui/react-tabs";
 import { ACCESSORY_LIST, MODEL_LIST } from "~/features/profile/Profile";
 import type {
 	Accessory,
 	CharacterSetting,
 	Model,
 } from "~/features/profile/Profile";
+import { TabBar } from "./TabBar";
 
 const COLORS = [
 	"#333333",
@@ -35,7 +37,12 @@ export function ModelConfig({
 	onHairColorChange,
 }: ModelConfigProps) {
 	return (
-		<div className="mx-auto grid w-full max-w-screen-sm gap-y-4 px-4">
+		<Tabs.Root
+			className="mx-auto grid w-full max-w-screen-sm gap-y-4"
+			defaultValue="costume"
+		>
+			<TabBar className="-mt-2 w-full" />
+
 			<div className="flex gap-4">
 				<span className="flex-shrink-0">モデル:</span>
 				<div className="flex flex-grow flex-wrap justify-between gap-2">
@@ -118,6 +125,6 @@ export function ModelConfig({
 					))}
 				</div>
 			</div>
-		</div>
+		</Tabs.Root>
 	);
 }
