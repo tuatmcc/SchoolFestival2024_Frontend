@@ -18,6 +18,8 @@
 	},
 	"dependencies": {
 		"@builder.io/partytown": "0.10.2",
+		"@hookform/resolvers": "3.9.1",
+		"@radix-ui/react-dialog": "1.1.2",
 		"@radix-ui/react-navigation-menu": "1.2.1",
 		"@radix-ui/react-slot": "1.1.0",
 		"@radix-ui/react-tabs": "1.1.1",
