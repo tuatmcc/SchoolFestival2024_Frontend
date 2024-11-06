@@ -1,30 +1,34 @@
 import useSWRInfinite from "swr/infinite";
+import type { Ranking } from "~/features/profile/Profile";
 import { supabase } from "~/libs/supabase";
 
-interface Stats {
-	id: string;
-	user_id: string;
-	display_name: string;
-	created_at: string;
-	updated_at: string;
-	high_score: number | null;
-	play_count: number;
-	rank: number | null;
-}
-
-const fetchRankingData = async (page: number, limit: number) => {
+const fetchRankingData = async (
+	page: number,
+	limit: number,
+): Promise<Ranking[]> => {
 	const start = limit * page;
 	const end = start + limit - 1;
 	const { data } = await supabase
 		.from("profiles_with_stats")
-		.select("*")
+		.select("user_id, display_name, high_score, play_count, rank")
+		.not("rank", "is", null)
 		.order("rank", { ascending: true })
 		.range(start, end);
-	return data;
+
+	if (!data) return [];
+
+	return data.map((x) => ({
+		id: x.user_id,
+		displayName: x.display_name,
+		// biome-ignore lint/style/noNonNullAssertion: high_scoreがnullでないことはクエリで保証されている
+		highScore: x.high_score!,
+		// biome-ignore lint/style/noNonNullAssertion: rankがnullでないことはクエリで保証されている
+		rank: x.rank!,
+	}));
 };
 
 export function useFetchRanking(page = 0, limit = 20) {
-	const getKey = (page: number, previousPageData: Stats[] | null) => {
+	const getKey = (page: number, previousPageData: Ranking[] | null) => {
 		if (previousPageData && previousPageData.length === 0) return null;
 		return [page, limit];
 	};

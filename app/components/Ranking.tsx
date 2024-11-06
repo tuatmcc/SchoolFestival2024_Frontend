@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useFetchRanking } from "~/hooks/useFetchRanking";
+import { useFetchRanking } from "~/hooks/useRanking";
 import "../Ranking.css";
 
 interface RankingItemProps {
@@ -28,25 +28,22 @@ function RankingItem({ rank, name, score }: RankingItemProps) {
 export function RankingList() {
 	const { ranking, error, isLoading, isValidating, loadMore, hasMore } =
 		useFetchRanking();
-	const observer = useRef<IntersectionObserver | null>(null);
 	const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
 		if (isValidating || !loadMoreRef.current) return;
 
-		const observerCallback = (entries: IntersectionObserverEntry[]) => {
-			if (entries[0].isIntersecting && hasMore && !isValidating) {
-				loadMore();
-			}
-		};
-
-		observer.current = new IntersectionObserver(observerCallback);
-		observer.current.observe(loadMoreRef.current);
+		const observer = new IntersectionObserver(
+			(entries: IntersectionObserverEntry[]) => {
+				if (entries[0].isIntersecting && hasMore && !isValidating) {
+					loadMore();
+				}
+			},
+		);
+		observer.observe(loadMoreRef.current);
 
 		return () => {
-			if (observer.current && loadMoreRef.current) {
-				observer.current.unobserve(loadMoreRef.current);
-			}
+			observer.disconnect();
 		};
 	}, [isValidating, loadMore, hasMore]);
 
@@ -64,10 +61,10 @@ export function RankingList() {
 				(item) =>
 					item && (
 						<RankingItem
-							key={item.user_id}
+							key={item.id}
 							rank={item.rank}
-							name={item.display_name}
-							score={item.high_score}
+							name={item.displayName}
+							score={item.highScore}
 						/>
 					),
 			)}

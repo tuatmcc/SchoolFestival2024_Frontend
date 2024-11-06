@@ -33,3 +33,10 @@ export interface Profile {
 	rank: number | null;
 	characterSetting: CharacterSetting;
 }
+
+export interface Ranking {
+	id: string;
+	displayName: string;
+	highScore: number;
+	rank: number;
+}
