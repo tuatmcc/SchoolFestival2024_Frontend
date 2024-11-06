@@ -1,21 +1,24 @@
+import { valibotResolver } from "@hookform/resolvers/valibot";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import {
+	type UpdateDisplayNameFormData,
+	UpdateDisplayNameSchema,
+} from "~/features/profile/Profile";
 import { supabase } from "~/libs/supabase";
 import { cn } from "~/libs/utils";
 import { Button } from "./Button";
 import { Card } from "./Card";
 import { Input } from "./Input";
 
-interface FormData {
-	displayName: string;
-}
-
 interface LoginCardProps extends ComponentPropsWithRef<"div"> {}
 
 export function LoginCard({ className }: LoginCardProps): ReactNode {
-	const { register, handleSubmit } = useForm<FormData>();
+	const { register, handleSubmit } = useForm<UpdateDisplayNameFormData>({
+		resolver: valibotResolver(UpdateDisplayNameSchema),
+	});
 
-	const onSubmit: SubmitHandler<FormData> = async (data) => {
+	const onSubmit: SubmitHandler<UpdateDisplayNameFormData> = async (data) => {
 		// 状態に関わらずログアウトする
 		await supabase.auth.signOut();
 
