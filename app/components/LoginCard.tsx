@@ -10,9 +10,9 @@ interface FormData {
 	displayName: string;
 }
 
-interface LogginCardProps extends ComponentPropsWithRef<"div"> {}
+interface LoginCardProps extends ComponentPropsWithRef<"div"> {}
 
-export function LogginCard({ className }: LogginCardProps): ReactNode {
+export function LoginCard({ className }: LoginCardProps): ReactNode {
 	const { register, handleSubmit } = useForm<FormData>();
 
 	const onSubmit: SubmitHandler<FormData> = async (data) => {
