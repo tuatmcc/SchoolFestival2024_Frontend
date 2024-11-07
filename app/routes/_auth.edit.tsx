@@ -34,8 +34,8 @@ export default function Page(): ReactNode {
 	};
 
 	return (
-		<div className="min-h-dvh w-full" style={{ viewTransitionName: "main" }}>
-			<main className="grid w-full">
+		<div className="h-dvh w-full" style={{ viewTransitionName: "main" }}>
+			<main className="grid h-full w-full grid-rows-[auto_minmax(0,1fr)]">
 				<ModelViewer characterSetting={myProfile.characterSetting} />
 				<ModelConfig
 					characterSetting={myProfile.characterSetting}

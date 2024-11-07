@@ -37,17 +37,17 @@ export function ModelConfig({
 }: ModelConfigProps) {
 	return (
 		<Tabs.Root
-			className="mx-auto w-full max-w-screen-sm"
+			className="mx-auto grid max-h-full w-full max-w-screen-sm grid-rows-[auto_1fr]"
 			defaultValue="costume"
 		>
 			<div className="-mt-2 w-full sm:mt-4 sm:px-4">
 				<TabBar />
 			</div>
 
-			<div className="p-4">
+			<div className="min-h-0 overflow-auto pb-16">
 				<Tabs.Content
 					value="costume"
-					className="grid grid-cols-3 gap-2 sm:grid-cols-5"
+					className='grid grid-cols-3 gap-2 p-4 data-[state="inactive"]:hidden sm:grid-cols-5'
 				>
 					{MODEL_LIST.flatMap((model) =>
 						[0, 1, 2].map((idx) => (
@@ -69,7 +69,7 @@ export function ModelConfig({
 				</Tabs.Content>
 				<Tabs.Content
 					value="accessory"
-					className="grid grid-cols-3 gap-2 sm:grid-cols-5"
+					className='grid grid-cols-3 gap-2 p-4 data-[state="inactive"]:hidden sm:grid-cols-5'
 				>
 					{ACCESSORY_LIST.map((accessory) => (
 						<CardButton
@@ -84,7 +84,7 @@ export function ModelConfig({
 				</Tabs.Content>
 				<Tabs.Content
 					value="hair"
-					className="grid grid-cols-3 gap-2 sm:grid-cols-5"
+					className='grid grid-cols-3 gap-2 p-4 data-[state="inactive"]:hidden sm:grid-cols-5'
 				>
 					{HAIR_COLORS.map((color) => (
 						<CardButton
