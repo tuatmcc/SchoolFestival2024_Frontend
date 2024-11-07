@@ -177,7 +177,8 @@ export function ModelViewer({ model, costume, accessory }: Props): ReactNode {
 
 		const url = canvas.toDataURL("image/jpeg", 0.95);
 		anchor.href = url;
-		anchor.download = "model.jpg";
+		anchor.download =
+			accessory !== "none" ? `${accessory}.jpg` : `${model}_${costume}.jpg`;
 		anchor.click();
 	};
 
@@ -186,7 +187,7 @@ export function ModelViewer({ model, costume, accessory }: Props): ReactNode {
 			<div className="aspect-square h-64 w-64">
 				<Canvas
 					scene={{
-						background: new THREE.Color("#059669"),
+						background: new THREE.Color("#2dd4bf"),
 					}}
 					camera={{
 						position: [0.5, 0, 1],
