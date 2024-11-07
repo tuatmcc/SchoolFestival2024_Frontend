@@ -5,9 +5,10 @@ import type {
 	CharacterSetting,
 	Model,
 } from "~/features/profile/Profile";
+import { CardButton } from "./CardButton";
 import { TabBar } from "./TabBar";
 
-const COLORS = [
+const HAIR_COLORS = [
 	"#333333",
 	"#ededed",
 	"#582a22",
@@ -23,107 +24,74 @@ const COLORS = [
 
 interface ModelConfigProps {
 	characterSetting: CharacterSetting;
-	onModelSelect?: (model: Model) => void;
-	onCostumeSelect?: (costume: number) => void;
+	onCostumeSelect?: (model: Model, idx: number) => void;
 	onAccessorySelect?: (accessory: Accessory) => void;
 	onHairColorChange?: (color: string) => void;
 }
 
 export function ModelConfig({
 	characterSetting,
-	onModelSelect,
 	onCostumeSelect,
 	onAccessorySelect,
 	onHairColorChange,
 }: ModelConfigProps) {
 	return (
 		<Tabs.Root
-			className="mx-auto grid w-full max-w-screen-sm gap-y-4"
+			className="mx-auto w-full max-w-screen-sm"
 			defaultValue="costume"
 		>
 			<TabBar className="-mt-2 w-full" />
 
-			<div className="flex gap-4">
-				<span className="flex-shrink-0">モデル:</span>
-				<div className="flex flex-grow flex-wrap justify-between gap-2">
-					{MODEL_LIST.map((model) => (
-						<label key={model}>
-							<input
-								type="radio"
-								name="model"
-								value={model}
-								checked={model === characterSetting.character}
-								onChange={() => onModelSelect?.(model)}
-							/>
-							<span>{model}</span>
-						</label>
-					))}
-				</div>
-			</div>
-
-			<div className="flex gap-4">
-				<span className="flex-shrink-0">モデル:</span>
-				<div className="flex flex-grow flex-wrap justify-between gap-2">
-					{[0, 1, 2].map((idx) => (
-						<label key={idx}>
-							<input
-								type="radio"
+			<div className="p-4">
+				<Tabs.Content
+					value="costume"
+					className="grid grid-cols-3 gap-2 sm:grid-cols-5"
+				>
+					{MODEL_LIST.flatMap((model) =>
+						[0, 1, 2].map((idx) => (
+							<CardButton
 								name="costume"
-								value={idx}
-								checked={idx === characterSetting.costume}
-								onChange={() => onCostumeSelect?.(idx)}
+								key={`${model}_${idx}`}
+								value={`${model}_${idx}`}
+								checked={
+									model === characterSetting.character &&
+									idx === characterSetting.costume
+								}
+								onChange={() => {
+									onCostumeSelect?.(model, idx);
+								}}
 							/>
-							<span>{idx + 1}番</span>
-						</label>
-					))}
-				</div>
-			</div>
-
-			<div className="flex gap-4">
-				<span className="flex-shrink-0">アクセサリー:</span>
-				<div className="flex flex-grow flex-wrap justify-between gap-2">
+						)),
+					)}
+				</Tabs.Content>
+				<Tabs.Content
+					value="accessory"
+					className="grid grid-cols-3 gap-2 sm:grid-cols-5"
+				>
 					{ACCESSORY_LIST.map((accessory) => (
-						<label key={accessory}>
-							<input
-								type="radio"
-								name="accessory"
-								value={accessory}
-								checked={accessory === characterSetting.accessory}
-								onChange={() => onAccessorySelect?.(accessory)}
-							/>
-							<span>{accessory}</span>
-						</label>
+						<CardButton
+							name="accessory"
+							key={accessory}
+							value={accessory}
+							checked={accessory === characterSetting.accessory}
+							onChange={() => onAccessorySelect?.(accessory)}
+						/>
 					))}
-				</div>
-			</div>
-
-			<div>
-				<label className="flex gap-4">
-					<span className="flex-shrink-0">髪の色:</span>
-					<input
-						type="color"
-						value={characterSetting.hair}
-						onChange={(e) => {
-							// TODO: 色の更新処理が頻繁に呼び出されてしまうため、debounceする
-							onHairColorChange?.(e.target.value);
-						}}
-					/>
-				</label>
-
-				<div className="flex flex-grow flex-wrap justify-between gap-2">
-					{COLORS.map((color) => (
-						<label key={color}>
-							<input
-								type="radio"
-								name="hair"
-								value={color}
-								checked={color === characterSetting.hair}
-								onChange={() => onHairColorChange?.(color)}
-							/>
-							<span>{color}</span>
-						</label>
+				</Tabs.Content>
+				<Tabs.Content
+					value="hair"
+					className="grid grid-cols-3 gap-2 sm:grid-cols-5"
+				>
+					{HAIR_COLORS.map((color) => (
+						<CardButton
+							name="hair"
+							key={color}
+							value={color}
+							checked={color === characterSetting.hair}
+							onChange={() => onHairColorChange?.(color)}
+						/>
 					))}
-				</div>
+				</Tabs.Content>
 			</div>
 		</Tabs.Root>
 	);

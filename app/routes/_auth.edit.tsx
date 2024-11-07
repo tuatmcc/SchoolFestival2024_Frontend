@@ -11,17 +11,11 @@ export default function Page(): ReactNode {
 	const { myProfile, updateCharacterSetting } = useMyProfile();
 	if (!myProfile) return null;
 
-	const handleModelSelect = (model: Model) => {
+	const handleCostumeSelect = (model: Model, idx: number) => {
 		updateCharacterSetting({
 			...myProfile.characterSetting,
 			character: model,
-		});
-	};
-
-	const handleCostumeSelect = (costume: number) => {
-		updateCharacterSetting({
-			...myProfile.characterSetting,
-			costume,
+			costume: idx,
 		});
 	};
 
@@ -45,7 +39,6 @@ export default function Page(): ReactNode {
 				<ModelViewer characterSetting={myProfile.characterSetting} />
 				<ModelConfig
 					characterSetting={myProfile.characterSetting}
-					onModelSelect={handleModelSelect}
 					onCostumeSelect={handleCostumeSelect}
 					onAccessorySelect={handleAccessorySelect}
 					onHairColorChange={handleHairColorChange}

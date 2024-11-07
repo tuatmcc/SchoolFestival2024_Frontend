@@ -15,7 +15,7 @@ export function CardButton({
 	onChange,
 }: CardButtonProps): ReactNode {
 	return (
-		<label className="aspect-square drop-shadow-lg">
+		<label className="drop-shadow-lg">
 			<input
 				type="radio"
 				name={name}
@@ -33,7 +33,7 @@ export function CardButton({
 				<img
 					src={"https://placehold.jp/100x100.png"}
 					alt=""
-					className="border-4 border-white bg-zinc-400"
+					className="aspect-square w-full border-4 border-white bg-zinc-400"
 				/>
 			</div>
 		</label>
