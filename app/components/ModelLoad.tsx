@@ -147,7 +147,7 @@ function Character({ characterSetting }: ModelProps): ReactNode {
 
 export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 	return (
-		<div className="aspect-square h-auto w-full sm:max-h-[50dvh]">
+		<div className="h-full max-h-[50dvh] w-full">
 			<Canvas
 				scene={{
 					background: new THREE.Color("#0ea5e9"),
