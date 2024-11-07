@@ -6,6 +6,8 @@ export interface CardButtonProps {
 	name: string;
 	checked?: boolean;
 	onChange?: (value: string) => void;
+	src?: string;
+	color?: string;
 }
 
 export function CardButton({
@@ -13,6 +15,8 @@ export function CardButton({
 	name,
 	checked,
 	onChange,
+	src,
+	color,
 }: CardButtonProps): ReactNode {
 	return (
 		<label className="drop-shadow-lg">
@@ -31,9 +35,10 @@ export function CardButton({
 				)}
 			>
 				<img
-					src={"https://placehold.jp/100x100.png"}
+					src={src}
 					alt=""
 					className="aspect-square w-full border-4 border-white bg-zinc-400"
+					style={{ backgroundColor: color }}
 				/>
 			</div>
 		</label>

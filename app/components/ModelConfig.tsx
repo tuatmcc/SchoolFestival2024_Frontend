@@ -60,6 +60,7 @@ export function ModelConfig({
 								onChange={() => {
 									onCostumeSelect?.(model, idx);
 								}}
+								src={`https://placehold.jp/100x100.png?text=${model}_${idx}`}
 							/>
 						)),
 					)}
@@ -75,6 +76,7 @@ export function ModelConfig({
 							value={accessory}
 							checked={accessory === characterSetting.accessory}
 							onChange={() => onAccessorySelect?.(accessory)}
+							src={`https://placehold.jp/100x100.png?text=${accessory}`}
 						/>
 					))}
 				</Tabs.Content>
@@ -89,6 +91,7 @@ export function ModelConfig({
 							value={color}
 							checked={color === characterSetting.hair}
 							onChange={() => onHairColorChange?.(color)}
+							color={color}
 						/>
 					))}
 				</Tabs.Content>
