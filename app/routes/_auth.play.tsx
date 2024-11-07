@@ -11,10 +11,10 @@ export default function Page() {
 	if (!session) return null;
 	return (
 		<div
-			className="min-h-dvh w-full p-4"
+			className="h-dvh w-full overflow-hidden p-4"
 			style={{ viewTransitionName: "main" }}
 		>
-			<main className="mx-auto grid w-full max-w-screen-sm gap-y-4">
+			<main className="mx-auto grid h-full w-full max-w-screen-sm grid-rows-[auto_auto_1fr] gap-y-4">
 				<Heading>遊ぶ</Heading>
 				<div className="grid justify-items-center gap-y-1">
 					<QRCode
@@ -24,6 +24,13 @@ export default function Page() {
 					<span className="text-center text-lg drop-shadow-base">
 						{session.user.id}
 					</span>
+				</div>
+				<div className="grid place-items-center pb-16">
+					<p className="text-center drop-shadow-base">
+						プレイする際には上記のQRコードを
+						<br />
+						ゲーム筐体にかざして読み取ってください
+					</p>
 				</div>
 			</main>
 		</div>

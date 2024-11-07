@@ -17,10 +17,10 @@ const LINKS = [
 		href: "/play",
 		label: "遊ぶ",
 	},
-	{
-		href: "/guide",
-		label: "遊び方",
-	},
+	// {
+	// 	href: "/guide",
+	// 	label: "遊び方",
+	// },
 ];
 
 export interface BottomNavProps {
@@ -87,7 +87,7 @@ function Selected({ length, index }: SelectedProps): ReactNode {
 		<div className="absolute inset-x-4 inset-y-0">
 			<div
 				className={cn(
-					"-top-0.5 md:-top-1 absolute inset-y-1 left-0 p-1 transition-transform duration-200 ease-in-backward md:inset-y-0 md:px-4",
+					"-top-1 absolute bottom-0 left-0 p-1 transition-transform duration-200 ease-in-backward md:px-4",
 					index === -1 && "hidden",
 				)}
 				style={{

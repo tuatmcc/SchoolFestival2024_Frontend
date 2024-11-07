@@ -111,7 +111,7 @@ function EditModal({ profile, setOpen }: EditModalProps): ReactNode {
 							</span>
 						)}
 					</div>
-					<div className="mt-2 grid grid-cols-2 justify-items-center gap-x-8 px-4">
+					<div className="mt-2 grid grid-cols-2 justify-items-center gap-x-8">
 						<Button
 							className="w-full max-w-32"
 							foreground={false}
