@@ -40,7 +40,9 @@ export function ModelConfig({
 			className="mx-auto w-full max-w-screen-sm"
 			defaultValue="costume"
 		>
-			<TabBar className="-mt-2 w-full" />
+			<div className="-mt-2 w-full sm:mt-4 sm:px-4">
+				<TabBar />
+			</div>
 
 			<div className="p-4">
 				<Tabs.Content

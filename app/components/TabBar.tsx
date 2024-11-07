@@ -24,17 +24,17 @@ export function TabBar({ className }: TabBarProps) {
 	return (
 		<div
 			className={cn(
-				"relative w-full max-w-screen-sm overflow-hidden rounded-t-lg bg-gray-600",
+				"relative w-full max-w-screen-sm overflow-hidden rounded-t-lg bg-gray-600 sm:rounded-xl",
 				className,
 			)}
 		>
-			<Tabs.List className="flex">
+			<Tabs.List className="flex sm:p-2">
 				{TAB_LIST.map(({ value, label }) => (
 					<Tabs.Trigger
 						key={value}
 						value={value}
 						className={cn(
-							'flex-grow rounded-t-lg py-2 text-center data-[state="active"]:bg-cyan-400 data-[state="active"]:drop-shadow-tab md:text-xl',
+							'flex-grow rounded-t-lg py-2 text-center data-[state="active"]:bg-cyan-400 data-[state="active"]:drop-shadow-tab sm:rounded-lg sm:data-[state="active"]:drop-shadow-none md:text-xl',
 						)}
 					>
 						<span className="drop-shadow-base">{label}</span>
