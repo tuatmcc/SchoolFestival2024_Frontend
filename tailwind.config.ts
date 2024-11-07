@@ -12,6 +12,7 @@ export default {
 					base: `1px 1px 0 ${theme("colors.zinc.800")}`,
 					md: `2px 2px 0 ${theme("colors.zinc.800")}`,
 					lg: `4px 4px 0 ${theme("colors.zinc.800")}`,
+					tab: `4px 0 0 ${theme("colors.zinc.800")}`,
 				};
 			},
 			dropShadow({ theme }) {

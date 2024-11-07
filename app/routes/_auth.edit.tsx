@@ -11,17 +11,11 @@ export default function Page(): ReactNode {
 	const { myProfile, updateCharacterSetting } = useMyProfile();
 	if (!myProfile) return null;
 
-	const handleModelSelect = (model: Model) => {
+	const handleCostumeSelect = (model: Model, idx: number) => {
 		updateCharacterSetting({
 			...myProfile.characterSetting,
 			character: model,
-		});
-	};
-
-	const handleCostumeSelect = (costume: number) => {
-		updateCharacterSetting({
-			...myProfile.characterSetting,
-			costume,
+			costume: idx,
 		});
 	};
 
@@ -40,12 +34,11 @@ export default function Page(): ReactNode {
 	};
 
 	return (
-		<div className="min-h-dvh w-full" style={{ viewTransitionName: "main" }}>
-			<main className="grid w-full gap-y-4">
+		<div className="h-dvh w-full" style={{ viewTransitionName: "main" }}>
+			<main className="grid h-full w-full grid-rows-[auto_minmax(0,1fr)]">
 				<ModelViewer characterSetting={myProfile.characterSetting} />
 				<ModelConfig
 					characterSetting={myProfile.characterSetting}
-					onModelSelect={handleModelSelect}
 					onCostumeSelect={handleCostumeSelect}
 					onAccessorySelect={handleAccessorySelect}
 					onHairColorChange={handleHairColorChange}

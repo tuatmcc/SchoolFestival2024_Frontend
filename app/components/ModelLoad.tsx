@@ -147,52 +147,53 @@ function Character({ characterSetting }: ModelProps): ReactNode {
 
 export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 	return (
-		<Canvas
-			className="aspect-square h-auto w-full sm:max-h-[50dvh]"
-			scene={{
-				background: new THREE.Color("#0ea5e9"),
-			}}
-			camera={{
-				position: [1, 0, 2],
-				fov: 30,
-			}} // カメラの初期位置と視野角を設定
-		>
-			{/* ライトを設定 */}
-			<ambientLight />
-			<directionalLight position={[6, 5, 5]} intensity={1} />
-			{/* ポストプロセッシング */}
-			<EffectComposer autoClear={false}>
-				<Bloom intensity={1} luminanceThreshold={1} radius={0.8} mipmapBlur />
-			</EffectComposer>
-			<Suspense
-				fallback={
-					<Billboard>
-						<Text
-							fontSize={0.1}
-							font="/assets/font.ttf"
-							characters="読み込み中…"
-						>
-							読み込み中…
-						</Text>
-					</Billboard>
-				}
+		<div className="aspect-square h-auto w-full sm:max-h-[50dvh]">
+			<Canvas
+				scene={{
+					background: new THREE.Color("#0ea5e9"),
+				}}
+				camera={{
+					position: [1, 0, 2],
+					fov: 30,
+				}} // カメラの初期位置と視野角を設定
 			>
-				{/* GLBモデルの読み込みと表示 */}
-				<Character characterSetting={characterSetting} />
-			</Suspense>
-			{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
-			<OrbitControls
-				enablePan={false}
-				minPolarAngle={(Math.PI / 5) * 2}
-				maxPolarAngle={(Math.PI / 5) * 2}
-				maxDistance={3}
-				minDistance={1}
-				autoRotate
-				autoRotateSpeed={2}
-			/>
-			{/* アウトラインエフェクト */}
-			{/* <OutlineRenderer /> */}
-		</Canvas>
+				{/* ライトを設定 */}
+				<ambientLight />
+				<directionalLight position={[6, 5, 5]} intensity={1} />
+				{/* ポストプロセッシング */}
+				<EffectComposer autoClear={false}>
+					<Bloom intensity={1} luminanceThreshold={1} radius={0.8} mipmapBlur />
+				</EffectComposer>
+				<Suspense
+					fallback={
+						<Billboard>
+							<Text
+								fontSize={0.1}
+								font="/assets/font.ttf"
+								characters="読み込み中…"
+							>
+								読み込み中…
+							</Text>
+						</Billboard>
+					}
+				>
+					{/* GLBモデルの読み込みと表示 */}
+					<Character characterSetting={characterSetting} />
+				</Suspense>
+				{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
+				<OrbitControls
+					enablePan={false}
+					minPolarAngle={(Math.PI / 5) * 2}
+					maxPolarAngle={(Math.PI / 5) * 2}
+					maxDistance={3}
+					minDistance={1}
+					autoRotate
+					autoRotateSpeed={2}
+				/>
+				{/* アウトラインエフェクト */}
+				{/* <OutlineRenderer /> */}
+			</Canvas>
+		</div>
 	);
 }
 
