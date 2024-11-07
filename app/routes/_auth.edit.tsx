@@ -34,7 +34,10 @@ export default function Page(): ReactNode {
 	};
 
 	return (
-		<div className="h-dvh w-full" style={{ viewTransitionName: "main" }}>
+		<div
+			className="h-dvh w-full overflow-hidden"
+			style={{ viewTransitionName: "main" }}
+		>
 			<main className="grid h-full w-full grid-rows-[auto_minmax(0,1fr)]">
 				<ModelViewer characterSetting={myProfile.characterSetting} />
 				<ModelConfig
