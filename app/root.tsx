@@ -7,12 +7,14 @@ import {
 	Scripts,
 	ScrollRestoration,
 	useLocation,
+	useRouteError,
 } from "@remix-run/react";
 import { cva } from "class-variance-authority";
-import { Suspense } from "react";
+import { type ReactNode, Suspense } from "react";
 import { Analytics } from "./components/Analytics";
 import { Background } from "./components/Background";
 import { BottomNav } from "./components/BottomNav";
+import { Button } from "./components/Button";
 import { Loading } from "./components/Loading";
 import { Patterns } from "./components/Patterns";
 import { ThemeProvider } from "./components/Theme";
@@ -93,5 +95,74 @@ export default function App() {
 		<Suspense fallback={<Loading />}>
 			<Outlet />
 		</Suspense>
+	);
+}
+
+export function ErrorBoundary(): ReactNode {
+	const error = useRouteError();
+
+	try {
+		console.log(error);
+		// @ts-expect-error
+		window.gtag("event", "exception", {
+			// @ts-expect-error
+			description: error?.message,
+			fatal: true,
+		});
+	} catch {}
+
+	return (
+		<html lang="ja">
+			<head>
+				<meta charSet="utf-8" />
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<meta
+					name="description"
+					content="RicoShotはマルチプレイ対応の対戦シューティングゲームです。好きなキャラを選択、カスタマイズしてハイスコアを目指しましょう!"
+				/>
+				<link rel="preconnect" href="https://fonts.googleapis.com" />
+				<link
+					rel="preconnect"
+					href="https://fonts.gstatic.com"
+					crossOrigin="anonymous"
+				/>
+				{import.meta.env.VITE_GOOGLE_ANALYTICS_ID && (
+					<Analytics
+						googleAnalyticsId={import.meta.env.VITE_GOOGLE_ANALYTICS_ID}
+					/>
+				)}
+				<link
+					href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap"
+					rel="stylesheet"
+				/>
+				<Meta />
+				<Links />
+				<link rel="icon" href="/favicon.ico" sizes="any" />
+				<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+				<link rel="manifest" href="/manifest.webmanifest" />
+			</head>
+			<body className={appThemes()}>
+				<ThemeProvider theme="yellow">
+					<Patterns />
+					<Background />
+					<div className="grid min-h-dvh w-full place-items-center p-4">
+						<div className="flex flex-col items-center gap-4">
+							<p className="text-balance text-center text-lg text-red-500 drop-shadow-base">
+								エラーが発生しました。リロードしてください。
+							</p>
+							<Button
+								onClick={() => {
+									window.location.reload();
+								}}
+							>
+								リロード
+							</Button>
+						</div>
+					</div>
+				</ThemeProvider>
+				<Scripts />
+			</body>
+		</html>
 	);
 }
