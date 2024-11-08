@@ -73,7 +73,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 					<Background />
 					{children}
 					<Suspense fallback={null}>
-						<Nav />
+						<Nav path={location.pathname} />
 					</Suspense>
 				</ThemeProvider>
 				<ScrollRestoration />
@@ -83,7 +83,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	);
 }
 
-function Nav(): ReactNode {
+interface NavProps {
+	path: string;
+}
+function Nav({ path }: NavProps): ReactNode {
 	const { myProfile } = useMyProfile();
 
 	return (
@@ -94,7 +97,7 @@ function Nav(): ReactNode {
 			)}
 			style={{ viewTransitionName: "bottom-nav" }}
 		>
-			<BottomNav path={location.pathname} className="mx-auto" />
+			<BottomNav path={path} className="mx-auto" />
 		</div>
 	);
 }
