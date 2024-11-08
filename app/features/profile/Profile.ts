@@ -46,7 +46,7 @@ export interface Ranking {
 export const UpdateDisplayNameSchema = v.object({
 	displayName: v.pipe(
 		v.string("入力してください。"),
-		v.minLength(1, "1文字以上で入力してください。"),
+		v.minLength(1, "入力してください。"),
 		v.maxLength(8, "8文字以内で入力してください。"),
 	),
 });
