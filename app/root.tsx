@@ -91,10 +91,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+	return <Outlet />;
+}
+
+export function HydrateFallback(): ReactNode {
 	return (
-		<Suspense fallback={<Loading />}>
-			<Outlet />
-		</Suspense>
+		<div className="grid h-dvh w-full place-items-center drop-shadow-md">
+			<div className="aspect-square h-24 animate-spin rounded-full border-8 border-white border-t-transparent duration-500" />
+		</div>
 	);
 }
 
