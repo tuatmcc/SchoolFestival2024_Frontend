@@ -58,7 +58,6 @@ export function useMyProfile(): UseMyProfile {
 		{
 			suspense: true,
 			refreshInterval: 1000 * 10,
-			fallbackData: null,
 		},
 	);
 

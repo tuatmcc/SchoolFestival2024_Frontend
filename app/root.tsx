@@ -35,7 +35,6 @@ const PATH_THEME_MAP: Record<string, "pink" | "cyan" | "emerald" | "yellow"> = {
 export function Layout({ children }: { children: React.ReactNode }) {
 	const location = useLocation();
 	const theme = PATH_THEME_MAP[location.pathname] ?? "pink";
-	const { myProfile } = useMyProfile();
 
 	return (
 		<html lang="ja">
@@ -73,20 +72,30 @@ export function Layout({ children }: { children: React.ReactNode }) {
 					<Patterns />
 					<Background />
 					{children}
-					<div
-						className={cn(
-							"fixed inset-x-0 bottom-0 translate-y-full px-2 pt-2 pb-3 transition-transform delay-300 duration-300 ease-out",
-							myProfile && "translate-y-0",
-						)}
-						style={{ viewTransitionName: "bottom-nav" }}
-					>
-						<BottomNav path={location.pathname} className="mx-auto" />
-					</div>
+					<Suspense fallback={null}>
+						<Nav />
+					</Suspense>
 				</ThemeProvider>
 				<ScrollRestoration />
 				<Scripts />
 			</body>
 		</html>
+	);
+}
+
+function Nav(): ReactNode {
+	const { myProfile } = useMyProfile();
+
+	return (
+		<div
+			className={cn(
+				"fixed inset-x-0 bottom-0 translate-y-full px-2 pt-2 pb-3 transition-transform delay-300 duration-300 ease-out",
+				myProfile && "translate-y-0",
+			)}
+			style={{ viewTransitionName: "bottom-nav" }}
+		>
+			<BottomNav path={location.pathname} className="mx-auto" />
+		</div>
 	);
 }
 
