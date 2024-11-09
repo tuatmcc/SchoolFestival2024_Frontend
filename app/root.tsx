@@ -15,7 +15,6 @@ import { Analytics } from "./components/Analytics";
 import { Background } from "./components/Background";
 import { BottomNav } from "./components/BottomNav";
 import { Button } from "./components/Button";
-import { Loading } from "./components/Loading";
 import { Patterns } from "./components/Patterns";
 import { ThemeProvider } from "./components/Theme";
 import { useMyProfile } from "./features/profile/useMyProfile";
