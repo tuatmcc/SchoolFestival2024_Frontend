@@ -7,6 +7,36 @@ import type { Json } from "~/libs/database";
 import { supabase } from "~/libs/supabase";
 import { useSession } from "../../hooks/useSession";
 
+export async function myProfileFetcher([_, userId]: [string, string]) {
+	if (!userId) return null;
+
+	const { data: rawProfile } = await supabase
+		.from("profiles_with_stats")
+		.select(
+			"user_id, display_name, high_score, play_count, rank, character_setting",
+		)
+		.eq("user_id", userId)
+		.limit(1)
+		.single();
+
+	if (!rawProfile) return null;
+
+	const characterSetting = deserializeCharacterSetting(
+		rawProfile.character_setting,
+	);
+
+	const profile: Profile = {
+		id: rawProfile.user_id,
+		displayName: rawProfile.display_name,
+		playCount: rawProfile.play_count,
+		highScore: rawProfile.high_score,
+		rank: rawProfile.rank,
+		characterSetting,
+	};
+
+	return profile;
+}
+
 interface UseMyProfile {
 	myProfile: Profile | null;
 	error: unknown;
@@ -24,43 +54,11 @@ export function useMyProfile(): UseMyProfile {
 		error,
 		mutate,
 		isValidating,
-	} = useSWR(
-		["/profile/me", session?.user.id],
-		async ([_, userId]) => {
-			if (!userId) return null;
-
-			const { data: rawProfile } = await supabase
-				.from("profiles_with_stats")
-				.select(
-					"user_id, display_name, high_score, play_count, rank, character_setting",
-				)
-				.eq("user_id", userId)
-				.limit(1)
-				.single();
-
-			if (!rawProfile) return null;
-
-			const characterSetting = deserializeCharacterSetting(
-				rawProfile.character_setting,
-			);
-
-			const profile: Profile = {
-				id: rawProfile.user_id,
-				displayName: rawProfile.display_name,
-				playCount: rawProfile.play_count,
-				highScore: rawProfile.high_score,
-				rank: rawProfile.rank,
-				characterSetting,
-			};
-
-			return profile;
-		},
-		{
-			suspense: true,
-			fallbackData: null,
-			refreshInterval: 1000 * 10,
-		},
-	);
+	} = useSWR(["/profile/me", session?.user.id], myProfileFetcher, {
+		suspense: true,
+		fallbackData: null,
+		refreshInterval: 1000 * 10,
+	});
 
 	const updateDisplayName = useCallback(
 		async (displayName: string) => {

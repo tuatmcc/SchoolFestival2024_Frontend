@@ -11,13 +11,18 @@ import {
 } from "@remix-run/react";
 import { cva } from "class-variance-authority";
 import { type ReactNode, Suspense } from "react";
+import { preload } from "swr";
 import { Analytics } from "./components/Analytics";
 import { Background } from "./components/Background";
 import { BottomNav } from "./components/BottomNav";
 import { Button } from "./components/Button";
 import { Patterns } from "./components/Patterns";
 import { ThemeProvider } from "./components/Theme";
-import { useMyProfile } from "./features/profile/useMyProfile";
+import {
+	myProfileFetcher,
+	useMyProfile,
+} from "./features/profile/useMyProfile";
+import { sessionFetcher } from "./hooks/useSession";
 import { cn } from "./libs/utils";
 
 export const appThemes = cva(
@@ -32,9 +37,6 @@ const PATH_THEME_MAP: Record<string, "pink" | "cyan" | "emerald" | "yellow"> = {
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {
-	const location = useLocation();
-	const theme = PATH_THEME_MAP[location.pathname] ?? "pink";
-
 	return (
 		<html lang="ja">
 			<head>
@@ -67,14 +69,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<link rel="manifest" href="/manifest.webmanifest" />
 			</head>
 			<body className={appThemes()}>
-				<ThemeProvider theme={theme}>
-					<Patterns />
-					<Background />
-					{children}
-					<Suspense fallback={null}>
-						<Nav path={location.pathname} />
-					</Suspense>
-				</ThemeProvider>
+				{children}
 				<ScrollRestoration />
 				<Scripts />
 			</body>
@@ -101,8 +96,28 @@ function Nav({ path }: NavProps): ReactNode {
 	);
 }
 
+export async function clientLoader() {
+	const session = await preload("session", sessionFetcher);
+
+	await preload(["/profile/me", session?.user.id], myProfileFetcher);
+
+	return null;
+}
+
 export default function App() {
-	return <Outlet />;
+	const location = useLocation();
+	const theme = PATH_THEME_MAP[location.pathname] ?? "pink";
+
+	return (
+		<ThemeProvider theme={theme}>
+			<Patterns />
+			<Background />
+			<Outlet />
+			<Suspense fallback={null}>
+				<Nav path={location.pathname} />
+			</Suspense>
+		</ThemeProvider>
+	);
 }
 
 export function HydrateFallback(): ReactNode {

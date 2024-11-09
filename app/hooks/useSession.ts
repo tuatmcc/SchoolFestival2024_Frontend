@@ -4,22 +4,20 @@ import useSWRSubscription from "swr/subscription";
 import type { SWRSubscriptionOptions } from "swr/subscription";
 import { supabase } from "~/libs/supabase";
 
+export async function sessionFetcher() {
+	const {
+		data: { session },
+	} = await supabase.auth.getSession();
+
+	return session;
+}
+
 export function useSession(): Session | null {
 	const key = "session";
-	const { data: initialSession } = useSWRImmutable(
-		key,
-		async () => {
-			const {
-				data: { session },
-			} = await supabase.auth.getSession();
-
-			return session;
-		},
-		{
-			suspense: true,
-			fallbackData: null,
-		},
-	);
+	const { data: initialSession } = useSWRImmutable(key, sessionFetcher, {
+		suspense: true,
+		fallbackData: null,
+	});
 
 	const { data: session } = useSWRSubscription(
 		key,
