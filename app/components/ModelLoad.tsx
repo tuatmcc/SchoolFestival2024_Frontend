@@ -2,6 +2,7 @@ import { Billboard, OrbitControls, Text, useGLTF } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { type ReactNode, Suspense, useEffect, useMemo, useRef } from "react";
+import { ErrorBoundary, useErrorBoundary } from "react-error-boundary";
 import type { MeshStandardMaterial } from "three";
 import * as THREE from "three";
 import { OutlineEffect } from "three/addons/effects/OutlineEffect.js";
@@ -145,54 +146,70 @@ function Character({ characterSetting }: ModelProps): ReactNode {
 	);
 }
 
+export function Viewer({ characterSetting }: ModelProps): ReactNode {
+	return (
+		<Canvas
+			scene={{
+				background: new THREE.Color("#0ea5e9"),
+			}}
+			camera={{
+				position: [1, 0, 2],
+				fov: 30,
+			}} // カメラの初期位置と視野角を設定
+		>
+			{/* ライトを設定 */}
+			<ambientLight />
+			<directionalLight position={[6, 5, 5]} intensity={1} />
+			{/* ポストプロセッシング */}
+			<EffectComposer autoClear={false}>
+				<Bloom intensity={1} luminanceThreshold={1} radius={0.8} mipmapBlur />
+			</EffectComposer>
+			<Suspense
+				fallback={
+					<Billboard>
+						<Text
+							fontSize={0.1}
+							font="/assets/font.ttf"
+							characters="読み込み中…"
+						>
+							読み込み中…
+						</Text>
+					</Billboard>
+				}
+			>
+				{/* GLBモデルの読み込みと表示 */}
+				<Character characterSetting={characterSetting} />
+			</Suspense>
+			{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
+			<OrbitControls
+				enablePan={false}
+				minPolarAngle={(Math.PI / 5) * 2}
+				maxPolarAngle={(Math.PI / 5) * 2}
+				maxDistance={3}
+				minDistance={1}
+				autoRotate
+				autoRotateSpeed={2}
+			/>
+			{/* アウトラインエフェクト */}
+			{/* <OutlineRenderer /> */}
+		</Canvas>
+	);
+}
+
+function ErrorFallback(): ReactNode {
+	return (
+		<div className="grid h-full w-full place-items-center bg-sky-500">
+			<p className="text-lg drop-shadow-base">表示できません :(</p>
+		</div>
+	);
+}
+
 export function ModelViewer({ characterSetting }: ModelProps): ReactNode {
 	return (
-		<div className="h-[50dvh] w-full">
-			<Canvas
-				scene={{
-					background: new THREE.Color("#0ea5e9"),
-				}}
-				camera={{
-					position: [1, 0, 2],
-					fov: 30,
-				}} // カメラの初期位置と視野角を設定
-			>
-				{/* ライトを設定 */}
-				<ambientLight />
-				<directionalLight position={[6, 5, 5]} intensity={1} />
-				{/* ポストプロセッシング */}
-				<EffectComposer autoClear={false}>
-					<Bloom intensity={1} luminanceThreshold={1} radius={0.8} mipmapBlur />
-				</EffectComposer>
-				<Suspense
-					fallback={
-						<Billboard>
-							<Text
-								fontSize={0.1}
-								font="/assets/font.ttf"
-								characters="読み込み中…"
-							>
-								読み込み中…
-							</Text>
-						</Billboard>
-					}
-				>
-					{/* GLBモデルの読み込みと表示 */}
-					<Character characterSetting={characterSetting} />
-				</Suspense>
-				{/* カメラコントロールの追加（ユーザーが自由にカメラを操作できるようにする） */}
-				<OrbitControls
-					enablePan={false}
-					minPolarAngle={(Math.PI / 5) * 2}
-					maxPolarAngle={(Math.PI / 5) * 2}
-					maxDistance={3}
-					minDistance={1}
-					autoRotate
-					autoRotateSpeed={2}
-				/>
-				{/* アウトラインエフェクト */}
-				{/* <OutlineRenderer /> */}
-			</Canvas>
+		<div className="h-[40dvh] w-full">
+			<ErrorBoundary fallback={<ErrorFallback />}>
+				<Viewer characterSetting={characterSetting} />
+			</ErrorBoundary>
 		</div>
 	);
 }
