@@ -57,7 +57,7 @@ export function RankingList() {
 	}, [isValidating, loadMore, hasMore]);
 
 	return (
-		<div className="grid gap-y-2">
+		<div className="grid gap-y-2 py-16">
 			<div className="text-center text-2xl drop-shadow-md">ランキング</div>
 			<ul className="grid gap-y-4">
 				{ranking.map(
