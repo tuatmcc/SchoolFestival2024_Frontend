@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import type { ReactNode } from "react";
 import { Button } from "~/components/Button";
 import { Heading } from "~/components/Heading";
@@ -36,10 +37,16 @@ export default function Page(): ReactNode {
 						</>
 					)}
 				</dl>
-				{myProfile && (
+				{myProfile ? (
 					<Button className="mx-auto" onClick={handleLogout}>
 						ログアウト
 					</Button>
+				) : (
+					<div className="mx-auto">
+						<Link to="/" className="rounded bg-zinc-600 p-2">
+							ホームへ
+						</Link>
+					</div>
 				)}
 			</main>
 		</div>
