@@ -12,6 +12,13 @@ export default function Page(): ReactNode {
 		supabase.auth.signOut();
 	};
 
+	const handleLoginGuest = async (idx: number) => {
+		await supabase.auth.signInWithPassword({
+			email: `guest${idx}@example.com`,
+			password: "guest",
+		});
+	};
+
 	return (
 		<div
 			className="min-h-dvh w-full p-4"
@@ -37,17 +44,26 @@ export default function Page(): ReactNode {
 						</>
 					)}
 				</dl>
-				{myProfile ? (
+				{myProfile && (
 					<Button className="mx-auto" onClick={handleLogout}>
 						ログアウト
 					</Button>
-				) : (
-					<div className="mx-auto">
-						<Link to="/" className="rounded bg-zinc-600 p-2">
-							ホームへ
-						</Link>
-					</div>
 				)}
+				<div className="mx-auto grid gap-2">
+					<Link to="/" className="rounded bg-zinc-600 p-2 text-center">
+						ホームへ
+					</Link>
+					{[1, 2, 3, 4].map((idx) => (
+						<button
+							key={idx}
+							type="button"
+							className="rounded bg-zinc-600 p-2 text-center"
+							onClick={() => handleLoginGuest(idx)}
+						>
+							ゲスト{idx}でログイン
+						</button>
+					))}
+				</div>
 			</main>
 		</div>
 	);
