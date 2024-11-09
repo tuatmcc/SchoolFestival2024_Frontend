@@ -11,7 +11,7 @@ export default function Page(): ReactNode {
 			className="min-h-dvh w-full p-4"
 			style={{ viewTransitionName: "main" }}
 		>
-			<main className="mx-auto grid w-full max-w-screen-sm gap-y-4">
+			<main className="mx-auto grid w-full max-w-screen-sm gap-y-4 pb-16">
 				<Heading>遊び方</Heading>
 				<div>
 					<p className={paragraph()}>
