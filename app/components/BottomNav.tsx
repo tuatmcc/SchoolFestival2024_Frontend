@@ -17,10 +17,10 @@ const LINKS = [
 		href: "/play",
 		label: "遊ぶ",
 	},
-	// {
-	// 	href: "/guide",
-	// 	label: "遊び方",
-	// },
+	{
+		href: "/guide",
+		label: "遊び方",
+	},
 ];
 
 export interface BottomNavProps {
